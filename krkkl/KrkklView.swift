@@ -20,30 +20,19 @@ class KrkklView : ScreenSaverView
         super.init(coder: aDecoder)
     }
     
-    override func hasConfigureSheet() -> Bool {
-        return false
-    }
-
     override func startAnimation() {
+        
+        setup()
         super.startAnimation()
         setup()
         setAnimationTimeInterval(1.0 / 30.0)
         needsDisplay = true
     }
-    
-    override func stopAnimation() {
-        super.stopAnimation()
-    }
-    
-    func width() -> Int {
-        return Int(bounds.size.width)
-    }
-    func height() -> Int {
-        return Int(bounds.size.height)
-    }
-    func randint(n: Int) -> Int {
-        return Int(arc4random_uniform(UInt32(n)+1))
-    }
+        
+    override func hasConfigureSheet() -> Bool { return false }
+    func width() -> Int { return Int(bounds.size.width) }
+    func height() -> Int { return Int(bounds.size.height) }
+    func randint(n: Int) -> Int { return Int(arc4random_uniform(UInt32(n)+1)) }
     
     func setup() {
 
@@ -101,36 +90,28 @@ class KrkklView : ScreenSaverView
                 pos.y += 1
             
         case 1: // right
-                if (pos.x%2)==1 {
-                    pos.y -= 1
-                }
-                pos.x += 1
+                if (x%2)==1 { y -= 1 }
+                x += 1
 
         case 2: // left
-                if (pos.x%2)==1 {
-                    pos.y -= 1
-                }
-                pos.x -= 1
+                if (x%2)==1 { y -= 1 }
+                x -= 1
 
         case 3: // down
                 pos.y -= 1
                 skip = 0 // dont paint top
 
         case 4: // back left
-                if (pos.x%2)==0 {
-                    pos.y += 1
-                }
-                pos.x -= 1
+                if (x%2)==0 { y += 1 }
+                x -= 1
                 skip = 2 // dont paint right
 
         case 5: // back right
-                if (pos.x%2)==0 {
-                    pos.y += 1
-                }
-                pos.x += 1
+                if (x%2)==0 { y += 1 }
+                x += 1
                 skip = 1 // dont paint left
             
-            default:
+        default:
                 break
         }
 
@@ -173,6 +154,7 @@ class KrkklView : ScreenSaverView
     func drawCube(#color: NSColor, skip: Int)
     {
         let (w, h) = cubeSize()
+        
         let s = h/2
         let x = pos.x*w
         let y = (pos.x%2 == 0) ? (pos.y*h) : (pos.y*h - h/2)
