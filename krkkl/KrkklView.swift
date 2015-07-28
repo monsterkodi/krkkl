@@ -9,6 +9,8 @@ class KrkklView : ScreenSaverView {
     var canvasColor: NSColor = NSColor.blackColor()
     var circleColor: NSColor = NSColor.redColor()
     var frameCount = 0
+    var sizex = 0
+    var sizey = 0
     
     override init(frame: NSRect, isPreview: Bool) {
         super.init(frame: frame, isPreview: isPreview)
@@ -21,8 +23,17 @@ class KrkklView : ScreenSaverView {
     override func hasConfigureSheet() -> Bool {
         return false
     }
+
+    func setup() {
+        var numrows = 10
+        var height = Int(bounds.size.height)
+        numrows = min(numrows, height/2)
+        sizey = height/numrows
+        sizex = Int(sin(M_PI/3) * Double(sizey))
+    }
     
     override func startAnimation() {
+        setup()
         super.startAnimation()
         setAnimationTimeInterval(1.0 / 60.0)
         needsDisplay = true
@@ -44,6 +55,7 @@ class KrkklView : ScreenSaverView {
         drawCircle(canvasColor, radiusPercent: CGFloat(15))
         let r = CGFloat(sin(Float(frameCount) / 30) * 2 + 11)
         drawCircle(circleColor, radiusPercent: r)
+        drawCube(xi: 10, yi: 10, color: NSColor.greenColor())
         window!.enableFlushWindow()
     }
     
@@ -61,6 +73,49 @@ class KrkklView : ScreenSaverView {
         cPath.fill()
     }
     
+    func drawCube(#xi: Int, yi: Int, color c: NSColor)
+    {
+        let h = sizey
+        let w = sizex
+        let s = h/2
+        
+        let x = xi * w
+        var y = yi * h
+        
+        if (xi%2 == 1)
+        {
+            y -= h/2
+        }
+        
+//        if (skip != 0):
+        NSColor(red: c.redComponent, green: c.greenComponent, blue: c.blueComponent, alpha: 1.0).set() // top
+        var path = NSBezierPath()
+        path.moveToPoint(NSPoint(x: x   ,y: y))
+        path.lineToPoint(NSPoint(x: x+w ,y: y+s))
+        path.lineToPoint(NSPoint(x: x   ,y: y+h))
+        path.lineToPoint(NSPoint(x: x-w ,y: y+s))
+        path.fill()
+        
+//        if skip != 1:
+        let d1 = CGFloat(0.6)
+        NSColor(red: c.redComponent*d1, green: c.greenComponent*d1, blue: c.blueComponent*d1, alpha: 1.0).set() // left
+        path = NSBezierPath()
+        path.moveToPoint(NSPoint(x: x    ,y: y))
+        path.lineToPoint(NSPoint(x: x-w  ,y: y+s))
+        path.lineToPoint(NSPoint(x: x-w  ,y: y-s))
+        path.lineToPoint(NSPoint(x: x    ,y: y-h))
+        path.fill()
+        
+//        if skip != 2:
+        let d2 = CGFloat(0.25)
+        NSColor(red: c.redComponent*d2, green: c.greenComponent*d2, blue: c.blueComponent*d2, alpha: 1.0).set() // right
+        path = NSBezierPath()
+        path.moveToPoint(NSPoint(x: x    ,y: y))
+        path.lineToPoint(NSPoint(x: x+w  ,y: y+s))
+        path.lineToPoint(NSPoint(x: x+w  ,y: y-s))
+        path.lineToPoint(NSPoint(x: x    ,y: y-h))
+        path.fill()
+    }
+
 }
     
-
