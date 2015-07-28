@@ -7,15 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C365BA271B67F18D008A49B5 /* krkklView.h in Headers */ = {isa = PBXBuildFile; fileRef = C365BA261B67F18D008A49B5 /* krkklView.h */; };
-		C365BA291B67F18D008A49B5 /* krkklView.m in Sources */ = {isa = PBXBuildFile; fileRef = C365BA281B67F18D008A49B5 /* krkklView.m */; };
+		C39F6FC81B67F2FB008519FA /* KrkklView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39F6FC71B67F2FB008519FA /* KrkklView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		C365BA211B67F18D008A49B5 /* krkkl.saver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = krkkl.saver; sourceTree = BUILT_PRODUCTS_DIR; };
 		C365BA251B67F18D008A49B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C365BA261B67F18D008A49B5 /* krkklView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = krkklView.h; sourceTree = "<group>"; };
-		C365BA281B67F18D008A49B5 /* krkklView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = krkklView.m; sourceTree = "<group>"; };
+		C39F6FC71B67F2FB008519FA /* KrkklView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KrkklView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,8 +46,7 @@
 		C365BA231B67F18D008A49B5 /* krkkl */ = {
 			isa = PBXGroup;
 			children = (
-				C365BA261B67F18D008A49B5 /* krkklView.h */,
-				C365BA281B67F18D008A49B5 /* krkklView.m */,
+				C39F6FC71B67F2FB008519FA /* KrkklView.swift */,
 				C365BA241B67F18D008A49B5 /* Supporting Files */,
 			);
 			path = krkkl;
@@ -70,7 +67,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C365BA271B67F18D008A49B5 /* krkklView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,7 +137,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C365BA291B67F18D008A49B5 /* krkklView.m in Sources */,
+				C39F6FC81B67F2FB008519FA /* KrkklView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -266,6 +262,7 @@
 				C365BA2E1B67F18D008A49B5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
