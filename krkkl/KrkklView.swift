@@ -1,7 +1,4 @@
 
-// http://www.raywenderlich.com/74438/swift-tutorial-a-quick-start
-// http://stackoverflow.com/questions/27852616/do-swift-screensavers-work-in-mac-os-x-before-yosemite
-
 import ScreenSaver
 
 class KrkklView : ScreenSaverView {
@@ -11,6 +8,10 @@ class KrkklView : ScreenSaverView {
     var frameCount = 0
     var sizex = 0
     var sizey = 0
+    var x = 0
+    var y = 0
+    var lastPos:UInt = 0
+    var nextPos:UInt = 0
     
     override init(frame: NSRect, isPreview: Bool) {
         super.init(frame: frame, isPreview: isPreview)
@@ -49,13 +50,13 @@ class KrkklView : ScreenSaverView {
     }
     
     override func drawRect(rect: NSRect) {
-        super.drawRect(rect)
+//        super.drawRect(rect)
         window!.disableFlushWindow()
-        drawBackground()
-        drawCircle(canvasColor, radiusPercent: CGFloat(15))
-        let r = CGFloat(sin(Float(frameCount) / 30) * 2 + 11)
-        drawCircle(circleColor, radiusPercent: r)
-        drawCube(xi: 10, yi: 10, color: NSColor.greenColor())
+//        drawBackground()
+//        drawCircle(canvasColor, radiusPercent: CGFloat(15))
+//        let r =    CGFloat(sin(Float(frameCount) / 30) * 2 + 11)
+//        drawCircle(circleColor, radiusPercent: r)
+        nextCube()
         window!.enableFlushWindow()
     }
     
@@ -71,6 +72,82 @@ class KrkklView : ScreenSaverView {
         var cPath: NSBezierPath = NSBezierPath(ovalInRect: circleRect)
         color.set()
         cPath.fill()
+    }
+
+    func nextCube()
+    {
+        var width = Int(bounds.size.width)
+        var height = Int(bounds.size.height)
+
+        var nx = Int(width/sizex)
+        var ny = Int(height/sizey)
+
+        nextPos = UInt(arc4random_uniform(6))
+        lastPos = nextPos
+        if nextPos == 0 {
+            self.y += 1
+        }
+        if nextPos == 1 {
+            if (self.x%2)==1 {
+                self.y -= 1
+            }
+            self.x += 1
+        }
+        if nextPos == 2 {
+            if (self.x%2)==1 {
+                self.y -= 1
+            }
+            self.x -= 1
+        }
+        if nextPos == 3 {
+            self.y -= 1
+//            skip = 0
+        }
+        if nextPos == 4 {
+            if (self.x%2)==0 {
+                self.y += 1
+            }
+            self.x -= 1
+//            skip = 2
+        }
+        if nextPos == 5 {
+            if (self.x%2)==0 {
+                self.y += 1
+            }
+            self.x += 1
+//            skip = 1
+        }
+
+        if (x < 1 || y < 2 || x > nx-1 || y > ny-1) {
+//            if reset == "center" {
+//                x = cx
+//                y = cy
+//            }
+//            elif reset == "random" {
+//                x = randint(0,nx-1)
+//                y = randint(0,ny-1)
+//            }
+//            else if reset == "wrap" {
+            if (true) {
+                if (x < 1) {
+                    x = nx-1
+                }   
+                else if (x > nx-1)
+                {   
+                    x = 1
+                }
+                if (y < 2)
+                {
+                    y = ny-1
+                }
+                else if (y > ny-1)
+                {
+                    y = 2
+                }
+            }
+        }
+
+        drawCube(xi: x, yi: y, color: NSColor.greenColor())
     }
     
     func drawCube(#xi: Int, yi: Int, color: NSColor)
