@@ -12,7 +12,6 @@ class KrkklView : ScreenSaverView {
     
     override init(frame: NSRect, isPreview: Bool) {
         super.init(frame: frame, isPreview: isPreview)
-        setAnimationTimeInterval(1.0 / 60.0)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -25,6 +24,7 @@ class KrkklView : ScreenSaverView {
     
     override func startAnimation() {
         super.startAnimation()
+        setAnimationTimeInterval(1.0 / 60.0)
         needsDisplay = true
     }
     
