@@ -97,7 +97,7 @@ class KrkklView : ScreenSaverView {
         path.fill()
         
 //        if skip != 1:
-        darkenColor(color, factor: 0.6).set()
+        color.darken(0.6).set()
         path = NSBezierPath()
         path.moveToPoint(NSPoint(x: x    ,y: y))
         path.lineToPoint(NSPoint(x: x-w  ,y: y+s))
@@ -106,7 +106,7 @@ class KrkklView : ScreenSaverView {
         path.fill()
         
 //        if skip != 2:
-        darkenColor(color, factor: 0.25).set()
+        color.darken(0.25).set()
         path = NSBezierPath()
         path.moveToPoint(NSPoint(x: x    ,y: y))
         path.lineToPoint(NSPoint(x: x+w  ,y: y+s))
@@ -115,15 +115,18 @@ class KrkklView : ScreenSaverView {
         path.fill()
     }
 
+}
+
+extension NSColor {
     
-    func darkenColor(color: NSColor, factor: Float) -> NSColor {
+    func darken(factor: Float) -> NSColor {
         let f = CGFloat(factor)
-        let red = color.redComponent
-        let green = color.greenComponent
-        let blue = color.blueComponent
+        let red = redComponent
+        let green = greenComponent
+        let blue = blueComponent
         return NSColor(red: red*f, green: green*f, blue: blue*f, alpha: 1)
     }
-    
+
 }
 
 
