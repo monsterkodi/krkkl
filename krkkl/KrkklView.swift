@@ -25,7 +25,7 @@ class KrkklView : ScreenSaverView {
     override func startAnimation() {
         setup()
         super.startAnimation()
-        setAnimationTimeInterval(1.0 / 60.0)
+        setAnimationTimeInterval(1.0 / 30.0)
         needsDisplay = true
     }
     
@@ -34,7 +34,7 @@ class KrkklView : ScreenSaverView {
     }
     
     func setup() {
-        var numrows = 10
+        var numrows = 100
         var height = Int(bounds.size.height)
         numrows = min(numrows, height/2)
         sizey = height/numrows
@@ -60,6 +60,7 @@ class KrkklView : ScreenSaverView {
     
     func nextCube()
     {
+        var skip = -1
         var width = Int(bounds.size.width)
         var height = Int(bounds.size.height)
 
@@ -68,38 +69,44 @@ class KrkklView : ScreenSaverView {
 
         nextPos = UInt(arc4random_uniform(6))
         lastPos = nextPos
-        if nextPos == 0 {
-            self.y += 1
-        }
-        if nextPos == 1 {
-            if (self.x%2)==1 {
-                self.y -= 1
-            }
-            self.x += 1
-        }
-        if nextPos == 2 {
-            if (self.x%2)==1 {
-                self.y -= 1
-            }
-            self.x -= 1
-        }
-        if nextPos == 3 {
-            self.y -= 1
-//            skip = 0
-        }
-        if nextPos == 4 {
-            if (self.x%2)==0 {
-                self.y += 1
-            }
-            self.x -= 1
-//            skip = 2
-        }
-        if nextPos == 5 {
-            if (self.x%2)==0 {
-                self.y += 1
-            }
-            self.x += 1
-//            skip = 1
+
+        switch nextPos
+        {
+        case 0: // up
+                y += 1
+            
+        case 1: // right
+                if (x%2)==1 {
+                    y -= 1
+                }
+                x += 1
+
+        case 2: // left
+                if (x%2)==1 {
+                    y -= 1
+                }
+                x -= 1
+
+        case 3: // down
+                y -= 1
+                skip = 0 // dont paint top
+
+        case 4: // back left
+                if (x%2)==0 {
+                    y += 1
+                }
+                x -= 1
+                skip = 2 // dont paint right
+
+        case 5: // back right
+                if (x%2)==0 {
+                    y += 1
+                }
+                x += 1
+                skip = 1 // dont paint left
+            
+            default:
+                break
         }
 
         if (x < 1 || y < 2 || x > nx-1 || y > ny-1) {
@@ -129,12 +136,13 @@ class KrkklView : ScreenSaverView {
                     y = 2
                 }
             }
+            lastPos = UInt(arc4random_uniform(6))
         }
 
-        drawCube(xi: x, yi: y, color: NSColor.greenColor())
+        drawCube(xi: x, yi: y, color: NSColor.greenColor(), skip: skip)
     }
     
-    func drawCube(#xi: Int, yi: Int, color: NSColor)
+    func drawCube(#xi: Int, yi: Int, color: NSColor, skip: Int)
     {
         let h = sizey
         let w = sizex
@@ -148,32 +156,33 @@ class KrkklView : ScreenSaverView {
             y -= h/2
         }
         
-//        if (skip != 0):
-        color.set() // top
-        var path = NSBezierPath()
-        path.moveToPoint(NSPoint(x: x   ,y: y))
-        path.lineToPoint(NSPoint(x: x+w ,y: y+s))
-        path.lineToPoint(NSPoint(x: x   ,y: y+h))
-        path.lineToPoint(NSPoint(x: x-w ,y: y+s))
-        path.fill()
-        
-//        if skip != 1:
-        color.darken(0.6).set()
-        path = NSBezierPath()
-        path.moveToPoint(NSPoint(x: x    ,y: y))
-        path.lineToPoint(NSPoint(x: x-w  ,y: y+s))
-        path.lineToPoint(NSPoint(x: x-w  ,y: y-s))
-        path.lineToPoint(NSPoint(x: x    ,y: y-h))
-        path.fill()
-        
-//        if skip != 2:
-        color.darken(0.25).set()
-        path = NSBezierPath()
-        path.moveToPoint(NSPoint(x: x    ,y: y))
-        path.lineToPoint(NSPoint(x: x+w  ,y: y+s))
-        path.lineToPoint(NSPoint(x: x+w  ,y: y-s))
-        path.lineToPoint(NSPoint(x: x    ,y: y-h))
-        path.fill()
+        if skip != 0 { // top
+            color.set()
+            let path = NSBezierPath()
+            path.moveToPoint(NSPoint(x: x   ,y: y))
+            path.lineToPoint(NSPoint(x: x+w ,y: y+s))
+            path.lineToPoint(NSPoint(x: x   ,y: y+h))
+            path.lineToPoint(NSPoint(x: x-w ,y: y+s))
+            path.fill()
+        }
+        if skip != 1 { // left
+            color.darken(0.6).set()
+            let path = NSBezierPath()
+            path.moveToPoint(NSPoint(x: x    ,y: y))
+            path.lineToPoint(NSPoint(x: x-w  ,y: y+s))
+            path.lineToPoint(NSPoint(x: x-w  ,y: y-s))
+            path.lineToPoint(NSPoint(x: x    ,y: y-h))
+            path.fill()
+        }
+        if skip != 2 { // right
+            color.darken(0.25).set()
+            var path = NSBezierPath()
+            path.moveToPoint(NSPoint(x: x    ,y: y))
+            path.lineToPoint(NSPoint(x: x+w  ,y: y+s))
+            path.lineToPoint(NSPoint(x: x+w  ,y: y-s))
+            path.lineToPoint(NSPoint(x: x    ,y: y-h))
+            path.fill()
+        }
     }
 
 }
