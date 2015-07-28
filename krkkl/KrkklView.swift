@@ -73,7 +73,7 @@ class KrkklView : ScreenSaverView {
         cPath.fill()
     }
     
-    func drawCube(#xi: Int, yi: Int, color c: NSColor)
+    func drawCube(#xi: Int, yi: Int, color: NSColor)
     {
         let h = sizey
         let w = sizex
@@ -88,7 +88,7 @@ class KrkklView : ScreenSaverView {
         }
         
 //        if (skip != 0):
-        NSColor(red: c.redComponent, green: c.greenComponent, blue: c.blueComponent, alpha: 1.0).set() // top
+        color.set() // top
         var path = NSBezierPath()
         path.moveToPoint(NSPoint(x: x   ,y: y))
         path.lineToPoint(NSPoint(x: x+w ,y: y+s))
@@ -97,8 +97,7 @@ class KrkklView : ScreenSaverView {
         path.fill()
         
 //        if skip != 1:
-        let d1 = CGFloat(0.6)
-        NSColor(red: c.redComponent*d1, green: c.greenComponent*d1, blue: c.blueComponent*d1, alpha: 1.0).set() // left
+        darkenColor(color, factor: 0.6).set()
         path = NSBezierPath()
         path.moveToPoint(NSPoint(x: x    ,y: y))
         path.lineToPoint(NSPoint(x: x-w  ,y: y+s))
@@ -107,8 +106,7 @@ class KrkklView : ScreenSaverView {
         path.fill()
         
 //        if skip != 2:
-        let d2 = CGFloat(0.25)
-        NSColor(red: c.redComponent*d2, green: c.greenComponent*d2, blue: c.blueComponent*d2, alpha: 1.0).set() // right
+        darkenColor(color, factor: 0.25).set()
         path = NSBezierPath()
         path.moveToPoint(NSPoint(x: x    ,y: y))
         path.lineToPoint(NSPoint(x: x+w  ,y: y+s))
@@ -117,5 +115,15 @@ class KrkklView : ScreenSaverView {
         path.fill()
     }
 
-}
     
+    func darkenColor(color: NSColor, factor: Float) -> NSColor {
+        let f = CGFloat(factor)
+        let red = color.redComponent
+        let green = color.greenComponent
+        let blue = color.blueComponent
+        return NSColor(red: red*f, green: green*f, blue: blue*f, alpha: 1)
+    }
+    
+}
+
+
