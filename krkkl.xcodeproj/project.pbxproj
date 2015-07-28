@@ -8,16 +8,32 @@
 
 /* Begin PBXBuildFile section */
 		C39F6FC81B67F2FB008519FA /* KrkklView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39F6FC71B67F2FB008519FA /* KrkklView.swift */; };
+		C3C2047C1B67F63B00C43606 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C2047B1B67F63B00C43606 /* AppDelegate.swift */; };
+		C3C2047E1B67F63C00C43606 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3C2047D1B67F63C00C43606 /* Images.xcassets */; };
+		C3C204811B67F63C00C43606 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3C2047F1B67F63C00C43606 /* MainMenu.xib */; };
+		C3C204941B67F74500C43606 /* KrkklView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39F6FC71B67F2FB008519FA /* KrkklView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		C365BA211B67F18D008A49B5 /* krkkl.saver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = krkkl.saver; sourceTree = BUILT_PRODUCTS_DIR; };
 		C365BA251B67F18D008A49B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C39F6FC71B67F2FB008519FA /* KrkklView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KrkklView.swift; sourceTree = "<group>"; };
+		C3C204771B67F63B00C43606 /* krkklapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = krkklapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C3C2047A1B67F63B00C43606 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C3C2047B1B67F63B00C43606 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		C3C2047D1B67F63C00C43606 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		C3C204801B67F63C00C43606 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		C365BA1D1B67F18D008A49B5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C3C204741B67F63B00C43606 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -31,6 +47,7 @@
 			isa = PBXGroup;
 			children = (
 				C365BA231B67F18D008A49B5 /* krkkl */,
+				C3C204781B67F63B00C43606 /* krkklapp */,
 				C365BA221B67F18D008A49B5 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -39,6 +56,7 @@
 			isa = PBXGroup;
 			children = (
 				C365BA211B67F18D008A49B5 /* krkkl.saver */,
+				C3C204771B67F63B00C43606 /* krkklapp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -56,6 +74,25 @@
 			isa = PBXGroup;
 			children = (
 				C365BA251B67F18D008A49B5 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C3C204781B67F63B00C43606 /* krkklapp */ = {
+			isa = PBXGroup;
+			children = (
+				C3C2047B1B67F63B00C43606 /* AppDelegate.swift */,
+				C3C2047D1B67F63C00C43606 /* Images.xcassets */,
+				C3C2047F1B67F63C00C43606 /* MainMenu.xib */,
+				C3C204791B67F63B00C43606 /* Supporting Files */,
+			);
+			path = krkklapp;
+			sourceTree = "<group>";
+		};
+		C3C204791B67F63B00C43606 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				C3C2047A1B67F63B00C43606 /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -91,6 +128,23 @@
 			productReference = C365BA211B67F18D008A49B5 /* krkkl.saver */;
 			productType = "com.apple.product-type.bundle";
 		};
+		C3C204761B67F63B00C43606 /* krkklapp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C3C2048E1B67F63C00C43606 /* Build configuration list for PBXNativeTarget "krkklapp" */;
+			buildPhases = (
+				C3C204731B67F63B00C43606 /* Sources */,
+				C3C204741B67F63B00C43606 /* Frameworks */,
+				C3C204751B67F63B00C43606 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = krkklapp;
+			productName = krkklapp;
+			productReference = C3C204771B67F63B00C43606 /* krkklapp.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -103,6 +157,9 @@
 					C365BA201B67F18D008A49B5 = {
 						CreatedOnToolsVersion = 6.4;
 					};
+					C3C204761B67F63B00C43606 = {
+						CreatedOnToolsVersion = 6.4;
+					};
 				};
 			};
 			buildConfigurationList = C365BA1B1B67F18D008A49B5 /* Build configuration list for PBXProject "krkkl" */;
@@ -111,6 +168,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = C365BA171B67F18D008A49B5;
 			productRefGroup = C365BA221B67F18D008A49B5 /* Products */;
@@ -118,6 +176,7 @@
 			projectRoot = "";
 			targets = (
 				C365BA201B67F18D008A49B5 /* krkkl */,
+				C3C204761B67F63B00C43606 /* krkklapp */,
 			);
 		};
 /* End PBXProject section */
@@ -127,6 +186,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C3C204751B67F63B00C43606 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C3C2047E1B67F63C00C43606 /* Images.xcassets in Resources */,
+				C3C204811B67F63C00C43606 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,7 +209,27 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C3C204731B67F63B00C43606 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C3C204941B67F74500C43606 /* KrkklView.swift in Sources */,
+				C3C2047C1B67F63B00C43606 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		C3C2047F1B67F63C00C43606 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C3C204801B67F63C00C43606 /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		C365BA2A1B67F18D008A49B5 /* Debug */ = {
@@ -243,6 +331,35 @@
 			};
 			name = Release;
 		};
+		C3C2048F1B67F63C00C43606 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = krkklapp/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		C3C204901B67F63C00C43606 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = krkklapp/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -263,6 +380,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		C3C2048E1B67F63C00C43606 /* Build configuration list for PBXNativeTarget "krkklapp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C3C2048F1B67F63C00C43606 /* Debug */,
+				C3C204901B67F63C00C43606 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
