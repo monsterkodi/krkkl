@@ -45,18 +45,23 @@ class KrkklView : ScreenSaverView {
     }
     
     override func animateOneFrame() {
-        needsDisplay = true
+//        needsDisplay = true
+//        setNeedsDisplayInRect(bounds)
+        let context = window!.graphicsContext
+        NSGraphicsContext.setCurrentContext(context)
+        nextCube()
+        context?.flushGraphics()
+        
         frameCount += 1
     }
     
     override func drawRect(rect: NSRect) {
-//        super.drawRect(rect)
+        super.drawRect(rect)
         window!.disableFlushWindow()
-//        drawBackground()
+        drawBackground()
 //        drawCircle(canvasColor, radiusPercent: CGFloat(15))
 //        let r =    CGFloat(sin(Float(frameCount) / 30) * 2 + 11)
 //        drawCircle(circleColor, radiusPercent: r)
-        nextCube()
         window!.enableFlushWindow()
     }
     
