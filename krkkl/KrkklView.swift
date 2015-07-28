@@ -3,9 +3,6 @@ import ScreenSaver
 
 class KrkklView : ScreenSaverView {
     
-    var canvasColor: NSColor = NSColor.blackColor()
-    var circleColor: NSColor = NSColor.redColor()
-    var frameCount = 0
     var sizex = 0
     var sizey = 0
     var x = 0
@@ -25,14 +22,6 @@ class KrkklView : ScreenSaverView {
         return false
     }
 
-    func setup() {
-        var numrows = 10
-        var height = Int(bounds.size.height)
-        numrows = min(numrows, height/2)
-        sizey = height/numrows
-        sizex = Int(sin(M_PI/3) * Double(sizey))
-    }
-    
     override func startAnimation() {
         setup()
         super.startAnimation()
@@ -44,6 +33,22 @@ class KrkklView : ScreenSaverView {
         super.stopAnimation()
     }
     
+    func setup() {
+        var numrows = 10
+        var height = Int(bounds.size.height)
+        numrows = min(numrows, height/2)
+        sizey = height/numrows
+        sizex = Int(sin(M_PI/3) * Double(sizey))
+    }
+    
+    override func drawRect(rect: NSRect) {
+        super.drawRect(rect)
+        var bPath:NSBezierPath = NSBezierPath(rect: bounds)
+        NSColor.blackColor().set()
+        bPath.fill()
+    }
+    
+    
     override func animateOneFrame() {
 //        needsDisplay = true
 //        setNeedsDisplayInRect(bounds)
@@ -51,34 +56,8 @@ class KrkklView : ScreenSaverView {
         NSGraphicsContext.setCurrentContext(context)
         nextCube()
         context?.flushGraphics()
-        
-        frameCount += 1
     }
     
-    override func drawRect(rect: NSRect) {
-        super.drawRect(rect)
-        window!.disableFlushWindow()
-        drawBackground()
-//        drawCircle(canvasColor, radiusPercent: CGFloat(15))
-//        let r =    CGFloat(sin(Float(frameCount) / 30) * 2 + 11)
-//        drawCircle(circleColor, radiusPercent: r)
-        window!.enableFlushWindow()
-    }
-    
-    func drawBackground() {
-        var bPath:NSBezierPath = NSBezierPath(rect: bounds)
-        canvasColor.set()
-        bPath.fill()
-    }
-
-    func drawCircle(color: NSColor, radiusPercent: CGFloat) {
-        let radius = bounds.size.height * radiusPercent/100
-        var circleRect = NSMakeRect(bounds.size.width/2 - radius/2, bounds.size.height/2 - radius/2, radius, radius)
-        var cPath: NSBezierPath = NSBezierPath(ovalInRect: circleRect)
-        color.set()
-        cPath.fill()
-    }
-
     func nextCube()
     {
         var width = Int(bounds.size.width)
