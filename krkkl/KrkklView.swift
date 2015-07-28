@@ -1,14 +1,16 @@
 
 import ScreenSaver
 
-class KrkklView : ScreenSaverView {
-    
+class KrkklView : ScreenSaverView
+{
     var numrows = 100
-    
-    var pos: (x: Int, y: Int) = (0, 0)
-    
-    var lastPos: UInt = 0
-    var nextPos: UInt = 0
+    var pos:     (x: Int, y: Int) = (0, 0)
+    var next:    (x: Int, y: Int) = (0, 0)
+    var center:  (x: Int, y: Int) = (0, 0)
+
+    var lastPos:Int = 0
+    var nextPos:Int = 0
+    var reset: String = "center" // what happens when the screen border is touched: "wrap", "center" or "random"
     
     override init(frame: NSRect, isPreview: Bool) {
         super.init(frame: frame, isPreview: isPreview)
@@ -33,30 +35,52 @@ class KrkklView : ScreenSaverView {
         super.stopAnimation()
     }
     
-    func setup() {
-        numrows = min(numrows, Int(bounds.size.height)/2)
-        // start at centre
-        let (cw, ch) = cubeSize()
-        pos = (Int(bounds.size.width)/cw/2 , numrows/2)
+    func width() -> Int {
+        return Int(bounds.size.width)
+    }
+    func height() -> Int {
+        return Int(bounds.size.height)
+    }
+    func randint(n: Int) -> Int {
+        return Int(arc4random_uniform(UInt32(n)+1))
     }
     
-    override func drawRect(rect: NSRect) {
+    func setup() {
+
+        var numrows = 100
+        numrows = min(numrows, height()/2)
+
+        // start at centre
+        let (cw, ch) = cubeSize()
+        pos = (width()/cw/2 , numrows/2)
+        
+        next.x = Int(width()/cw)
+        next.y = Int(height()/ch)
+ 
+        center.x = Int(next.x/2)
+        center.y = Int(next.y/2)
+    }
+    
+    override func drawRect(rect: NSRect) 
+    {
         super.drawRect(rect)
         var bPath:NSBezierPath = NSBezierPath(rect: bounds)
         NSColor.blackColor().set()
         bPath.fill()
     }
     
-    override func animateOneFrame() {
+    override func animateOneFrame() 
+    {
         let context = window!.graphicsContext
         NSGraphicsContext.setCurrentContext(context)
         drawNextCube()
         context?.flushGraphics()
     }
     
-    func cubeSize() -> (w: Int, h: Int) {
-        let height = Int(bounds.size.height)/numrows
-        return (Int(sin(M_PI/3) * Double(height)), height)
+    func cubeSize() -> (w: Int, h: Int) 
+    {
+        let h = height()/numrows
+        return (Int(sin(M_PI/3) * Double(h)), h)
     }
     
     func drawNextCube()
@@ -65,10 +89,10 @@ class KrkklView : ScreenSaverView {
         
         let (cw, ch) = cubeSize()
 
-        let nx = Int(bounds.size.width)/cw
-        let ny = Int(bounds.size.height)/ch
+        let nx = width()/cw
+        let ny = height()/ch
 
-        nextPos = UInt(arc4random_uniform(6))
+        nextPos = randint(5)
         lastPos = nextPos
 
         switch nextPos
@@ -110,34 +134,37 @@ class KrkklView : ScreenSaverView {
                 break
         }
 
-        if (pos.x < 1 || pos.y < 2 || pos.x > nx-1 || pos.y > ny-1) {
-//            if reset == "center" {
-//                x = cx
-//                y = cy
-//            }
-//            elif reset == "random" {
-//                x = randint(0,nx-1)
-//                y = randint(0,ny-1)
-//            }
-//            else if reset == "wrap" {
-            if (true) {
+        if (pos.x < 1 || pos.y < 2 || pos.x > nx-1 || pos.y > ny-1)  // if screen border is touched
+        {
+            if reset == "center" 
+            {
+                pos.x = center.x
+                pos.y = center.y
+            }
+            else if reset == "random" 
+            {
+                pos.x = randint(next.x-1)
+                pos.y = randint(next.y-1)
+            }
+            else if reset == "wrap" 
+            {
                 if (pos.x < 1) {
-                    pos.x = nx-1
+                    pos.x = next.x-1
                 }   
-                else if (pos.x > nx-1)
+                else if (pos.x > next.x-1)
                 {   
                     pos.x = 1
                 }
                 if (pos.y < 2)
                 {
-                    pos.y = ny-1
+                    pos.y = next.y-1
                 }
-                else if (pos.y > ny-1)
+                else if (pos.y > next.y-1)
                 {
                     pos.y = 2
                 }
             }
-            lastPos = UInt(arc4random_uniform(6))
+            lastPos = randint(5)
         }
 
         drawCube(color: NSColor.greenColor(), skip: skip)
@@ -178,19 +205,16 @@ class KrkklView : ScreenSaverView {
             path.fill()
         }
     }
-
 }
 
 extension NSColor {
     
+    func red()   -> CGFloat { return redComponent   }
+    func green() -> CGFloat { return greenComponent }
+    func blue()  -> CGFloat { return blueComponent  }
+    
     func darken(factor: Float) -> NSColor {
         let f = CGFloat(factor)
-        let red = redComponent
-        let green = greenComponent
-        let blue = blueComponent
-        return NSColor(red: red*f, green: green*f, blue: blue*f, alpha: 1)
+        return NSColor(red: red()*f, green: green()*f, blue: blue()*f, alpha: 1)
     }
-
 }
-
-
