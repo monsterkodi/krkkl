@@ -13,7 +13,7 @@ class KrkklView : ScreenSaverView
 
     var lastPos:Int = 0
     var nextPos:Int = 0
-    var reset:String = "random" // what happens when the screen border is touched: "wrap", "center" or "random"
+    var reset:String = "center" // what happens when the screen border is touched: "wrap", "center" or "random"
     var keepdir:[Float] = [0,0,0,0,0,0,0]
     
     var animState:String = "anim"
@@ -127,11 +127,6 @@ class KrkklView : ScreenSaverView
     {
         var skip = Side.NONE
         
-        let (cw, ch) = cubeSize()
-
-        let nx = width()/cw
-        let ny = height()/ch
-
         nextPos = (randflt() < keepdir[lastPos]) ? lastPos : randint(5)
         lastPos = nextPos
         
