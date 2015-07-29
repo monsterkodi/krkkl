@@ -6,7 +6,7 @@ enum Side:Int {
 }
 
 enum ColorFade: Int {
-    case RANDOM=0, LIST, DIRECTION
+    case RANDOM=0, LIST, DIRECTION, NUM
 }
 
 class KrkklView : ScreenSaverView
@@ -25,6 +25,7 @@ class KrkklView : ScreenSaverView
     var cubeCount:Int = 0
     var maxCubes:Int = 5000
 
+    var colorType = ColorFade.NUM
     var colorFade:Float = 0
     var colorInc:Float  = 0
     var colorIndex:Int = 0
@@ -52,16 +53,24 @@ class KrkklView : ScreenSaverView
         center.y = size.y/2
         
         colorInc = Float(20+randint(20))/Float(size.y)
+        colorType = ColorFade(rawValue: randint(ColorFade.NUM.rawValue))!
 
         pos = center // start at centre
-                        
-        keepDir[0] = 0.1 + randflt() * 0.8
-        keepDir[1] = 0.1 + randflt() * 0.8
-        keepDir[2] = 0.1 + randflt() * 0.8
-        keepDir[3] = keepDir[0]
-        keepDir[4] = keepDir[1]
-        keepDir[5] = keepDir[2]         
+        
+        let lk:Float = 0.05
+        let hk:Float = 0.6
+        keepDir[0] = lk + randflt() * hk
+        keepDir[1] = lk + randflt() * hk
+        keepDir[2] = lk + randflt() * hk
+        keepDir[3] = lk + randflt() * hk
+        keepDir[4] = lk + randflt() * hk
+        keepDir[5] = lk + randflt() * hk
 
+        println("size \(size)")
+        println("keepDir \(keepDir)")
+        println("colorInc \(colorInc)")
+        println("colorType \(colorType)")
+        
         cubeCount = 0
     }
         
@@ -124,7 +133,6 @@ class KrkklView : ScreenSaverView
     
     func chooseNextColor()
     {
-        var colorType = ColorFade.DIRECTION
         switch colorType
         {
         case .RANDOM:
@@ -149,20 +157,17 @@ class KrkklView : ScreenSaverView
             let side:Side = Side(rawValue:nextDir)!
             switch side
             {
-            case .UP: b = clamp(b + ci, low:0.0, high:1.0)
-            case .LEFT:
-                r = clamp(r + ci, low:0.0, high:1.0)
-            case .RIGHT:
-                g = clamp(g + ci, low:0.0, high:1.0)
-            case .DOWN:
-                b = clamp(b - ci, low:0.0, high:1.0)
-            case .BACKL:
-                r = clamp(r - ci, low:0.0, high:1.0)
-            case .BACKR:
-                g = clamp(g - ci, low:0.0, high:1.0)
+            case .UP:    b = clamp(b + ci, low:0.0, high:1.0)
+            case .LEFT:  r = clamp(r + ci, low:0.0, high:1.0)
+            case .RIGHT: g = clamp(g + ci, low:0.0, high:1.0)
+            case .DOWN:  b = clamp(b - ci, low:0.0, high:1.0)
+            case .BACKL: r = clamp(r - ci, low:0.0, high:1.0)
+            case .BACKR: g = clamp(g - ci, low:0.0, high:1.0)
             default: break
             }
             rgbColor = colorRGB([r,g,b])
+
+        default: break
         }
     }
         
