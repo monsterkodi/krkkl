@@ -35,6 +35,9 @@ class KrkklView : ScreenSaverView {
     
     func setup() {
         numrows = min(numrows, Int(bounds.size.height)/2)
+        // start at centre
+        let (cw, ch) = cubeSize()
+        pos = (Int(bounds.size.width)/cw/2 , numrows/2)
     }
     
     override func drawRect(rect: NSRect) {
@@ -52,7 +55,7 @@ class KrkklView : ScreenSaverView {
     }
     
     func cubeSize() -> (w: Int, h: Int) {
-        var height = Int(bounds.size.height)/numrows
+        let height = Int(bounds.size.height)/numrows
         return (Int(sin(M_PI/3) * Double(height)), height)
     }
     
