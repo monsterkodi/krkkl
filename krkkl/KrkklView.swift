@@ -27,13 +27,14 @@ class KrkklView : ScreenSaverView
 
     var colorType = ColorFade.NUM
     var colorFade:Float = 0
-    var colorInc:Float  = 0
+    var colorInc:Float = 0
     var colorIndex:Int = 0
     var colorList:[NSColor] = [
         NSColor(red:0.1, green:0.1, blue:0.1, alpha: 1),
-        NSColor(red:1, green:0, blue:0, alpha: 1),
         NSColor(red:0.2, green:0.2, blue:0.2, alpha: 1),
-        NSColor(red:1, green:0.5, blue:0, alpha: 1),
+        NSColor(red:1.0, green:0.0, blue:0.0, alpha: 1),
+        NSColor(red:1.0, green:0.5, blue:0.0, alpha: 1),
+        NSColor(red:1.0, green:0.0, blue:0.0, alpha: 1),
         NSColor(red:0.2, green:0.2, blue:0.2, alpha: 1),
     ]
     
@@ -44,7 +45,7 @@ class KrkklView : ScreenSaverView
 
     func setup() 
     {
-        size.y = randint(60)+30 // number of cube rows, used to calculate cubeSize
+        size.y = randint(60)+20 // number of cube rows, used to calculate cubeSize
         
         let (cw, ch) = cubeSize()
         size.x = width()/cw
@@ -69,7 +70,7 @@ class KrkklView : ScreenSaverView
         default: break
         }
         
-        reset = ["center", "wrap", "random"][randint(2)]
+        reset = ["center", "wrap", "random"][randint(3)]
         pos = center // start at centre
         
         let lk:Float = 0.05
@@ -81,14 +82,16 @@ class KrkklView : ScreenSaverView
         keepDir[4] = keepDir[1]
         keepDir[5] = keepDir[2]
 
+        maxCubes = size.x * size.y
+        cubeCount = 0
+
         println("size \(size)")
+        println("maxCubes \(maxCubes)")
         println("reset \(reset)")
         println("keepDir \(keepDir)")
         println("rgbColor \(rgbColor)")
         println("colorInc \(colorInc)")
         println("colorType \(colorType.rawValue)")
-        
-        cubeCount = 0
     }
         
     override func startAnimation() 
@@ -199,7 +202,7 @@ class KrkklView : ScreenSaverView
     {
         var skip = Side.NONE
         
-        nextDir = (randflt() < keepDir[lastDir]) ? lastDir : randint(5)
+        nextDir = (randflt() < keepDir[lastDir]) ? lastDir : randint(6)
         lastDir = nextDir
         
         let side:Side = Side(rawValue:nextDir)!
@@ -243,8 +246,8 @@ class KrkklView : ScreenSaverView
             }
             else if reset == "random" 
             {
-                pos.x = randint(size.x-1)
-                pos.y = randint(size.y-1)
+                pos.x = randint(size.x)
+                pos.y = randint(size.y)
             }
             else if reset == "wrap" 
             {
@@ -254,7 +257,7 @@ class KrkklView : ScreenSaverView
                 else if (pos.y > size.y-1) { pos.y = 2 }
             }
             skip = .NONE
-            lastDir = randint(5)
+            lastDir = randint(6)
         }
 
         chooseNextColor()
@@ -318,7 +321,7 @@ class KrkklView : ScreenSaverView
     override func hasConfigureSheet() -> Bool { return false }
     func width() -> Int { return Int(bounds.size.width) }
     func height() -> Int { return Int(bounds.size.height) }
-    func randint(n: Int) -> Int { return Int(arc4random_uniform(UInt32(n)+1)) }
+    func randint(n: Int) -> Int { return Int(arc4random_uniform(UInt32(n))) }
     func randflt() -> Float { return Float(arc4random()) / Float(UINT32_MAX) }
     func rest(v:Float) -> Float { return v-floor(v) }
     func clamp(v:Float, low:Float, high:Float) -> Float { return max(low, min(v, high)) }
