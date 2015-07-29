@@ -3,15 +3,20 @@ import ScreenSaver
 
 class KrkklView : ScreenSaverView
 {
-    var numrows = 100
+    var numrows = 10
     var pos:     (x: Int, y: Int) = (0, 0)
     var size:    (x: Int, y: Int) = (0, 0)
     var center:  (x: Int, y: Int) = (0, 0)
 
     var lastPos:Int = 0
     var nextPos:Int = 0
-    var reset: String = "random" // what happens when the screen border is touched: "wrap", "center" or "random"
-    var keepdir: [Float] = [0,0,0,0,0,0,0]
+    var reset:String = "random" // what happens when the screen border is touched: "wrap", "center" or "random"
+    var keepdir:[Float] = [0,0,0,0,0,0,0]
+    
+    var animState:String = "anim"
+    var fadeCount:Int = 0
+    var cubeCount:Int = 0
+    var maxCubes:Int = 100
     
     override init(frame: NSRect, isPreview: Bool) 
     {
@@ -27,7 +32,7 @@ class KrkklView : ScreenSaverView
     {    
         setup()
         super.startAnimation()
-        setAnimationTimeInterval(1.0 / 30.0)
+        setAnimationTimeInterval(1.0 / 60.0)
         needsDisplay = true
     }
         
@@ -39,6 +44,7 @@ class KrkklView : ScreenSaverView
     
     func setup() 
     {
+        cubeCount = 0
         numrows = randint(30)+10
         
         // start at centre
@@ -59,11 +65,15 @@ class KrkklView : ScreenSaverView
         keepdir[5] = keepdir[2]         
     }
     
-    override func drawRect(rect: NSRect) 
+    func clear(color:NSColor = NSColor.blackColor())
     {
-        super.drawRect(rect)
-        var bPath:NSBezierPath = NSBezierPath(rect: bounds)
-        NSColor.blackColor().set()
+        color.set()
+        drawRect(bounds)
+    }
+    
+    override func drawRect(rect: NSRect)
+    {
+        var bPath:NSBezierPath = NSBezierPath(rect: rect)
         bPath.fill()
     }
     
@@ -71,8 +81,38 @@ class KrkklView : ScreenSaverView
     {
         let context = window!.graphicsContext
         NSGraphicsContext.setCurrentContext(context)
-        drawNextCube()
+        
+        if animState == "fade"
+        {
+            fadeOut()
+        }
+        else
+        {
+            if cubeCount >= maxCubes
+            {
+                animState = "fade"
+                debugPrint(animState)
+                fadeCount = 0
+            }
+            drawNextCube()
+        }
+        
         context?.flushGraphics()
+    }
+    
+    func fadeOut()
+    {
+        if fadeCount >= 100
+        {
+            clear()
+            setup()
+            animState = "anim"
+        }
+        else
+        {
+            clear(color:NSColor(red: 0, green: 0, blue: 0, alpha: 0.02))
+            fadeCount += 1
+        }
     }
     
     func cubeSize() -> (w: Int, h: Int) 
@@ -109,17 +149,17 @@ class KrkklView : ScreenSaverView
 
         case 3: // down
                 pos.y -= 1
-                skip = 0 // dont paint top
+                if cubeCount > 0 { skip = 0 } // dont paint top
 
         case 4: // back left
                 if (pos.x%2)==0 { pos.y += 1 }
                 pos.x -= 1
-                skip = 2 // dont paint right
+                if cubeCount > 0 { skip = 2 } // dont paint right
 
         case 5: // back right
                 if (pos.x%2)==0 { pos.y += 1 }
                 pos.x += 1
-                skip = 1 // dont paint left
+                if cubeCount > 0 { skip = 1 } // dont paint left
             
         default:
                 break
@@ -149,6 +189,8 @@ class KrkklView : ScreenSaverView
         }
 
         drawCube(color: NSColor.greenColor(), skip: skip)
+        
+        cubeCount += 1
     }
     
     func drawCube(#color: NSColor, skip: Int)
