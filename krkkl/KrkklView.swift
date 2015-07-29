@@ -6,7 +6,7 @@ enum Side:Int {
 }
 
 enum ColorFade: Int {
-    case RANDOM=0, LIST
+    case RANDOM=0, LIST, DIRECTION
 }
 
 class KrkklView : ScreenSaverView
@@ -27,6 +27,14 @@ class KrkklView : ScreenSaverView
 
     var colorFade:Float = 0
     var colorInc:Float  = 0
+    var colorIndex:Int = 0
+    var colorList:[NSColor] = [
+        NSColor(red:0, green:0, blue:0, alpha: 1),
+        NSColor(red:1, green:0, blue:0, alpha: 1),
+        NSColor(red:0.2, green:0.2, blue:0.2, alpha: 1),
+        NSColor(red:1, green:0.5, blue:0, alpha: 1),
+        NSColor(red:0.2, green:0.2, blue:0.2, alpha: 1),
+    ]
     
     var thisColor  = NSColor(red:0, green:0, blue:0, alpha: 1)
     var nextColor  = NSColor(red:0, green:0, blue:0, alpha: 1)
@@ -116,7 +124,7 @@ class KrkklView : ScreenSaverView
     
     func chooseNextColor()
     {
-        var colorType = ColorFade.RANDOM
+        var colorType = ColorFade.DIRECTION
         switch colorType
         {
         case .RANDOM:
@@ -128,6 +136,33 @@ class KrkklView : ScreenSaverView
                 nextColor = colorRGB([randflt(), randflt(), randflt()])
             }
             rgbColor = thisColor.fadeTo(nextColor, fade:colorFade/100.0)
+
+        case .LIST:
+            colorIndex = (colorIndex + 1) % colorList.count
+            rgbColor = colorList[colorIndex]  
+            
+        case .DIRECTION:
+            let ci = colorInc/100.0
+            var r = Float(rgbColor.red())
+            var g = Float(rgbColor.green())
+            var b = Float(rgbColor.blue())
+            let side:Side = Side(rawValue:nextDir)!
+            switch side
+            {
+            case .UP: b = clamp(b + ci, low:0.0, high:1.0)
+            case .LEFT:
+                r = clamp(r + ci, low:0.0, high:1.0)
+            case .RIGHT:
+                g = clamp(g + ci, low:0.0, high:1.0)
+            case .DOWN:
+                b = clamp(b - ci, low:0.0, high:1.0)
+            case .BACKL:
+                r = clamp(r - ci, low:0.0, high:1.0)
+            case .BACKR:
+                g = clamp(g - ci, low:0.0, high:1.0)
+            default: break
+            }
+            rgbColor = colorRGB([r,g,b])
         }
     }
         
@@ -263,6 +298,8 @@ class KrkklView : ScreenSaverView
     func height() -> Int { return Int(bounds.size.height) }
     func randint(n: Int) -> Int { return Int(arc4random_uniform(UInt32(n)+1)) }
     func randflt() -> Float { return Float(arc4random()) / Float(UINT32_MAX) }
+    func rest(v:Float) -> Float { return v-floor(v) }
+    func clamp(v:Float, low:Float, high:Float) -> Float { return max(low, min(v, high)) }
     func colorRGB(rgb:[Float]) -> NSColor { return NSColor(red: CGFloat(rgb[0]), green:CGFloat(rgb[1]), blue:CGFloat(rgb[2]), alpha:1) }
 }
 
