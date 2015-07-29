@@ -5,7 +5,7 @@ class KrkklView : ScreenSaverView
 {
     var numrows = 100
     var pos:     (x: Int, y: Int) = (0, 0)
-    var next:    (x: Int, y: Int) = (0, 0)
+    var size:    (x: Int, y: Int) = (0, 0)
     var center:  (x: Int, y: Int) = (0, 0)
 
     var lastPos:Int = 0
@@ -39,17 +39,17 @@ class KrkklView : ScreenSaverView
     
     func setup() 
     {
-        var numrows = randint(30)+10
+        numrows = randint(30)+10
         
         // start at centre
         let (cw, ch) = cubeSize()
         pos = (width()/cw/2 , numrows/2)
 
-        next.x = width()/cw
-        next.y = height()/ch
+        size.x = width()/cw
+        size.y = height()/ch
         
-        center.x = next.x/2
-        center.y = next.y/2
+        center.x = size.x/2
+        center.y = size.y/2
                 
         keepdir[0] = 0.1 + randflt() * 0.8
         keepdir[1] = 0.1 + randflt() * 0.8
@@ -100,32 +100,32 @@ class KrkklView : ScreenSaverView
                 pos.y += 1
             
         case 1: // right
-                if (x%2)==1 { y -= 1 }
-                x += 1
+                if (pos.x%2)==1 { pos.y -= 1 }
+                pos.x += 1
 
         case 2: // left
-                if (x%2)==1 { y -= 1 }
-                x -= 1
+                if (pos.x%2)==1 { pos.y -= 1 }
+                pos.x -= 1
 
         case 3: // down
                 pos.y -= 1
                 skip = 0 // dont paint top
 
         case 4: // back left
-                if (x%2)==0 { y += 1 }
-                x -= 1
+                if (pos.x%2)==0 { pos.y += 1 }
+                pos.x -= 1
                 skip = 2 // dont paint right
 
         case 5: // back right
-                if (x%2)==0 { y += 1 }
-                x += 1
+                if (pos.x%2)==0 { pos.y += 1 }
+                pos.x += 1
                 skip = 1 // dont paint left
             
         default:
                 break
         }
 
-        if (pos.x < 1 || pos.y < 2 || pos.x > nx-1 || pos.y > ny-1)  // if screen border is touched
+        if (pos.x < 1 || pos.y < 2 || pos.x > size.x-1 || pos.y > size.y-1)  // if screen border is touched
         {
             if reset == "center" 
             {
@@ -134,15 +134,15 @@ class KrkklView : ScreenSaverView
             }
             else if reset == "random" 
             {
-                pos.x = randint(next.x-1)
-                pos.y = randint(next.y-1)
+                pos.x = randint(size.x-1)
+                pos.y = randint(size.y-1)
             }
             else if reset == "wrap" 
             {
-                if      (pos.x < 1)        { pos.x = next.x-1 }   
-                else if (pos.x > next.x-1) { pos.x = 1 }
-                if      (pos.y < 2)        { pos.y = next.y-1 }
-                else if (pos.y > next.y-1) { pos.y = 2 }
+                if      (pos.x < 1)        { pos.x = size.x-1 }   
+                else if (pos.x > size.x-1) { pos.x = 1 }
+                if      (pos.y < 2)        { pos.y = size.y-1 }
+                else if (pos.y > size.y-1) { pos.y = 2 }
             }
             skip = -1
             lastPos = randint(5)
@@ -157,9 +157,7 @@ class KrkklView : ScreenSaverView
         
         let s = h/2
         let x = pos.x*w
-        let y = (pos.x%2 == 0) ? (pos.y*h) : (pos.y*h - h/2)
-        // var y:Int = yi * h
-        // if (xi%2 == 1) { y -= s }
+        let y = (pos.x%2 == 0) ? (pos.y*h) : (pos.y*h - s)
      
         if skip != 0  // top
         {
