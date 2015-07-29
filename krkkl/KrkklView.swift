@@ -5,6 +5,10 @@ enum Side:Int {
     case UP = 0, RIGHT, LEFT, DOWN, BACKR, BACKL, NONE
 }
 
+enum ColorFade: Int {
+    case RANDOM=0, LIST
+}
+
 class KrkklView : ScreenSaverView
 {
     var pos:     (x: Int, y: Int) = (0, 0)
@@ -19,8 +23,16 @@ class KrkklView : ScreenSaverView
     var animState:String = "anim"
     var fadeCount:Int = 0
     var cubeCount:Int = 0
-    var maxCubes:Int = 1000
-                    
+    var maxCubes:Int = 5000
+
+    var colorFade:Float = 0
+    var colorInc:Float  = 0
+    
+    var thisColor  = NSColor(red:0, green:0, blue:0, alpha: 1)
+    var nextColor  = NSColor(red:0, green:0, blue:0, alpha: 1)
+    var resetColor = NSColor(red:0, green:0, blue:0, alpha: 1)
+    var rgbColor   = NSColor(red:0, green:0, blue:0, alpha: 1)
+
     func setup() 
     {
         size.y = randint(60)+30 // number of cube rows, used to calculate cubeSize
@@ -30,6 +42,8 @@ class KrkklView : ScreenSaverView
 
         center.x = size.x/2
         center.y = size.y/2
+        
+        colorInc = Float(20+randint(20))/Float(size.y)
 
         pos = center // start at centre
                         
@@ -100,6 +114,23 @@ class KrkklView : ScreenSaverView
         bPath.fill()
     }
     
+    func chooseNextColor()
+    {
+        var colorType = ColorFade.RANDOM
+        switch colorType
+        {
+        case .RANDOM:
+            colorFade += colorInc
+            if colorFade >= 100
+            {
+                colorFade -= 100
+                thisColor = nextColor
+                nextColor = colorRGB([randflt(), randflt(), randflt()])
+            }
+            rgbColor = thisColor.fadeTo(nextColor, fade:colorFade/100.0)
+        }
+    }
+        
     func cubeSize() -> (w: Int, h: Int) 
     {
         var h = height()/size.y
@@ -169,12 +200,13 @@ class KrkklView : ScreenSaverView
             lastDir = randint(5)
         }
 
-        drawCube(color: NSColor.greenColor(), skip: skip)
+        chooseNextColor()
+        drawCube(skip)
         
         cubeCount += 1
     }
     
-    func drawCube(#color: NSColor, skip: Side)
+    func drawCube(skip: Side)
     {
         let (w, h) = cubeSize()
         
@@ -184,7 +216,7 @@ class KrkklView : ScreenSaverView
      
         if skip != .UP
         {
-            color.set()
+            rgbColor.set()
             let path = NSBezierPath()
             path.moveToPoint(NSPoint(x: x   ,y: y))
             path.lineToPoint(NSPoint(x: x+w ,y: y+s))
@@ -195,7 +227,7 @@ class KrkklView : ScreenSaverView
         
         if skip != .LEFT
         {
-            color.darken(0.6).set()
+            rgbColor.darken(0.6).set()
             let path = NSBezierPath()
             path.moveToPoint(NSPoint(x: x    ,y: y))
             path.lineToPoint(NSPoint(x: x-w  ,y: y+s))
@@ -206,7 +238,7 @@ class KrkklView : ScreenSaverView
         
         if skip != .RIGHT
         {
-            color.darken(0.25).set()
+            rgbColor.darken(0.25).set()
             var path = NSBezierPath()
             path.moveToPoint(NSPoint(x: x    ,y: y))
             path.lineToPoint(NSPoint(x: x+w  ,y: y+s))
@@ -230,7 +262,8 @@ class KrkklView : ScreenSaverView
     func width() -> Int { return Int(bounds.size.width) }
     func height() -> Int { return Int(bounds.size.height) }
     func randint(n: Int) -> Int { return Int(arc4random_uniform(UInt32(n)+1)) }
-    func randflt() -> Float { return Float(arc4random()) / Float(UINT32_MAX) }    
+    func randflt() -> Float { return Float(arc4random()) / Float(UINT32_MAX) }
+    func colorRGB(rgb:[Float]) -> NSColor { return NSColor(red: CGFloat(rgb[0]), green:CGFloat(rgb[1]), blue:CGFloat(rgb[2]), alpha:1) }
 }
 
 extension NSColor {
@@ -242,5 +275,12 @@ extension NSColor {
     func darken(factor: Float) -> NSColor {
         let f = CGFloat(factor)
         return NSColor(red: red()*f, green: green()*f, blue: blue()*f, alpha: 1)
+    }
+    
+    func fadeTo(color:NSColor, fade:Float) -> NSColor {
+        let r = CGFloat(red()   * CGFloat(1.0-fade) + CGFloat(fade) * color.red())
+        let g = CGFloat(green() * CGFloat(1.0-fade) + CGFloat(fade) * color.green())
+        let b = CGFloat(blue()  * CGFloat(1.0-fade) + CGFloat(fade) * color.blue())
+        return NSColor(red: r, green: g, blue: b, alpha: 1)
     }
 }
