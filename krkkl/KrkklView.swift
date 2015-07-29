@@ -11,40 +11,16 @@ class KrkklView : ScreenSaverView
     var size:    (x: Int, y: Int) = (0, 0)
     var center:  (x: Int, y: Int) = (0, 0)
 
-    var lastPos:Int = 0
-    var nextPos:Int = 0
+    var lastDir:Int = 0
+    var nextDir:Int = 0
+    var keepDir:[Float] = [0,0,0,0,0,0]
     var reset:String = "center" // what happens when the screen border is touched: "wrap", "center" or "random"
-    var keepdir:[Float] = [0,0,0,0,0,0,0]
     
     var animState:String = "anim"
     var fadeCount:Int = 0
     var cubeCount:Int = 0
     var maxCubes:Int = 1000
-    
-    override init(frame: NSRect, isPreview: Bool) 
-    {
-        super.init(frame: frame, isPreview: isPreview)
-    }
-    
-    required init?(coder aDecoder: NSCoder) 
-    {
-        super.init(coder: aDecoder)
-    }
-    
-    override func startAnimation() 
-    {    
-        setup()
-        super.startAnimation()
-        setAnimationTimeInterval(1.0 / 60.0)
-        needsDisplay = true
-    }
-        
-    override func hasConfigureSheet() -> Bool { return false }
-    func width() -> Int { return Int(bounds.size.width) }
-    func height() -> Int { return Int(bounds.size.height) }
-    func randint(n: Int) -> Int { return Int(arc4random_uniform(UInt32(n)+1)) }
-    func randflt() -> Float { return Float(arc4random()) / Float(UINT32_MAX) }
-    
+                    
     func setup() 
     {
         size.y = randint(60)+30 // number of cube rows, used to calculate cubeSize
@@ -57,28 +33,24 @@ class KrkklView : ScreenSaverView
 
         pos = center // start at centre
                         
-        keepdir[0] = 0.1 + randflt() * 0.8
-        keepdir[1] = 0.1 + randflt() * 0.8
-        keepdir[2] = 0.1 + randflt() * 0.8
-        keepdir[3] = keepdir[0]
-        keepdir[4] = keepdir[1]
-        keepdir[5] = keepdir[2]         
+        keepDir[0] = 0.1 + randflt() * 0.8
+        keepDir[1] = 0.1 + randflt() * 0.8
+        keepDir[2] = 0.1 + randflt() * 0.8
+        keepDir[3] = keepDir[0]
+        keepDir[4] = keepDir[1]
+        keepDir[5] = keepDir[2]         
 
         cubeCount = 0
     }
-    
-    func clear(color:NSColor = NSColor.blackColor())
-    {
-        color.set()
-        drawRect(bounds)
+        
+    override func startAnimation() 
+    {    
+        setup()
+        super.startAnimation()
+        setAnimationTimeInterval(1.0 / 60.0)
+        needsDisplay = true
     }
-    
-    override func drawRect(rect: NSRect)
-    {
-        var bPath:NSBezierPath = NSBezierPath(rect: rect)
-        bPath.fill()
-    }
-    
+        
     override func animateOneFrame() 
     {
         let context = window!.graphicsContext
@@ -111,9 +83,21 @@ class KrkklView : ScreenSaverView
         }
         else
         {
-            clear(color:NSColor(red: 0, green: 0, blue: 0, alpha: 0.02))
+            clear(color:NSColor(red: 0, green: 0, blue: 0, alpha: 0.025))
             fadeCount += 1
         }
+    }
+
+    func clear(color:NSColor = NSColor.blackColor())
+    {
+        color.set()
+        drawRect(bounds)
+    }
+    
+    override func drawRect(rect: NSRect)
+    {
+        var bPath:NSBezierPath = NSBezierPath(rect: rect)
+        bPath.fill()
     }
     
     func cubeSize() -> (w: Int, h: Int) 
@@ -127,10 +111,10 @@ class KrkklView : ScreenSaverView
     {
         var skip = Side.NONE
         
-        nextPos = (randflt() < keepdir[lastPos]) ? lastPos : randint(5)
-        lastPos = nextPos
+        nextDir = (randflt() < keepDir[lastDir]) ? lastDir : randint(5)
+        lastDir = nextDir
         
-        let side:Side = Side(rawValue:nextPos)!
+        let side:Side = Side(rawValue:nextDir)!
         switch side
         {
         case .UP:
@@ -182,7 +166,7 @@ class KrkklView : ScreenSaverView
                 else if (pos.y > size.y-1) { pos.y = 2 }
             }
             skip = .NONE
-            lastPos = randint(5)
+            lastDir = randint(5)
         }
 
         drawCube(color: NSColor.greenColor(), skip: skip)
@@ -231,6 +215,22 @@ class KrkklView : ScreenSaverView
             path.fill()
         }
     }
+    
+    override init(frame: NSRect, isPreview: Bool) 
+    {
+        super.init(frame: frame, isPreview: isPreview)
+    }
+    
+    required init?(coder aDecoder: NSCoder) 
+    {
+        super.init(coder: aDecoder)
+    }
+    
+    override func hasConfigureSheet() -> Bool { return false }
+    func width() -> Int { return Int(bounds.size.width) }
+    func height() -> Int { return Int(bounds.size.height) }
+    func randint(n: Int) -> Int { return Int(arc4random_uniform(UInt32(n)+1)) }
+    func randflt() -> Float { return Float(arc4random()) / Float(UINT32_MAX) }    
 }
 
 extension NSColor {
