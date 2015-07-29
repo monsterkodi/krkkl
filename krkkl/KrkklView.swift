@@ -10,21 +10,23 @@ class KrkklView : ScreenSaverView
 
     var lastPos:Int = 0
     var nextPos:Int = 0
-    var reset: String = "center" // what happens when the screen border is touched: "wrap", "center" or "random"
+    var reset: String = "random" // what happens when the screen border is touched: "wrap", "center" or "random"
+    var keepdir: [Float] = [0,0,0,0,0,0,0]
     
-    override init(frame: NSRect, isPreview: Bool) {
+    override init(frame: NSRect, isPreview: Bool) 
+    {
         super.init(frame: frame, isPreview: isPreview)
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) 
+    {
         super.init(coder: aDecoder)
     }
     
-    override func startAnimation() {
-        
+    override func startAnimation() 
+    {    
         setup()
         super.startAnimation()
-        setup()
         setAnimationTimeInterval(1.0 / 30.0)
         needsDisplay = true
     }
@@ -33,21 +35,28 @@ class KrkklView : ScreenSaverView
     func width() -> Int { return Int(bounds.size.width) }
     func height() -> Int { return Int(bounds.size.height) }
     func randint(n: Int) -> Int { return Int(arc4random_uniform(UInt32(n)+1)) }
+    func randflt() -> Float { return Float(arc4random()) / Float(UINT32_MAX) }
     
-    func setup() {
-
-        var numrows = 100
-        numrows = min(numrows, height()/2)
-
+    func setup() 
+    {
+        var numrows = randint(30)+10
+        
         // start at centre
         let (cw, ch) = cubeSize()
         pos = (width()/cw/2 , numrows/2)
+
+        next.x = width()/cw
+        next.y = height()/ch
         
-        next.x = Int(width()/cw)
-        next.y = Int(height()/ch)
- 
-        center.x = Int(next.x/2)
-        center.y = Int(next.y/2)
+        center.x = next.x/2
+        center.y = next.y/2
+                
+        keepdir[0] = 0.1 + randflt() * 0.8
+        keepdir[1] = 0.1 + randflt() * 0.8
+        keepdir[2] = 0.1 + randflt() * 0.8
+        keepdir[3] = keepdir[0]
+        keepdir[4] = keepdir[1]
+        keepdir[5] = keepdir[2]         
     }
     
     override func drawRect(rect: NSRect) 
@@ -68,7 +77,8 @@ class KrkklView : ScreenSaverView
     
     func cubeSize() -> (w: Int, h: Int) 
     {
-        let h = height()/numrows
+        var h = height()/numrows
+        if (h % 2 == 1) { h -= 1 }
         return (Int(sin(M_PI/3) * Double(h)), h)
     }
     
@@ -81,7 +91,7 @@ class KrkklView : ScreenSaverView
         let nx = width()/cw
         let ny = height()/ch
 
-        nextPos = randint(5)
+        nextPos = (randflt() < keepdir[lastPos]) ? lastPos : randint(5)
         lastPos = nextPos
 
         switch nextPos
@@ -129,22 +139,12 @@ class KrkklView : ScreenSaverView
             }
             else if reset == "wrap" 
             {
-                if (pos.x < 1) {
-                    pos.x = next.x-1
-                }   
-                else if (pos.x > next.x-1)
-                {   
-                    pos.x = 1
-                }
-                if (pos.y < 2)
-                {
-                    pos.y = next.y-1
-                }
-                else if (pos.y > next.y-1)
-                {
-                    pos.y = 2
-                }
+                if      (pos.x < 1)        { pos.x = next.x-1 }   
+                else if (pos.x > next.x-1) { pos.x = 1 }
+                if      (pos.y < 2)        { pos.y = next.y-1 }
+                else if (pos.y > next.y-1) { pos.y = 2 }
             }
+            skip = -1
             lastPos = randint(5)
         }
 
@@ -158,8 +158,11 @@ class KrkklView : ScreenSaverView
         let s = h/2
         let x = pos.x*w
         let y = (pos.x%2 == 0) ? (pos.y*h) : (pos.y*h - h/2)
+        // var y:Int = yi * h
+        // if (xi%2 == 1) { y -= s }
      
-        if skip != 0 { // top
+        if skip != 0  // top
+        {
             color.set()
             let path = NSBezierPath()
             path.moveToPoint(NSPoint(x: x   ,y: y))
@@ -168,7 +171,9 @@ class KrkklView : ScreenSaverView
             path.lineToPoint(NSPoint(x: x-w ,y: y+s))
             path.fill()
         }
-        if skip != 1 { // left
+        
+        if skip != 1 // left
+        {
             color.darken(0.6).set()
             let path = NSBezierPath()
             path.moveToPoint(NSPoint(x: x    ,y: y))
@@ -177,7 +182,9 @@ class KrkklView : ScreenSaverView
             path.lineToPoint(NSPoint(x: x    ,y: y-h))
             path.fill()
         }
-        if skip != 2 { // right
+        
+        if skip != 2  // right
+        {
             color.darken(0.25).set()
             var path = NSBezierPath()
             path.moveToPoint(NSPoint(x: x    ,y: y))
