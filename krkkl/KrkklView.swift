@@ -1,9 +1,12 @@
 
 import ScreenSaver
 
+enum Side:Int {
+    case UP = 0, RIGHT, LEFT, DOWN, BACKR, BACKL, NONE
+}
+
 class KrkklView : ScreenSaverView
 {
-    var numrows = 10
     var pos:     (x: Int, y: Int) = (0, 0)
     var size:    (x: Int, y: Int) = (0, 0)
     var center:  (x: Int, y: Int) = (0, 0)
@@ -16,7 +19,7 @@ class KrkklView : ScreenSaverView
     var animState:String = "anim"
     var fadeCount:Int = 0
     var cubeCount:Int = 0
-    var maxCubes:Int = 100
+    var maxCubes:Int = 1000
     
     override init(frame: NSRect, isPreview: Bool) 
     {
@@ -44,25 +47,24 @@ class KrkklView : ScreenSaverView
     
     func setup() 
     {
-        cubeCount = 0
-        numrows = randint(30)+10
+        size.y = randint(60)+30 // number of cube rows, used to calculate cubeSize
         
-        // start at centre
         let (cw, ch) = cubeSize()
-        pos = (width()/cw/2 , numrows/2)
-
         size.x = width()/cw
-        size.y = height()/ch
-        
+
         center.x = size.x/2
         center.y = size.y/2
-                
+
+        pos = center // start at centre
+                        
         keepdir[0] = 0.1 + randflt() * 0.8
         keepdir[1] = 0.1 + randflt() * 0.8
         keepdir[2] = 0.1 + randflt() * 0.8
         keepdir[3] = keepdir[0]
         keepdir[4] = keepdir[1]
         keepdir[5] = keepdir[2]         
+
+        cubeCount = 0
     }
     
     func clear(color:NSColor = NSColor.blackColor())
@@ -91,7 +93,6 @@ class KrkklView : ScreenSaverView
             if cubeCount >= maxCubes
             {
                 animState = "fade"
-                debugPrint(animState)
                 fadeCount = 0
             }
             drawNextCube()
@@ -117,14 +118,14 @@ class KrkklView : ScreenSaverView
     
     func cubeSize() -> (w: Int, h: Int) 
     {
-        var h = height()/numrows
+        var h = height()/size.y
         if (h % 2 == 1) { h -= 1 }
         return (Int(sin(M_PI/3) * Double(h)), h)
     }
     
     func drawNextCube()
     {
-        var skip = -1
+        var skip = Side.NONE
         
         let (cw, ch) = cubeSize()
 
@@ -133,33 +134,34 @@ class KrkklView : ScreenSaverView
 
         nextPos = (randflt() < keepdir[lastPos]) ? lastPos : randint(5)
         lastPos = nextPos
-
-        switch nextPos
+        
+        let side:Side = Side(rawValue:nextPos)!
+        switch side
         {
-        case 0: // up
+        case .UP:
                 pos.y += 1
             
-        case 1: // right
+        case .RIGHT:
                 if (pos.x%2)==1 { pos.y -= 1 }
                 pos.x += 1
 
-        case 2: // left
+        case .LEFT:
                 if (pos.x%2)==1 { pos.y -= 1 }
                 pos.x -= 1
 
-        case 3: // down
+        case .DOWN:
                 pos.y -= 1
-                if cubeCount > 0 { skip = 0 } // dont paint top
+                if cubeCount > 0 { skip = .UP }
 
-        case 4: // back left
+        case .BACKL:
                 if (pos.x%2)==0 { pos.y += 1 }
                 pos.x -= 1
-                if cubeCount > 0 { skip = 2 } // dont paint right
+                if cubeCount > 0 { skip = .RIGHT }
 
-        case 5: // back right
+        case .BACKR:
                 if (pos.x%2)==0 { pos.y += 1 }
                 pos.x += 1
-                if cubeCount > 0 { skip = 1 } // dont paint left
+                if cubeCount > 0 { skip = .LEFT }
             
         default:
                 break
@@ -184,7 +186,7 @@ class KrkklView : ScreenSaverView
                 if      (pos.y < 2)        { pos.y = size.y-1 }
                 else if (pos.y > size.y-1) { pos.y = 2 }
             }
-            skip = -1
+            skip = .NONE
             lastPos = randint(5)
         }
 
@@ -193,7 +195,7 @@ class KrkklView : ScreenSaverView
         cubeCount += 1
     }
     
-    func drawCube(#color: NSColor, skip: Int)
+    func drawCube(#color: NSColor, skip: Side)
     {
         let (w, h) = cubeSize()
         
@@ -201,7 +203,7 @@ class KrkklView : ScreenSaverView
         let x = pos.x*w
         let y = (pos.x%2 == 0) ? (pos.y*h) : (pos.y*h - s)
      
-        if skip != 0  // top
+        if skip != .UP
         {
             color.set()
             let path = NSBezierPath()
@@ -212,7 +214,7 @@ class KrkklView : ScreenSaverView
             path.fill()
         }
         
-        if skip != 1 // left
+        if skip != .LEFT
         {
             color.darken(0.6).set()
             let path = NSBezierPath()
@@ -223,7 +225,7 @@ class KrkklView : ScreenSaverView
             path.fill()
         }
         
-        if skip != 2  // right
+        if skip != .RIGHT
         {
             color.darken(0.25).set()
             var path = NSBezierPath()
