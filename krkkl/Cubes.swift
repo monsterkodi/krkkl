@@ -7,21 +7,16 @@
 */
 import AppKit
 
-enum Side:Int {
-    case UP = 0, RIGHT, LEFT, DOWN, BACKL, BACKR, NONE
-}
-
-enum ColorType: Int {
-    case RANDOM=0, LIST, DIRECTION, NUM
-}
+enum Side:      Int { case UP = 0, RIGHT, LEFT, DOWN, BACKL, BACKR, NONE }
+enum ColorType: Int { case RANDOM=0, LIST, NUM }
 
 class Cubes
 {
     var view:KrkklView?
     var fps:Double = 60
-    var pos:     (x: Int, y: Int) = (0, 0)
-    var size:    (x: Int, y: Int) = (0, 0)
-    var center:  (x: Int, y: Int) = (0, 0)
+    var pos:    (x: Int, y: Int) = (0, 0)
+    var size:   (x: Int, y: Int) = (0, 0)
+    var center: (x: Int, y: Int) = (0, 0)
 
     var lastDir:Int = 0
     var nextDir:Int = 0
@@ -37,38 +32,59 @@ class Cubes
     var colorFade:Float = 0
     var colorInc:Float = 0
     var colorIndex:Int = 0
-    var colorList:[NSColor]?
-    var colorLists:[[NSColor]] = [[
-        NSColor(red:0.1, green:0.1, blue:0.1, alpha: 1),
-        NSColor(red:0.2, green:0.2, blue:0.2, alpha: 1),
-        NSColor(red:1.0, green:0.0, blue:0.0, alpha: 1),
-        NSColor(red:1.0, green:0.5, blue:0.0, alpha: 1),
-        NSColor(red:1.0, green:0.7, blue:0.0, alpha: 1),
-        NSColor(red:1.0, green:0.5, blue:0.0, alpha: 1),
-        NSColor(red:1.0, green:0.0, blue:0.0, alpha: 1),
-        NSColor(red:0.2, green:0.2, blue:0.2, alpha: 1)
+    var colorList:[NSColor] = []
+    var colorLists:[[[Float]]] = [[
+        [0.1, 0.1, 0.1],
+        [0.2, 0.2, 0.2],
+        [1.0, 0.0, 0.0],
+        [1.0, 0.5, 0.0],
+        [1.0, 0.7, 0.0],
+        [1.0, 0.5, 0.0],
+        [1.0, 0.0, 0.0],
+        [0.2, 0.2, 0.2],
     ],[
-        NSColor(red:0.1, green:0.1, blue:0.1, alpha: 1),
-        NSColor(red:0.2, green:0.2, blue:0.2, alpha: 1),
-        NSColor(red:0.0, green:0.0, blue:0.5, alpha: 1),
-        NSColor(red:0.0, green:0.0, blue:1.0, alpha: 1),
-        NSColor(red:0.5, green:0.5, blue:1.0, alpha: 1),
-        NSColor(red:0.0, green:0.0, blue:1.0, alpha: 1),
-        NSColor(red:0.0, green:0.0, blue:0.5, alpha: 1),
-        NSColor(red:0.2, green:0.2, blue:0.2, alpha: 1)
+        [0.1, 0.1, 0.1],
+        [0.2, 0.2, 0.2],
+        [0.0, 0.0, 0.5],
+        [0.0, 0.0, 1.0],
+        [0.5, 0.5, 1.0],
+        [0.0, 0.0, 1.0],
+        [0.0, 0.0, 0.5],
+        [0.2, 0.2, 0.2],
     ],[
-        NSColor(red:0.1, green:0.1, blue:0.1, alpha: 0.5),
-        NSColor(red:1.0, green:0.0, blue:0.0, alpha: 0.5),
-        NSColor(red:0.1, green:0.1, blue:0.1, alpha: 0.5),
-        NSColor(red:0.0, green:1.0, blue:0.0, alpha: 0.5),
-        NSColor(red:0.1, green:0.1, blue:0.1, alpha: 0.5),
-        NSColor(red:0.0, green:0.0, blue:1.0, alpha: 0.5)
+        [0.1, 0.1, 0.1],
+        [1.0, 1.0, 1.0],
+        [0.5, 0.5, 0.5],
+        [1.0, 1.0, 1.0],
+        [0.5, 0.5, 0.5],
+        [0.2, 0.2, 0.2],
+    ],[
+        [0.1, 0.1, 0.1],
+        [1.0, 0.0, 0.0],
+        [0.1, 0.1, 0.1],
+        [1.0, 1.0, 1.0],
+        [0.1, 0.1, 0.1],
+        [1.0, 0.0, 0.0],
+    ],[
+        [1.0, 0.0, 0.0],
+        [0.0, 1.0, 0.0],
+        [0.0, 0.0, 1.0],
+        [1.0, 0.0, 0.0],
+        [0.0, 1.0, 0.0],
+        [0.0, 0.0, 1.0],
+    ],[
+        [0.1, 0.1, 0.1],
+        [1.0, 0.0, 0.0],
+        [0.1, 0.1, 0.1],
+        [0.0, 1.0, 0.0],
+        [0.1, 0.1, 0.1],
+        [0.0, 0.0, 1.0],
     ]]
 
-    var thisColor  = NSColor(red:0, green:0, blue:0, alpha: 1)
-    var nextColor  = NSColor(red:0, green:0, blue:0, alpha: 1)
-    var resetColor = NSColor(red:0, green:0, blue:0, alpha: 1)
-    var rgbColor   = NSColor(red:0, green:0, blue:0, alpha: 1)
+    var thisColor  = colorRGB([0,0,0])
+    var nextColor  = colorRGB([0,0,0])
+    var resetColor = colorRGB([0,0,0])
+    var rgbColor   = colorRGB([0,0,0])
 
     func isDone() -> Bool { return cubeCount >= maxCubes }
     func nextStep() { drawNextCube() }
@@ -83,23 +99,22 @@ class Cubes
 
     func setup() 
     {
-        // preferences
+        // _______________________ preferences?
 
         size.y = randint(60)+20 // number of cube rows, used to calculate cubeSize
                         
-//        colorType = ColorType(rawValue: randint(ColorType.NUM.rawValue))!
+        colorType = ColorType(rawValue: randint(ColorType.NUM.rawValue))!
 
         colorInc = randflt()
-        colorInc = 1 + colorInc * colorInc * colorInc * 99
-        let colorListIndex = randint(colorLists.count)
-        colorList = colorLists[colorListIndex]
-        maxCubes = 500+randint(size.y * size.y)
-        fps = 10+randdbl()*Double(size.y)
+        colorInc = 1 + colorInc * colorInc * colorInc * colorInc * 99
+        maxCubes = (size.y * size.y)+randint(size.y * size.y)
         reset = ["center", "wrap", "random"][randint(3)]
-        keepLow = 0.25
-        keepHigh = 0.95
+        keepLow = 0.20
+        keepHigh = 0.99
 
-        // derivatives
+        // _______________________ derivatives
+
+        fps = 10+randdbl()*Double(size.y)
 
         let (cw, ch) = cubeSize()
         size.x = view!.width()/cw
@@ -111,15 +126,21 @@ class Cubes
         colorFade = 0
         colorIndex = 0
 
+        let colorListIndex = randint(colorLists.count)
+        colorList = []
+        for i in 0...colorLists[colorListIndex].count-1
+        {
+            colorList += [colorRGB(colorLists[colorListIndex][i])]
+        }
+
+        rgbColor = colorRGB([0,0,0])
+        thisColor = colorRGB([0,0,0])
         switch colorType
         {
         case .RANDOM:
-            thisColor = NSColor(red:0, green:0, blue:0, alpha: 1)
             nextColor = randColor()
-        case .DIRECTION:
-            thisColor = NSColor(red:0, green:0, blue:0, alpha: 1)
         case .LIST:
-            thisColor = colorList![0]
+            thisColor = colorList[0]
         default: break
         }
                 
@@ -168,29 +189,32 @@ class Cubes
             if colorFade >= 100
             {
                 colorFade -= 100
-                colorIndex = (colorIndex + 1) % colorList!.count
+                colorIndex = (colorIndex + 1) % colorList.count
                 thisColor = nextColor
-                nextColor = colorList![colorIndex]
+                nextColor = colorList[colorIndex]
             }
-            rgbColor = thisColor.fadeTo(nextColor, fade:colorFade/100.0)            
+            rgbColor = thisColor.fadeTo(nextColor, fade:colorFade/100.0)
             
-        case .DIRECTION:
-            let ci = colorInc/10.0
-            var r = Float(rgbColor.red())
-            var g = Float(rgbColor.green())
-            var b = Float(rgbColor.blue())
-            let side:Side = Side(rawValue:nextDir)!
-            switch side
-            {
-            case .UP:    b = clamp(b + ci, 0.0, 1.0)
-            case .LEFT:  r = clamp(r + ci, 0.0, 1.0)
-            case .RIGHT: g = clamp(g + ci, 0.0, 1.0)
-            case .DOWN:  b = clamp(b - ci, 0.0, 1.0)
-            case .BACKR: r = clamp(r - ci, 0.0, 1.0)
-            case .BACKL: g = clamp(g - ci, 0.0, 1.0)
-            default: break
-            }
-            rgbColor = colorRGB([r,g,b])
+//        case .DIRECTION:
+//            rgbColor = rgbColor.fadeTo(colorList[nextDir % colorList.count], fade:0.06)
+            
+//        case .DIRECTION:
+//            let ci = colorInc/10.0
+//            var r = Float(rgbColor.red())
+//            var g = Float(rgbColor.green())
+//            var b = Float(rgbColor.blue())
+//            let side:Side = Side(rawValue:nextDir)!
+//            switch side
+//            {
+//            case .UP:    b = clamp(b + ci, 0.0, 1.0)
+//            case .LEFT:  r = clamp(r + ci, 0.0, 1.0)
+//            case .RIGHT: g = clamp(g + ci, 0.0, 1.0)
+//            case .DOWN:  b = clamp(b - ci, 0.0, 1.0)
+//            case .BACKR: r = clamp(r - ci, 0.0, 1.0)
+//            case .BACKL: g = clamp(g - ci, 0.0, 1.0)
+//            default: break
+//            }
+//            rgbColor = colorRGB([r,g,b])
 
         default: break
         }
@@ -335,7 +359,7 @@ class Cubes
         {
             case .RANDOM:    return "Random" 
             case .LIST:      return "List"
-            case .DIRECTION: return "Direction"
+//            case .DIRECTION: return "Direction"
             case .NUM:       return "???"
         }
     }

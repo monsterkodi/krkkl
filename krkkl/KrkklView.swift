@@ -80,6 +80,7 @@ class KrkklView : ScreenSaverView
             clear()
             scene.setup()
             animState = "anim"
+            setAnimationTimeInterval(1.0 / scene.fps)
         }
         else
         {

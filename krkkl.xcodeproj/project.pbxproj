@@ -16,7 +16,6 @@
 		C3C2047E1B67F63C00C43606 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3C2047D1B67F63C00C43606 /* Images.xcassets */; };
 		C3C204811B67F63C00C43606 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3C2047F1B67F63C00C43606 /* MainMenu.xib */; };
 		C3C204941B67F74500C43606 /* KrkklView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39F6FC71B67F2FB008519FA /* KrkklView.swift */; };
-		C3C204961B67FEEA00C43606 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C365BA251B67F18D008A49B5 /* Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -195,7 +194,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C3C204961B67FEEA00C43606 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

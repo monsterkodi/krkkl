@@ -25,7 +25,7 @@ extension AppDelegate: NSApplicationDelegate
         window.contentView.addSubview(view!)
         
         view!.startAnimation()
-        NSTimer.scheduledTimerWithTimeInterval(view!.animationTimeInterval(), target: view!, selector: "animateOneFrame", userInfo: nil, repeats: true)
+        NSTimer.scheduledTimerWithTimeInterval(1/120, target: view!, selector: "animateOneFrame", userInfo: nil, repeats: true)
     }
 }
 

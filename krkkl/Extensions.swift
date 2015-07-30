@@ -12,17 +12,19 @@ extension NSColor {
     func red()   -> CGFloat { return redComponent   }
     func green() -> CGFloat { return greenComponent }
     func blue()  -> CGFloat { return blueComponent  }
+    func alpha() -> CGFloat { return alphaComponent  }
     
     func darken(factor: Float) -> NSColor {
         let f = CGFloat(factor)
-        return NSColor(red: red()*f, green: green()*f, blue: blue()*f, alpha: 1)
+        return NSColor(red: red()*f, green: green()*f, blue: blue()*f, alpha: alpha())
     }
     
     func fadeTo(color:NSColor, fade:Float) -> NSColor {
         let r = CGFloat(red()   * CGFloat(1.0-fade) + CGFloat(fade) * color.red())
         let g = CGFloat(green() * CGFloat(1.0-fade) + CGFloat(fade) * color.green())
         let b = CGFloat(blue()  * CGFloat(1.0-fade) + CGFloat(fade) * color.blue())
-        return NSColor(red: r, green: g, blue: b, alpha: 1)
+        let a = CGFloat(alpha() * CGFloat(1.0-fade) + CGFloat(fade) * color.alpha())
+        return NSColor(red: r, green: g, blue: b, alpha: a)
     }
 }
 
@@ -32,5 +34,5 @@ func randdbl() -> Double { return Double(arc4random()) / Double(UINT32_MAX) }
 func randfltrng(low:Float,high:Float) -> Float { return min(high, low) + abs(high-low) * randflt() }
 func rest(v:Float) -> Float { return v-floor(v) }
 func clamp(v:Float, low:Float, high:Float) -> Float { return max(low, min(v, high)) }
-func colorRGB(rgb:[Float]) -> NSColor { return NSColor(red: CGFloat(rgb[0]), green:CGFloat(rgb[1]), blue:CGFloat(rgb[2]), alpha:1) }
+func colorRGB(rgb:[Float]) -> NSColor { return NSColor(red: CGFloat(rgb[0]), green:CGFloat(rgb[1]), blue:CGFloat(rgb[2]), alpha:CGFloat(rgb.count > 3 ? rgb[3] : 1)) }
 func randColor() -> NSColor { return colorRGB([randflt(), randflt(), randflt()]) }
