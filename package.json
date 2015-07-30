@@ -1,0 +1,21 @@
+{
+  "name": "krkkl",
+  "version": "1.0.0",
+  "description": "Screensaver for Mac OS X",
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-pepper": "^0.5.7",
+    "grunt-shell": "^1.1.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/monsterkodi/krkkl.git"
+  },
+  "bugs": {
+    "url": "https://github.com/monsterkodi/krkkl/issues"
+  },
+  "homepage": "https://github.com/monsterkodi/krkkl#readme"
+}
