@@ -38,6 +38,6 @@ extension AppDelegate: NSWindowDelegate
     
     func windowDidResize(notification: NSNotification)
     {
-        view?.setup()
+        view?.scene.setup()
     }
 }

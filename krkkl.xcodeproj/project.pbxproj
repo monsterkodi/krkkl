@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		C30B0F561B6A9B4700144035 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C30B0F551B6A9B4700144035 /* Extensions.swift */; };
 		C30B0F571B6A9B4700144035 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C30B0F551B6A9B4700144035 /* Extensions.swift */; };
+		C30B0F591B6AA23000144035 /* Cubes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C30B0F581B6AA23000144035 /* Cubes.swift */; };
+		C30B0F5A1B6AA23000144035 /* Cubes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C30B0F581B6AA23000144035 /* Cubes.swift */; };
 		C39F6FC81B67F2FB008519FA /* KrkklView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39F6FC71B67F2FB008519FA /* KrkklView.swift */; };
 		C3C2047C1B67F63B00C43606 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C2047B1B67F63B00C43606 /* AppDelegate.swift */; };
 		C3C2047E1B67F63C00C43606 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3C2047D1B67F63C00C43606 /* Images.xcassets */; };
@@ -19,6 +21,7 @@
 
 /* Begin PBXFileReference section */
 		C30B0F551B6A9B4700144035 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		C30B0F581B6AA23000144035 /* Cubes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cubes.swift; sourceTree = "<group>"; };
 		C365BA211B67F18D008A49B5 /* krkkl.saver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = krkkl.saver; sourceTree = BUILT_PRODUCTS_DIR; };
 		C365BA251B67F18D008A49B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C39F6FC71B67F2FB008519FA /* KrkklView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KrkklView.swift; sourceTree = "<group>"; };
@@ -69,6 +72,7 @@
 			isa = PBXGroup;
 			children = (
 				C39F6FC71B67F2FB008519FA /* KrkklView.swift */,
+				C30B0F581B6AA23000144035 /* Cubes.swift */,
 				C30B0F551B6A9B4700144035 /* Extensions.swift */,
 				C365BA241B67F18D008A49B5 /* Supporting Files */,
 			);
@@ -212,6 +216,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C39F6FC81B67F2FB008519FA /* KrkklView.swift in Sources */,
+				C30B0F591B6AA23000144035 /* Cubes.swift in Sources */,
 				C30B0F561B6A9B4700144035 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -220,6 +225,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C30B0F5A1B6AA23000144035 /* Cubes.swift in Sources */,
 				C3C204941B67F74500C43606 /* KrkklView.swift in Sources */,
 				C30B0F571B6A9B4700144035 /* Extensions.swift in Sources */,
 				C3C2047C1B67F63B00C43606 /* AppDelegate.swift in Sources */,
@@ -347,7 +353,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -364,7 +370,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = krkklapp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
