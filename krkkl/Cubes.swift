@@ -8,15 +8,16 @@
 import AppKit
 
 enum Side:      Int { case UP = 0, RIGHT, LEFT, DOWN, BACKL, BACKR, NONE }
-enum ColorType: Int { case RANDOM=0, LIST, NUM }
+enum ColorType: Int { case RANDOM=0, LIST, DIRECTION, NUM }
 
 class Cubes
 {
     var view:KrkklView?
     var fps:Double = 60
-    var pos:    (x: Int, y: Int) = (0, 0)
-    var size:   (x: Int, y: Int) = (0, 0)
-    var center: (x: Int, y: Int) = (0, 0)
+    var cubeSize:(x: Int, y: Int) = (0, 0)
+    var pos:     (x: Int, y: Int) = (0, 0)
+    var size:    (x: Int, y: Int) = (0, 0)
+    var center:  (x: Int, y: Int) = (0, 0)
 
     var lastDir:Int = 0
     var nextDir:Int = 0
@@ -101,23 +102,26 @@ class Cubes
     {
         // _______________________ preferences?
 
-        size.y = randint(60)+20 // number of cube rows, used to calculate cubeSize
-                        
-        colorType = ColorType(rawValue: randint(ColorType.NUM.rawValue))!
+        size.y = randint(60)+20 // number of cube rows
+        cubeSize.y = view!.height()/size.y
+        if (cubeSize.y % 2 == 1) { cubeSize.y -= 1 }
+        cubeSize.y = max(2, cubeSize.y)
+        size.y = view!.height()/cubeSize.y
+        cubeSize.x = Int(sin(M_PI/3) * Double(cubeSize.y))
+        size.x = view!.width()/cubeSize.x
+
+        colorType = randflt() < Float(2)/Float(colorLists.count+2) ? (randflt()<0.5 ? .RANDOM : .DIRECTION) : .LIST
 
         colorInc = randflt()
         colorInc = 1 + colorInc * colorInc * colorInc * colorInc * 99
         maxCubes = (size.y * size.y)+randint(size.y * size.y)
         reset = ["center", "wrap", "random"][randint(3)]
-        keepLow = 0.20
-        keepHigh = 0.99
+        keepLow = 0.2
+        keepHigh = 0.96
 
         // _______________________ derivatives
 
         fps = 10+randdbl()*Double(size.y)
-
-        let (cw, ch) = cubeSize()
-        size.x = view!.width()/cw
 
         center.x = size.x/2
         center.y = size.y/2
@@ -133,7 +137,6 @@ class Cubes
             colorList += [colorRGB(colorLists[colorListIndex][i])]
         }
 
-        rgbColor = colorRGB([0,0,0])
         thisColor = colorRGB([0,0,0])
         switch colorType
         {
@@ -141,25 +144,30 @@ class Cubes
             nextColor = randColor()
         case .LIST:
             thisColor = colorList[0]
+            nextColor = colorList[0]
         default: break
         }
+        rgbColor = thisColor
                 
         keepDir[0] = randfltrng(keepLow, keepHigh)
         keepDir[1] = randfltrng(keepLow, keepHigh)
         keepDir[2] = randfltrng(keepLow, keepHigh)
 
         cubeCount = 0
-
+        
         println("")
-        println("width \(size.x)")
-        println("height \(size.y)")
+        println("width \(view!.width())")
+        println("height \(view!.height())")
+        println("numx \(size.x)")
+        println("numy \(size.y)")
+        println("cube  \(cubeSize.x) \(cubeSize.y)")
         println("maxCubes \(maxCubes)")
         println("fps \(fps)")
-        println("reset \(reset)")
         println("keepDir \(keepDir)")
         println("colorInc \(colorInc)")
         println("colorList \(colorListIndex)")
         println("colorType \(colorTypeName(colorType))")
+        println("reset \(reset)")
     }
 
     /*
@@ -195,26 +203,27 @@ class Cubes
             }
             rgbColor = thisColor.fadeTo(nextColor, fade:colorFade/100.0)
             
-//        case .DIRECTION:
-//            rgbColor = rgbColor.fadeTo(colorList[nextDir % colorList.count], fade:0.06)
-            
-//        case .DIRECTION:
-//            let ci = colorInc/10.0
-//            var r = Float(rgbColor.red())
-//            var g = Float(rgbColor.green())
-//            var b = Float(rgbColor.blue())
-//            let side:Side = Side(rawValue:nextDir)!
-//            switch side
-//            {
-//            case .UP:    b = clamp(b + ci, 0.0, 1.0)
-//            case .LEFT:  r = clamp(r + ci, 0.0, 1.0)
-//            case .RIGHT: g = clamp(g + ci, 0.0, 1.0)
-//            case .DOWN:  b = clamp(b - ci, 0.0, 1.0)
-//            case .BACKR: r = clamp(r - ci, 0.0, 1.0)
-//            case .BACKL: g = clamp(g - ci, 0.0, 1.0)
-//            default: break
-//            }
-//            rgbColor = colorRGB([r,g,b])
+        case .DIRECTION:
+            let ci = 0.02 + 0.05 * colorInc/100.0
+            var r = Float(rgbColor.red())
+            var g = Float(rgbColor.green())
+            var b = Float(rgbColor.blue())
+            let side:Side = Side(rawValue:nextDir)!
+            switch side
+            {
+            case .UP:    b = clamp(b + ci, 0.0, 1.0)
+            case .LEFT:  r = clamp(r + ci, 0.0, 1.0)
+            case .RIGHT: g = clamp(g + ci, 0.0, 1.0)
+            case .DOWN:  b = clamp(b - ci, 0.0, 1.0)
+            case .BACKR: r = clamp(r - ci, 0.0, 1.0)
+            case .BACKL: g = clamp(g - ci, 0.0, 1.0)
+            default: break
+            }
+            if r+g+b < 0.3
+            {
+                (r,g,b) = (0.1, 0.1, 0.1)
+            }
+            rgbColor = colorRGB([r,g,b])
 
         default: break
         }
@@ -228,13 +237,6 @@ class Cubes
        0000000   0000000   0000000    00000000
     */
         
-    func cubeSize() -> (w: Int, h: Int) 
-    {
-        var h = view!.height()/size.y
-        if (h % 2 == 1) { h -= 1 }
-        return (Int(sin(M_PI/3) * Double(h)), h)
-    }
-    
     func drawNextCube()
     {
         var skip = Side.NONE
@@ -290,11 +292,15 @@ class Cubes
             {
                 if      (pos.x < 1)        { pos.x = size.x-1 }   
                 else if (pos.x > size.x-1) { pos.x = 1 }
-                if      (pos.y < 2)        { pos.y = size.y-1 }
+                if      (pos.y < 2)        { pos.y = size.y-2 }
                 else if (pos.y > size.y-1) { pos.y = 2 }
             }
             skip = .NONE
             lastDir = randint(6)
+            
+            if colorType == .DIRECTION {
+                rgbColor = colorRGB([0,0,0])
+            }
         }
 
         chooseNextColor()
@@ -313,7 +319,8 @@ class Cubes
     
     func drawCube(skip: Side)
     {
-        let (w, h) = cubeSize()
+        let w = cubeSize.x
+        let h = cubeSize.y
         
         let s = h/2
         let x = pos.x*w
@@ -359,7 +366,7 @@ class Cubes
         {
             case .RANDOM:    return "Random" 
             case .LIST:      return "List"
-//            case .DIRECTION: return "Direction"
+            case .DIRECTION: return "Direction"
             case .NUM:       return "???"
         }
     }
