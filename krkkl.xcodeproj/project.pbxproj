@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		03683ADB1B6B8AFD0076AC1C /* thumbnail.png in Resources */ = {isa = PBXBuildFile; fileRef = 03683AD71B6B8AD00076AC1C /* thumbnail.png */; };
+		03683ADC1B6B8B020076AC1C /* thumbnail@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 03683AD81B6B8AD00076AC1C /* thumbnail@2x.png */; };
 		C30B0F561B6A9B4700144035 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C30B0F551B6A9B4700144035 /* Extensions.swift */; };
 		C30B0F571B6A9B4700144035 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C30B0F551B6A9B4700144035 /* Extensions.swift */; };
 		C30B0F591B6AA23000144035 /* Cubes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C30B0F581B6AA23000144035 /* Cubes.swift */; };
@@ -19,6 +21,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		03683AD71B6B8AD00076AC1C /* thumbnail.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = thumbnail.png; path = krkkl/thumbnail.png; sourceTree = SOURCE_ROOT; };
+		03683AD81B6B8AD00076AC1C /* thumbnail@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "thumbnail@2x.png"; path = "krkkl/thumbnail@2x.png"; sourceTree = SOURCE_ROOT; };
 		C30B0F551B6A9B4700144035 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		C30B0F581B6AA23000144035 /* Cubes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cubes.swift; sourceTree = "<group>"; };
 		C365BA211B67F18D008A49B5 /* krkkl.saver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = krkkl.saver; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -100,6 +104,8 @@
 		C3C204791B67F63B00C43606 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				03683AD71B6B8AD00076AC1C /* thumbnail.png */,
+				03683AD81B6B8AD00076AC1C /* thumbnail@2x.png */,
 				C3C2047A1B67F63B00C43606 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -194,6 +200,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03683ADB1B6B8AFD0076AC1C /* thumbnail.png in Resources */,
+				03683ADC1B6B8B020076AC1C /* thumbnail@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
