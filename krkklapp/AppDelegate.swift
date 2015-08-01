@@ -27,6 +27,16 @@ extension AppDelegate: NSApplicationDelegate
         view!.startAnimation()
         NSTimer.scheduledTimerWithTimeInterval(1/60, target: view!, selector: "animateOneFrame", userInfo: nil, repeats: true)
     }
+    
+    @IBAction func showPreferences(sender: NSObject!)
+    {
+        NSApp.beginSheet(view!.configureSheet()!, modalForWindow: window, modalDelegate: self, didEndSelector: "endSheet:", contextInfo: nil)
+    }
+    
+    @objc private func endSheet(sheet: NSWindow)
+    {
+        sheet.close()
+    }
 }
 
 extension AppDelegate: NSWindowDelegate

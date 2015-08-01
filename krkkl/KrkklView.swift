@@ -9,6 +9,8 @@ import ScreenSaver
 
 class KrkklView : ScreenSaverView
 {
+    let sheetController:SheetController = SheetController()
+    
     var animState:String = "anim"
     var fadeCount:Int = 0
     var scene:Cubes
@@ -100,8 +102,8 @@ class KrkklView : ScreenSaverView
         var bPath:NSBezierPath = NSBezierPath(rect: rect)
         bPath.fill()
     }
-    
-    override func hasConfigureSheet() -> Bool { return false }
+    override func configureSheet() -> NSWindow? { return sheetController.window }
+    override func hasConfigureSheet() -> Bool { return true }
     func width() -> Int { return Int(bounds.size.width) }
     func height() -> Int { return Int(bounds.size.height) }
 }
