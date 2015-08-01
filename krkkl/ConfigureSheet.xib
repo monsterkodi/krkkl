@@ -40,14 +40,14 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="588" height="391"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
-                                                    <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E3b-PD-cjz" userLabel="Values Page">
-                                                        <rect key="frame" x="0.0" y="-29" width="519" height="420"/>
-                                                        <clipView key="contentView" id="5L0-Iz-G6V">
+                                                    <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E3b-PD-cjz" userLabel="Values Page">
+                                                        <rect key="frame" x="0.0" y="0.0" width="588" height="391"/>
+                                                        <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="5L0-Iz-G6V">
                                                             <rect key="frame" x="1" y="1" width="166" height="79"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <view fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QgV-0n-USU">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="166" height="79"/>
+                                                                    <rect key="frame" x="101" y="193" width="47" height="38"/>
                                                                 </view>
                                                             </subviews>
                                                         </clipView>
@@ -83,25 +83,37 @@
                                                                     <rect key="frame" x="2" y="2" width="141" height="379"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <subviews>
-                                                                        <customView focusRingType="none" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CuP-GJ-3ph" userLabel="Buttons">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="100" height="26"/>
+                                                                        <customView focusRingType="none" translatesAutoresizingMaskIntoConstraints="NO" id="CuP-GJ-3ph" userLabel="Buttons">
+                                                                            <rect key="frame" x="1" y="2" width="100" height="26"/>
                                                                             <subviews>
-                                                                                <button ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZF4-qg-XEW" userLabel="add">
-                                                                                    <rect key="frame" x="0.0" y="2" width="24" height="24"/>
+                                                                                <button translatesAutoresizingMaskIntoConstraints="NO" id="ZF4-qg-XEW" userLabel="add">
+                                                                                    <rect key="frame" x="0.0" y="0.0" width="24" height="24"/>
+                                                                                    <constraints>
+                                                                                        <constraint firstAttribute="width" constant="24" id="l8d-dQ-S8i"/>
+                                                                                        <constraint firstAttribute="height" constant="24" id="wdD-eF-MIp"/>
+                                                                                    </constraints>
                                                                                     <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSAddTemplate" imagePosition="overlaps" alignment="center" refusesFirstResponder="YES" state="on" imageScaling="proportionallyDown" inset="2" id="Nbx-WH-tv9">
                                                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                                         <font key="font" metaFont="system"/>
                                                                                     </buttonCell>
                                                                                 </button>
-                                                                                <button ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WAC-aH-JVI" userLabel="del">
-                                                                                    <rect key="frame" x="24" y="2" width="24" height="24"/>
+                                                                                <button translatesAutoresizingMaskIntoConstraints="NO" id="WAC-aH-JVI" userLabel="del">
+                                                                                    <rect key="frame" x="24" y="0.0" width="24" height="24"/>
+                                                                                    <constraints>
+                                                                                        <constraint firstAttribute="height" constant="24" id="6M1-WU-JGt"/>
+                                                                                        <constraint firstAttribute="width" constant="24" id="Vjl-FK-glR"/>
+                                                                                    </constraints>
                                                                                     <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSRemoveTemplate" imagePosition="overlaps" alignment="center" refusesFirstResponder="YES" state="on" imageScaling="proportionallyDown" inset="2" id="feb-Uf-j7E">
                                                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                                         <font key="font" metaFont="system"/>
                                                                                     </buttonCell>
                                                                                 </button>
-                                                                                <button ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TeS-6C-8R3" userLabel="action">
-                                                                                    <rect key="frame" x="48" y="2" width="24" height="24"/>
+                                                                                <button translatesAutoresizingMaskIntoConstraints="NO" id="TeS-6C-8R3" userLabel="action">
+                                                                                    <rect key="frame" x="48" y="0.0" width="24" height="24"/>
+                                                                                    <constraints>
+                                                                                        <constraint firstAttribute="width" constant="24" id="6sv-NY-XdG"/>
+                                                                                        <constraint firstAttribute="height" constant="24" id="CS4-3J-cLD"/>
+                                                                                    </constraints>
                                                                                     <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSActionTemplate" imagePosition="overlaps" alignment="center" refusesFirstResponder="YES" state="on" imageScaling="proportionallyDown" inset="2" id="R61-Zw-fIZ">
                                                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                                         <font key="font" metaFont="system"/>
@@ -109,9 +121,14 @@
                                                                                 </button>
                                                                             </subviews>
                                                                             <constraints>
+                                                                                <constraint firstAttribute="width" constant="100" id="2xT-ej-wDN"/>
+                                                                                <constraint firstItem="WAC-aH-JVI" firstAttribute="leading" secondItem="ZF4-qg-XEW" secondAttribute="trailing" id="6e8-ZT-b5b"/>
                                                                                 <constraint firstAttribute="bottom" secondItem="TeS-6C-8R3" secondAttribute="bottom" id="Nmm-mp-Kw2"/>
+                                                                                <constraint firstItem="ZF4-qg-XEW" firstAttribute="leading" secondItem="CuP-GJ-3ph" secondAttribute="leading" id="PAh-eR-8tP"/>
                                                                                 <constraint firstAttribute="bottom" secondItem="WAC-aH-JVI" secondAttribute="bottom" id="WRS-oV-YFT"/>
                                                                                 <constraint firstAttribute="bottom" secondItem="ZF4-qg-XEW" secondAttribute="bottom" id="ZXl-1F-6vG"/>
+                                                                                <constraint firstItem="TeS-6C-8R3" firstAttribute="leading" secondItem="WAC-aH-JVI" secondAttribute="trailing" id="d8V-e6-Afv"/>
+                                                                                <constraint firstAttribute="height" constant="26" id="mx5-eV-YHF"/>
                                                                             </constraints>
                                                                         </customView>
                                                                     </subviews>
@@ -130,42 +147,59 @@
                                                                     <rect key="frame" x="2" y="2" width="430" height="379"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <subviews>
-                                                                        <customView focusRingType="none" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jfw-3y-oLg" userLabel="Buttons">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="100" height="26"/>
+                                                                        <customView focusRingType="none" translatesAutoresizingMaskIntoConstraints="NO" id="9yx-TW-PMx" userLabel="Buttons">
+                                                                            <rect key="frame" x="1" y="2" width="100" height="26"/>
                                                                             <subviews>
-                                                                                <button ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kvF-vQ-UN5" userLabel="add">
-                                                                                    <rect key="frame" x="0.0" y="2" width="24" height="24"/>
-                                                                                    <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSAddTemplate" imagePosition="overlaps" alignment="center" refusesFirstResponder="YES" state="on" imageScaling="proportionallyDown" inset="2" id="iqa-Ub-cZf">
+                                                                                <button translatesAutoresizingMaskIntoConstraints="NO" id="MiH-0Y-Oks" userLabel="add">
+                                                                                    <rect key="frame" x="0.0" y="0.0" width="24" height="24"/>
+                                                                                    <constraints>
+                                                                                        <constraint firstAttribute="width" constant="24" id="jnh-ct-rdX"/>
+                                                                                        <constraint firstAttribute="height" constant="24" id="nT8-Rc-dcg"/>
+                                                                                    </constraints>
+                                                                                    <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSAddTemplate" imagePosition="overlaps" alignment="center" refusesFirstResponder="YES" state="on" imageScaling="proportionallyDown" inset="2" id="R5n-ya-JnI">
                                                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                                         <font key="font" metaFont="system"/>
                                                                                     </buttonCell>
                                                                                 </button>
-                                                                                <button ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IiF-sc-cTm" userLabel="del">
-                                                                                    <rect key="frame" x="24" y="2" width="24" height="24"/>
-                                                                                    <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSRemoveTemplate" imagePosition="overlaps" alignment="center" refusesFirstResponder="YES" state="on" imageScaling="proportionallyDown" inset="2" id="Ibn-lp-E5j">
+                                                                                <button translatesAutoresizingMaskIntoConstraints="NO" id="PW5-6l-897" userLabel="del">
+                                                                                    <rect key="frame" x="24" y="0.0" width="24" height="24"/>
+                                                                                    <constraints>
+                                                                                        <constraint firstAttribute="height" constant="24" id="73A-YS-v67"/>
+                                                                                        <constraint firstAttribute="width" constant="24" id="J2a-hR-VVj"/>
+                                                                                    </constraints>
+                                                                                    <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSRemoveTemplate" imagePosition="overlaps" alignment="center" refusesFirstResponder="YES" state="on" imageScaling="proportionallyDown" inset="2" id="9oy-Rk-zEp">
                                                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                                         <font key="font" metaFont="system"/>
                                                                                     </buttonCell>
                                                                                 </button>
-                                                                                <button ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b1c-0H-Y5E" userLabel="action">
-                                                                                    <rect key="frame" x="48" y="2" width="24" height="24"/>
-                                                                                    <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSActionTemplate" imagePosition="overlaps" alignment="center" refusesFirstResponder="YES" state="on" imageScaling="proportionallyDown" inset="2" id="F2K-D0-iX1">
+                                                                                <button translatesAutoresizingMaskIntoConstraints="NO" id="8zW-f2-wia" userLabel="action">
+                                                                                    <rect key="frame" x="48" y="0.0" width="24" height="24"/>
+                                                                                    <constraints>
+                                                                                        <constraint firstAttribute="height" constant="24" id="RKQ-ol-d7r"/>
+                                                                                        <constraint firstAttribute="width" constant="24" id="qwg-5M-YVJ"/>
+                                                                                    </constraints>
+                                                                                    <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSActionTemplate" imagePosition="overlaps" alignment="center" refusesFirstResponder="YES" state="on" imageScaling="proportionallyDown" inset="2" id="QBD-5E-lAl">
                                                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                                         <font key="font" metaFont="system"/>
                                                                                     </buttonCell>
                                                                                 </button>
                                                                             </subviews>
                                                                             <constraints>
-                                                                                <constraint firstAttribute="bottom" secondItem="IiF-sc-cTm" secondAttribute="bottom" id="BBs-it-xkh"/>
-                                                                                <constraint firstAttribute="bottom" secondItem="b1c-0H-Y5E" secondAttribute="bottom" id="cib-k1-Hjo"/>
-                                                                                <constraint firstAttribute="bottom" secondItem="kvF-vQ-UN5" secondAttribute="bottom" id="nSk-Ac-kWE"/>
+                                                                                <constraint firstItem="PW5-6l-897" firstAttribute="leading" secondItem="MiH-0Y-Oks" secondAttribute="trailing" id="3x8-D5-UJE"/>
+                                                                                <constraint firstAttribute="height" constant="26" id="MD7-zd-o3c"/>
+                                                                                <constraint firstItem="MiH-0Y-Oks" firstAttribute="leading" secondItem="9yx-TW-PMx" secondAttribute="leading" id="MNZ-cO-Drc"/>
+                                                                                <constraint firstAttribute="width" constant="100" id="SZF-5a-Zjv"/>
+                                                                                <constraint firstAttribute="bottom" secondItem="MiH-0Y-Oks" secondAttribute="bottom" id="lZW-yd-0Kb"/>
+                                                                                <constraint firstItem="8zW-f2-wia" firstAttribute="leading" secondItem="PW5-6l-897" secondAttribute="trailing" id="ocy-Z9-yr0"/>
+                                                                                <constraint firstAttribute="bottom" secondItem="PW5-6l-897" secondAttribute="bottom" id="sku-wU-PX3"/>
+                                                                                <constraint firstAttribute="bottom" secondItem="8zW-f2-wia" secondAttribute="bottom" id="wfh-dX-bb8"/>
                                                                             </constraints>
                                                                         </customView>
                                                                     </subviews>
                                                                 </view>
                                                                 <constraints>
-                                                                    <constraint firstAttribute="bottom" secondItem="jfw-3y-oLg" secondAttribute="bottom" id="s8J-jR-fyz"/>
-                                                                    <constraint firstItem="jfw-3y-oLg" firstAttribute="leading" secondItem="whP-YN-LUV" secondAttribute="leading" id="wrZ-7P-TP1"/>
+                                                                    <constraint firstItem="9yx-TW-PMx" firstAttribute="leading" secondItem="whP-YN-LUV" secondAttribute="leading" id="7W9-tb-K2s"/>
+                                                                    <constraint firstAttribute="bottom" secondItem="9yx-TW-PMx" secondAttribute="bottom" id="c2y-db-0P4"/>
                                                                 </constraints>
                                                                 <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                                                                 <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
