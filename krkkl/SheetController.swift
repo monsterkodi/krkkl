@@ -11,7 +11,6 @@ class SheetController : NSWindowController, NSTableViewDelegate
     override func awakeFromNib()
     {
         super.awakeFromNib()
-
         valuesView!.setDelegate(self)
         let indexes = NSIndexSet(indexesInRange: NSRange(location:0,length:defaults.defaultValues.count))
         valuesView!.insertRowsAtIndexes(indexes, withAnimation: NSTableViewAnimationOptions.EffectNone)
@@ -23,13 +22,19 @@ class SheetController : NSWindowController, NSTableViewDelegate
         {
             var label = NSTextView(frame: NSMakeRect(0,0,200,10))
             label.string = defaults.defaultValues[row]["label"] as? String
+            label.drawsBackground = false
+            label.editable = false
+            label.selectable = false
             return label
         }
         else if tableColumn?.identifier == "value"
         {
             var label = NSTextView(frame: NSMakeRect(0,0,200,10))
-            var value = defaults.defaultValues[row]["value"]
+            var value = "value" // defaults.defaultValues[row]["value"]
             label.string = "\(value)"
+            label.drawsBackground = false
+            label.editable = true
+            label.fieldEditor = true
             return label
         }
         return nil
