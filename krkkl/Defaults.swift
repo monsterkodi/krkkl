@@ -3,49 +3,40 @@ import ScreenSaver
 class Defaults
 {
     var defaults: NSUserDefaults
+    var defaultValues:[[String: AnyObject]] = [
+        ["label": "min rows", "value": 20],
+        ["label": "max rows", "value": 100]
+    ]
     
     init()
     {
         let identifier = NSBundle(forClass: Defaults.self).bundleIdentifier
         defaults = ScreenSaverDefaults.defaultsForModuleWithName(identifier) as! NSUserDefaults
     }
-
-    var canvasColor: NSColor
+    
+    var values: [[String: AnyObject]]
     {
-        set(newColor)
+        set(newValues)
         {
-            setColor(newColor, key: "CanvasColor")
+            setObjectForKey(newValues, key:"values")
         }
         get
         {
-            return getColor("CanvasColor") ?? NSColor.blackColor()
+            return (getObjectForKey("values") ?? defaultValues) as! [[String: AnyObject]]
         }
     }
-
-    var circleColor: NSColor
+    
+    func setObjectForKey(object: AnyObject, key: String)
     {
-        set(newColor)
-        {
-            setColor(newColor, key: "CircleColor")
-        }
-        get
-        {
-            return getColor("CircleColor") ?? NSColor(red: 0.5, green: 0.1, blue: 0.2, alpha: 1.0)
-        }
-    }
-
-    func setColor(color: NSColor, key: String)
-    {
-        defaults.setObject(NSKeyedArchiver.archivedDataWithRootObject(color), forKey: key)
+        defaults.setObject(NSKeyedArchiver.archivedDataWithRootObject(object), forKey: key)
         defaults.synchronize()
     }
 
-    func getColor(key: String) -> NSColor?
+    func getObjectForKey(key: String) -> AnyObject?
     {
-        if let canvasColorData = defaults.objectForKey(key) as? NSData {
-            return NSKeyedUnarchiver.unarchiveObjectWithData(canvasColorData) as? NSColor
+        if let dictData = defaults.objectForKey(key) as? NSData {
+            return NSKeyedUnarchiver.unarchiveObjectWithData(dictData)
         }
         return nil;
     }
-
 }

@@ -1,55 +1,48 @@
 import Cocoa
 
-class SheetController : NSWindowController
+class SheetController : NSWindowController, NSTableViewDelegate
 {
     var defaults = Defaults()
-    var pageNumber = -1
     
     @IBOutlet var colorsPage: NSView?
-    @IBOutlet var valuesPage: NSView?
+    @IBOutlet var valuesView: NSTableView?
     @IBOutlet var pages:      NSTabView?
 
-//    @IBOutlet var circleColorWell: NSColorWell?
-//    @IBOutlet var canvasColorWell: NSColorWell?
-    
     override func awakeFromNib()
     {
         super.awakeFromNib()
-//        canvasColorWell!.color = defaults.canvasColor
-//        circleColorWell!.color = defaults.circleColor
+
+        valuesView!.setDelegate(self)
+        let indexes = NSIndexSet(indexesInRange: NSRange(location:0,length:defaults.defaultValues.count))
+        valuesView!.insertRowsAtIndexes(indexes, withAnimation: NSTableViewAnimationOptions.EffectNone)
     }
 
+    func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView?
+    {
+        if tableColumn?.identifier == "label"
+        {
+            var label = NSTextView(frame: NSMakeRect(0,0,200,10))
+            label.string = defaults.defaultValues[row]["label"] as? String
+            return label
+        }
+        else if tableColumn?.identifier == "value"
+        {
+            var label = NSTextView(frame: NSMakeRect(0,0,200,10))
+            var value = defaults.defaultValues[row]["value"]
+            label.string = "\(value)"
+            return label
+        }
+        return nil
+    }
+    
     @IBAction func showPage(sender: AnyObject)
     {
-        if pageNumber != sender.selectedSegment
-        {
-            pageNumber = sender.selectedSegment
-            println(pageNumber)
-
-            pages?.selectTabViewItemAtIndex(pageNumber)
-//            var page:NSView
-//            
-//            switch pageNumber
-//            {
-//            case 1:  page = colorsPage!
-//            default: page = valuesPage!
-//            }
-//            
-//            if pages?.subviews.count > 0
-//            {
-//                pages!.replaceSubview(pages?.subviews.first as! NSView, with: page)
-//            }
-//            else
-//            {
-//                pages!.addSubview(page)
-//            }
-        }
+        pages?.selectTabViewItemAtIndex(sender.selectedSegment)
     }
     
     @IBAction func updateDefaults(sender: AnyObject)
     {
-//        defaults.canvasColor = canvasColorWell!.color
-//        defaults.circleColor = circleColorWell!.color
+        println("updateDefaults")
     }
    
     @IBAction func closeConfigureSheet(sender: AnyObject)
@@ -59,6 +52,6 @@ class SheetController : NSWindowController
     
     override var windowNibName: String!
     {
-            return "ConfigureSheet"
+        return "ConfigureSheet"
     }
 }
