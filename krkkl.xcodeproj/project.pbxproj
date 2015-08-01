@@ -85,6 +85,8 @@
 		C365BA241B67F18D008A49B5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				03683AD71B6B8AD00076AC1C /* thumbnail.png */,
+				03683AD81B6B8AD00076AC1C /* thumbnail@2x.png */,
 				C365BA251B67F18D008A49B5 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -104,8 +106,6 @@
 		C3C204791B67F63B00C43606 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				03683AD71B6B8AD00076AC1C /* thumbnail.png */,
-				03683AD81B6B8AD00076AC1C /* thumbnail@2x.png */,
 				C3C2047A1B67F63B00C43606 /* Info.plist */,
 			);
 			name = "Supporting Files";

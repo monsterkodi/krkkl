@@ -32,6 +32,7 @@ func randint(n: Int) -> Int { return Int(arc4random_uniform(UInt32(n))) }
 func randflt() -> Float { return Float(arc4random()) / Float(UINT32_MAX) }
 func randdbl() -> Double { return Double(arc4random()) / Double(UINT32_MAX) }
 func randfltrng(low:Float,high:Float) -> Float { return min(high, low) + abs(high-low) * randflt() }
+func randintrng(low:Int,high:Int) -> Int { return min(high, low) + randint(high-low) }
 func rest(v:Float) -> Float { return v-floor(v) }
 func clamp(v:Float, low:Float, high:Float) -> Float { return max(low, min(v, high)) }
 func colorRGB(rgb:[Float]) -> NSColor { return NSColor(red: CGFloat(rgb[0]), green:CGFloat(rgb[1]), blue:CGFloat(rgb[2]), alpha:CGFloat(rgb.count > 3 ? rgb[3] : 1)) }

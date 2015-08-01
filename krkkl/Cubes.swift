@@ -24,7 +24,7 @@ class Cubes
     var keepDir:[Float] = [0,0,0]
     var keepLow:Float = 0.1
     var keepHigh:Float = 0.9
-    var reset:String = "center" // what happens when the screen border is touched: "wrap", "center" or "random"
+    var reset:String = "" // what happens when the screen border is touched: "wrap", "ping", "center" or "random"
     
     var cubeCount:Int = 0
     var maxCubes:Int = 5000
@@ -102,7 +102,7 @@ class Cubes
     {
         // _______________________ preferences?
 
-        size.y = randint(60)+20 // number of cube rows
+        size.y = randintrng(20, 100) // number of cube rows
         cubeSize.y = view!.height()/size.y
         if (cubeSize.y % 2 == 1) { cubeSize.y -= 1 }
         cubeSize.y = max(2, cubeSize.y)
@@ -115,7 +115,7 @@ class Cubes
         colorInc = randflt()
         colorInc = 1 + colorInc * colorInc * colorInc * colorInc * 99
         maxCubes = (size.y * size.y)+randint(size.y * size.y)
-        reset = ["center", "wrap", "random"][randint(3)]
+        reset = ["center", "ping", "wrap", "random"][randint(4)]
         keepLow = 0.2
         keepHigh = 0.96
 
@@ -278,6 +278,9 @@ class Cubes
 
         if (pos.x < 1 || pos.y < 2 || pos.x > size.x-1 || pos.y > size.y-1)  // if screen border is touched
         {
+            skip = .NONE
+            lastDir = randint(6)
+
             if reset == "center" 
             {
                 pos.x = center.x
@@ -295,10 +298,49 @@ class Cubes
                 if      (pos.y < 2)        { pos.y = size.y-2 }
                 else if (pos.y > size.y-1) { pos.y = 2 }
             }
-            skip = .NONE
-            lastDir = randint(6)
+            else if reset == "ping" 
+            {
+                if (pos.x < 1)
+                {
+                    switch side
+                    {
+                    case .LEFT: lastDir = Side.BACKR.rawValue
+                    default:    lastDir = Side.RIGHT.rawValue
+                    }
+                    pos.x = 1
+                }
+                else if (pos.x > size.x-1)
+                {
+                    switch side
+                    {
+                    case .BACKR: lastDir = Side.LEFT.rawValue
+                    default:     lastDir = Side.BACKL.rawValue
+                    }
+                    pos.x = size.x-1
+                }
+                if (pos.y < 2)
+                { 
+                    switch side 
+                    {
+                    case .LEFT:  lastDir = Side.BACKR.rawValue
+                    case .RIGHT: lastDir = Side.BACKL.rawValue
+                    default:     lastDir = randflt()>0.5 ? Side.BACKL.rawValue : Side.BACKR.rawValue
+                    }
+                    pos.y = 2
+                }
+                else if (pos.y > size.y-1)
+                { 
+                    switch side 
+                    {
+                    case .BACKR: lastDir = Side.LEFT.rawValue
+                    case .BACKL: lastDir = Side.RIGHT.rawValue
+                    default:     lastDir = randflt()>0.5 ? Side.LEFT.rawValue : Side.RIGHT.rawValue
+                    }
+                    pos.y = size.y-1
+                }
+            }
             
-            if colorType == .DIRECTION {
+            if colorType == ColorType.DIRECTION && find(["center", "random"], reset) != nil {
                 rgbColor = colorRGB([0,0,0])
             }
         }
