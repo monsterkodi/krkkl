@@ -57,6 +57,7 @@ extension NSView
 func randint(n: Int) -> Int { return Int(arc4random_uniform(UInt32(n))) }
 func randflt() -> Float { return Float(arc4random()) / Float(UINT32_MAX) }
 func randdbl() -> Double { return Double(arc4random()) / Double(UINT32_MAX) }
+func randdblrng(low:Double,high:Double) -> Double { return min(high, low) + abs(high-low) * randdbl() }
 func randfltrng(low:Float,high:Float) -> Float { return min(high, low) + abs(high-low) * randflt() }
 func randintrng(low:Int,high:Int) -> Int { return min(high, low) + randint(high-low) }
 func rest(v:Float) -> Float { return v-floor(v) }

@@ -13,7 +13,8 @@ class SheetController : NSWindowController, NSTableViewDelegate
     {
         super.awakeFromNib()
         valuesView!.setDelegate(self)
-        let indexes = NSIndexSet(indexesInRange: NSRange(location:0,length:defaults.defaultValues.count))
+        let indexes = NSIndexSet(indexesInRange: NSRange(location:0,length:defaults.values.count))
+        println(defaults.values)
         valuesView!.insertRowsAtIndexes(indexes, withAnimation: NSTableViewAnimationOptions.EffectNone)
     }
 
@@ -22,7 +23,7 @@ class SheetController : NSWindowController, NSTableViewDelegate
         if tableColumn?.identifier == "label"
         {
             var label = NSTextView(frame: NSMakeRect(0,0,200,10))
-            label.string = defaults.defaultValues[row]["label"] as? String
+            label.string = defaults.values[row]["label"] as? String
             label.drawsBackground = false
             label.editable = false
             label.selectable = false
@@ -32,17 +33,17 @@ class SheetController : NSWindowController, NSTableViewDelegate
         {
             var clone = rangeBox!.clone()
             var box = clone.subviews.first! as! NSView
-            box.identifier = defaults.defaultValues[row]["key"] as? String
+            box.identifier = defaults.values[row]["key"] as? String
             
             var minSlider = box.childWithIdentifier("minSlider") as! NSSlider
             var maxSlider = box.childWithIdentifier("maxSlider") as! NSSlider
             var minText   = box.childWithIdentifier("minText") as! NSTextField
             var maxText   = box.childWithIdentifier("maxText") as! NSTextField
             
-            let minRange = (defaults.defaultValues[row]["range"] as! [Double]).first! as Double
-            let maxRange = (defaults.defaultValues[row]["range"] as! [Double]).last! as Double
-            let minValue = (defaults.defaultValues[row]["value"] as! [Double]).first! as Double
-            let maxValue = (defaults.defaultValues[row]["value"] as! [Double]).last! as Double
+            let minRange = (defaults.values[row]["range"] as! [Double]).first! as Double
+            let maxRange = (defaults.values[row]["range"] as! [Double]).last! as Double
+            let minValue = (defaults.values[row]["value"] as! [Double]).first! as Double
+            let maxValue = (defaults.values[row]["value"] as! [Double]).last! as Double
             
             minText.doubleValue = minValue
             minSlider.minValue = minRange
@@ -68,7 +69,7 @@ class SheetController : NSWindowController, NSTableViewDelegate
         let slider = sender as! NSSlider
         let box    = slider.superview!
         let row    = rowForKey(box.identifier!)
-        let step   = defaults.defaultValues[row]["step"] as! Double
+        let step   = defaults.values[row]["step"] as! Double
         let value  = valueStep(slider.doubleValue, step)
 
         var text = box.childWithIdentifier(slider.identifier == "minSlider" ? "minText" : "maxText") as! NSTextField
@@ -80,6 +81,8 @@ class SheetController : NSWindowController, NSTableViewDelegate
             let otherText   = box.childWithIdentifier("maxText") as! NSTextField
             otherSlider.doubleValue = max(otherSlider.doubleValue, slider.doubleValue)
             otherText.doubleValue = max(otherText.doubleValue, value)
+            
+            defaults.values[row]["value"] = [value, otherText.doubleValue]
         }
         else
         {
@@ -87,7 +90,11 @@ class SheetController : NSWindowController, NSTableViewDelegate
             let otherText   = box.childWithIdentifier("minText") as! NSTextField
             otherSlider.doubleValue = min(otherSlider.doubleValue, slider.doubleValue)
             otherText.doubleValue = min(otherText.doubleValue, value)
+            
+            defaults.values[row]["value"] = [otherText.doubleValue, value]
         }
+        
+        updateDefaults(self)
     }
     
     @IBAction func showPage(sender: AnyObject)
@@ -97,7 +104,8 @@ class SheetController : NSWindowController, NSTableViewDelegate
     
     @IBAction func updateDefaults(sender: AnyObject)
     {
-        println("updateDefaults")
+        println(defaults.values)
+        defaults.values = defaults.values
     }
    
     @IBAction func closeConfigureSheet(sender: AnyObject)
@@ -107,9 +115,9 @@ class SheetController : NSWindowController, NSTableViewDelegate
     
     func rowForKey(key:String) -> Int
     {
-        for index in 0...defaults.defaultValues.count
+        for index in 0...defaults.values.count
         {
-            if (defaults.defaultValues[index]["key"] as! String) == key
+            if (defaults.values[index]["key"] as! String) == key
             {
                 return index
             }

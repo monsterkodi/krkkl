@@ -14,6 +14,7 @@ class Cubes
 {
     var view:KrkklView?
     var fps:Double = 60
+    var cpf:Double = 60
     var cubeSize:(x: Int, y: Int) = (0, 0)
     var pos:     (x: Int, y: Int) = (0, 0)
     var size:    (x: Int, y: Int) = (0, 0)
@@ -21,9 +22,7 @@ class Cubes
 
     var lastDir:Int = 0
     var nextDir:Int = 0
-    var keepDir:[Float] = [0,0,0]
-    var keepLow:Float = 0.1
-    var keepHigh:Float = 0.9
+    var keepDir:[Double] = [0,0,0]
     var reset:String = "" // what happens when the screen border is touched: "wrap", "ping", "center" or "random"
     
     var cubeCount:Int = 0
@@ -88,7 +87,13 @@ class Cubes
     var rgbColor   = colorRGB([0,0,0])
 
     func isDone() -> Bool { return cubeCount >= maxCubes }
-    func nextStep() { drawNextCube() }
+    func nextStep()
+    {
+        for c in 0...Int(cpf)
+        {
+            drawNextCube()
+        }
+    }
 
     /*
        0000000  00000000  000000000  000   000  00000000 
@@ -102,7 +107,16 @@ class Cubes
     {
         // _______________________ preferences?
 
-        size.y = randintrng(20, 100) // number of cube rows
+        let rows = view!.sheetController.defaults.valueForKey("rows") as! [String: AnyObject]
+        let rowsRange = rows["value"] as! [Double]
+        
+        let keep_up     = (view!.sheetController.defaults.valueForKey("keep_up"   )  as! [String: AnyObject])["value"] as! [Double]
+        let keep_left   = (view!.sheetController.defaults.valueForKey("keep_left" )  as! [String: AnyObject])["value"] as! [Double]
+        let keep_right  = (view!.sheetController.defaults.valueForKey("keep_right")  as! [String: AnyObject])["value"] as! [Double]
+        let speed       = (view!.sheetController.defaults.valueForKey("speed")       as! [String: AnyObject])["value"] as! [Double]
+        let cube_amount = (view!.sheetController.defaults.valueForKey("cube_amount") as! [String: AnyObject])["value"] as! [Double]
+
+        size.y = Int(randdblrng(rowsRange[0], rowsRange[1]))
         cubeSize.y = view!.height()/size.y
         if (cubeSize.y % 2 == 1) { cubeSize.y -= 1 }
         cubeSize.y = max(2, cubeSize.y)
@@ -114,14 +128,13 @@ class Cubes
 
         colorInc = randflt()
         colorInc = 1 + colorInc * colorInc * colorInc * colorInc * 99
-        maxCubes = (size.y * size.y)+randint(size.y * size.y)
-        reset = ["center", "ping", "wrap", "random"][randint(4)]
-        keepLow = 0.2
-        keepHigh = 0.96
-
+        maxCubes = (size.y * size.y)*Int(randdblrng(cube_amount[0], cube_amount[1]))
+        reset = ["random", "ping", "wrap"][randint(3)]
+        
         // _______________________ derivatives
 
-        fps = 10+randdbl()*Double(size.y)
+        cpf = speed[0]
+        fps = speed[1]
 
         center.x = size.x/2
         center.y = size.y/2
@@ -149,9 +162,9 @@ class Cubes
         }
         rgbColor = thisColor
                 
-        keepDir[0] = randfltrng(keepLow, keepHigh)
-        keepDir[1] = randfltrng(keepLow, keepHigh)
-        keepDir[2] = randfltrng(keepLow, keepHigh)
+        keepDir[Side.UP.rawValue]    = randdblrng(keep_up[0], keep_up[1])
+        keepDir[Side.LEFT.rawValue]  = randdblrng(keep_left[0], keep_left[1])
+        keepDir[Side.RIGHT.rawValue] = randdblrng(keep_right[0], keep_right[1])
 
         cubeCount = 0
         
@@ -241,7 +254,7 @@ class Cubes
     {
         var skip = Side.NONE
         
-        nextDir = (randflt() < keepDir[lastDir%3]) ? lastDir : randint(6)
+        nextDir = (randdbl() < keepDir[lastDir%3]) ? lastDir : randint(6)
         lastDir = nextDir
         
         let side:Side = Side(rawValue:nextDir)!
