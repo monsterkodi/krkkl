@@ -4,8 +4,10 @@ class Defaults
 {
     var defaults: NSUserDefaults
     var defaultValues:[[String: AnyObject]] = [
-        ["label": "min rows", "value": 20],
-        ["label": "max rows", "value": 100]
+        ["key": "rows",  "label": "number of cube rows",  "value": [20, 100], "range": [5, 500],     "step": 1   ],
+        ["key": "keepx", "label": "keep direction up",    "value": [0.2,0.9], "range": [0.01, 0.99], "step": 0.01],
+        ["key": "keepy", "label": "keep direction left",  "value": [0.2,0.9], "range": [0.01, 0.99], "step": 0.01],
+        ["key": "keepz", "label": "keep direction right", "value": [0.2,0.9], "range": [0.01, 0.99], "step": 0.01],
     ]
     
     init()

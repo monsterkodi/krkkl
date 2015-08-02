@@ -7,8 +7,8 @@
 */
 import AppKit
 
-extension NSColor {
-    
+extension NSColor
+{
     func red()   -> CGFloat { return redComponent   }
     func green() -> CGFloat { return greenComponent }
     func blue()  -> CGFloat { return blueComponent  }
@@ -28,6 +28,32 @@ extension NSColor {
     }
 }
 
+extension NSView
+{
+    func childWithIdentifier(identifier:String) -> NSView?
+    {
+        var child:NSView? = subviews.filter({ (e) -> Bool in
+            return e.identifier == identifier
+        }).first as? NSView
+        if (child != nil) { return child }
+        for subview in subviews
+        {
+            child = subview.childWithIdentifier(identifier)
+            if (child != nil)
+            {
+                return child
+            }
+        }
+        return nil
+    }
+    
+    func clone() -> NSView
+    {
+        var data = NSKeyedArchiver.archivedDataWithRootObject(self)
+        return NSKeyedUnarchiver.unarchiveObjectWithData(data) as! NSView
+    }
+}
+
 func randint(n: Int) -> Int { return Int(arc4random_uniform(UInt32(n))) }
 func randflt() -> Float { return Float(arc4random()) / Float(UINT32_MAX) }
 func randdbl() -> Double { return Double(arc4random()) / Double(UINT32_MAX) }
@@ -37,3 +63,4 @@ func rest(v:Float) -> Float { return v-floor(v) }
 func clamp(v:Float, low:Float, high:Float) -> Float { return max(low, min(v, high)) }
 func colorRGB(rgb:[Float]) -> NSColor { return NSColor(red: CGFloat(rgb[0]), green:CGFloat(rgb[1]), blue:CGFloat(rgb[2]), alpha:CGFloat(rgb.count > 3 ? rgb[3] : 1)) }
 func randColor() -> NSColor { return colorRGB([randflt(), randflt(), randflt()]) }
+func valueStep(value:Double, step:Double) -> Double { return floor(value/step)*step }
