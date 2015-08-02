@@ -77,7 +77,9 @@ class KrkklView : ScreenSaverView
     
     func fadeOut()
     {
-        if fadeCount >= 100
+        let fade = (sheetController.defaults.valueForKey("fade")  as! [String: AnyObject])["value"] as! [Double]
+
+        if fadeCount >= Int(fade[0])
         {
             clear()
             scene.setup()
@@ -86,7 +88,10 @@ class KrkklView : ScreenSaverView
         }
         else
         {
-            clear(color:NSColor(red: 0, green: 0, blue: 0, alpha: 0.025))
+            var a = (1.0-(fade[0]-10)/230.0)
+            a = 0.002 + a * a * a * a * 0.2
+            clear(color:NSColor(red: 0, green: 0, blue: 0, alpha:CGFloat(a)))
+            
             fadeCount += 1
         }
     }

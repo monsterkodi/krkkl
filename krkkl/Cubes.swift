@@ -115,6 +115,7 @@ class Cubes
         let keep_right  = (view!.sheetController.defaults.valueForKey("keep_right")  as! [String: AnyObject])["value"] as! [Double]
         let speed       = (view!.sheetController.defaults.valueForKey("speed")       as! [String: AnyObject])["value"] as! [Double]
         let cube_amount = (view!.sheetController.defaults.valueForKey("cube_amount") as! [String: AnyObject])["value"] as! [Double]
+        let color_fade  = (view!.sheetController.defaults.valueForKey("color_fade")  as! [String: AnyObject])["value"] as! [Double]
 
         size.y = Int(randdblrng(rowsRange[0], rowsRange[1]))
         cubeSize.y = view!.height()/size.y
@@ -126,8 +127,10 @@ class Cubes
 
         colorType = randflt() < Float(2)/Float(colorLists.count+2) ? (randflt()<0.5 ? .RANDOM : .DIRECTION) : .LIST
 
-        colorInc = randflt()
-        colorInc = 1 + colorInc * colorInc * colorInc * colorInc * 99
+//        colorInc = randflt()
+//        colorInc = 1 + colorInc * colorInc * colorInc * colorInc * 99
+        colorInc = Float(randdblrng(color_fade[0], color_fade[1]))
+        
         maxCubes = (size.y * size.y)*Int(randdblrng(cube_amount[0], cube_amount[1]))
         reset = ["random", "ping", "wrap"][randint(3)]
         
