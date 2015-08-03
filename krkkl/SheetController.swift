@@ -9,6 +9,8 @@ class SheetController : NSWindowController, NSTableViewDelegate
     @IBOutlet var pages:      NSTabView?
     @IBOutlet var rangeBox:   NSBox?
     @IBOutlet var valueBox:   NSBox?
+    @IBOutlet var labelBox:   NSBox?
+    @IBOutlet var textBox:    NSBox?
 
     override func awakeFromNib()
     {
@@ -18,25 +20,35 @@ class SheetController : NSWindowController, NSTableViewDelegate
         //println(defaults.values)
         valuesView!.insertRowsAtIndexes(indexes, withAnimation: NSTableViewAnimationOptions.EffectNone)
         let valueColumn = valuesView!.tableColumnWithIdentifier("label")!
-//        valueColumn.minWidth = 150
     }
 
     func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView?
     {
         if tableColumn?.identifier == "label"
         {
-            var label = NSTextView()
-            label.string = defaults.values[row]["label"] as? String
+            var clone = labelBox!.clone()
+            var label = clone.subviews.first!.subviews.first! as! NSTextField
+            label.stringValue = defaults.values[row]["label"] as! String
             label.drawsBackground = false
             label.editable = false
             label.selectable = false
             label.alignment = .RightTextAlignment
-//            tableColumn?.sizeToFit()
-            return label
+            return clone
         }
         else if tableColumn?.identifier == "value"
         {
-            if (defaults.values[row]["values"] != nil)
+            if (defaults.values[row]["text"] != nil)
+            {
+                var clone = textBox!.clone()
+                var label = clone.subviews.first!.subviews.first! as! NSTextField
+                label.stringValue = defaults.values[row]["text"] as! String
+                label.drawsBackground = false
+                label.editable = false
+                label.selectable = false
+                label.alignment = .LeftTextAlignment
+                return clone
+            }
+            else if (defaults.values[row]["values"] != nil)
             {
                 var clone = rangeBox!.clone()
                 var box = clone.subviews.first! as! NSView
@@ -158,7 +170,7 @@ class SheetController : NSWindowController, NSTableViewDelegate
     {
         for index in 0...defaults.values.count
         {
-            if (defaults.values[index]["key"] as! String) == key
+            if (defaults.values[index]["key"] as? String) == key
             {
                 return index
             }

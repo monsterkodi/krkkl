@@ -91,8 +91,8 @@
 			children = (
 				C33B3ED61B6CFA5F0025CECB /* Defaults.swift */,
 				C30B0F581B6AA23000144035 /* Cubes.swift */,
-				C33B3ED51B6CFA5F0025CECB /* SheetController.swift */,
 				C33B3ED41B6CFA5F0025CECB /* ConfigureSheet.xib */,
+				C33B3ED51B6CFA5F0025CECB /* SheetController.swift */,
 				C33B3EDE1B6D1B040025CECB /* ListCell.swift */,
 				C33B3EE11B6D1C710025CECB /* ColorCell.swift */,
 				C39F6FC71B67F2FB008519FA /* KrkklView.swift */,
