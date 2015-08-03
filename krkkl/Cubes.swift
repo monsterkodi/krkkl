@@ -19,6 +19,9 @@ class Cubes
     var pos:     (x: Int, y: Int) = (0, 0)
     var size:    (x: Int, y: Int) = (0, 0)
     var center:  (x: Int, y: Int) = (0, 0)
+    var color_top:Double = 0
+    var color_left:Double = 0
+    var color_right:Double = 0
 
     var lastDir:Int = 0
     var nextDir:Int = 0
@@ -105,19 +108,11 @@ class Cubes
 
     func setup() 
     {
-        // _______________________ preferences?
+        color_top   = randDblPref("color_top")
+        color_left  = randDblPref("color_left")
+        color_right = randDblPref("color_right")
 
-        let rows = view!.sheetController.defaults.valueForKey("rows") as! [String: AnyObject]
-        let rowsRange = rows["values"] as! [Double]
-        
-        let keep_up     = (view!.sheetController.defaults.valueForKey("keep_up"   )  as! [String: AnyObject])["values"] as! [Double]
-        let keep_left   = (view!.sheetController.defaults.valueForKey("keep_left" )  as! [String: AnyObject])["values"] as! [Double]
-        let keep_right  = (view!.sheetController.defaults.valueForKey("keep_right")  as! [String: AnyObject])["values"] as! [Double]
-        let speed       = (view!.sheetController.defaults.valueForKey("speed")       as! [String: AnyObject])["values"] as! [Double]
-        let cube_amount = (view!.sheetController.defaults.valueForKey("cube_amount") as! [String: AnyObject])["values"] as! [Double]
-        let color_fade  = (view!.sheetController.defaults.valueForKey("color_fade")  as! [String: AnyObject])["values"] as! [Double]
-
-        size.y = Int(randdblrng(rowsRange[0], rowsRange[1]))
+        size.y = Int(randDblPref("rows"))
         cubeSize.y = view!.height()/size.y
         if (cubeSize.y % 2 == 1) { cubeSize.y -= 1 }
         cubeSize.y = max(2, cubeSize.y)
@@ -129,15 +124,15 @@ class Cubes
 
 //        colorInc = randflt()
 //        colorInc = 1 + colorInc * colorInc * colorInc * colorInc * 99
-        colorInc = Float(randdblrng(color_fade[0], color_fade[1]))
+        colorInc = Float(randDblPref("color_fade"))
         
-        maxCubes = (size.y * size.y)*Int(randdblrng(cube_amount[0], cube_amount[1]))
+        maxCubes = Int(Double(size.y * size.y)*randDblPref("cube_amount"))
         reset = ["random", "ping", "wrap"][randint(3)]
         
         // _______________________ derivatives
 
-        cpf = speed[0]
-        fps = speed[1]
+        cpf = doublePref("cpf")
+        fps = doublePref("fps")
 
         center.x = size.x/2
         center.y = size.y/2
@@ -165,9 +160,9 @@ class Cubes
         }
         rgbColor = thisColor
                 
-        keepDir[Side.UP.rawValue]    = randdblrng(keep_up[0], keep_up[1])
-        keepDir[Side.LEFT.rawValue]  = randdblrng(keep_left[0], keep_left[1])
-        keepDir[Side.RIGHT.rawValue] = randdblrng(keep_right[0], keep_right[1])
+        keepDir[Side.UP.rawValue]    = randDblPref("keep_up")
+        keepDir[Side.LEFT.rawValue]  = randDblPref("keep_left")
+        keepDir[Side.RIGHT.rawValue] = randDblPref("keep_right")
 
         cubeCount = 0
         
@@ -179,6 +174,7 @@ class Cubes
         println("cube  \(cubeSize.x) \(cubeSize.y)")
         println("maxCubes \(maxCubes)")
         println("fps \(fps)")
+        println("cpf \(cpf)")
         println("keepDir \(keepDir)")
         println("colorInc \(colorInc)")
         println("colorList \(colorListIndex)")
@@ -384,11 +380,9 @@ class Cubes
         let x = pos.x*w
         let y = (pos.x%2 == 0) ? (pos.y*h) : (pos.y*h - s)
         
-        let contrasts = (view!.sheetController.defaults.valueForKey("contrasts") as! [String: AnyObject])["values"] as! [Double]
-     
         if skip != .UP
         {
-            rgbColor.set()
+            rgbColor.scale(color_top).set()
             let path = NSBezierPath()
             path.moveToPoint(NSPoint(x: x   ,y: y))
             path.lineToPoint(NSPoint(x: x+w ,y: y+s))
@@ -399,7 +393,7 @@ class Cubes
         
         if skip != .LEFT
         {
-            rgbColor.darken(1-contrasts[0]).set()
+            rgbColor.scale(color_left).set()
             let path = NSBezierPath()
             path.moveToPoint(NSPoint(x: x    ,y: y))
             path.lineToPoint(NSPoint(x: x-w  ,y: y+s))
@@ -410,7 +404,7 @@ class Cubes
         
         if skip != .RIGHT
         {
-            rgbColor.darken(1-contrasts[1]).set()
+            rgbColor.scale(color_right).set()
             var path = NSBezierPath()
             path.moveToPoint(NSPoint(x: x    ,y: y))
             path.lineToPoint(NSPoint(x: x+w  ,y: y+s))
@@ -418,6 +412,22 @@ class Cubes
             path.lineToPoint(NSPoint(x: x    ,y: y-h))
             path.fill()
         }
+    }
+
+    func randDblPref(key:String) -> Double
+    {
+        let dbls = doublesPref(key)
+        return randdblrng(dbls[0], dbls[1])
+    }
+
+    func doublePref(key:String) -> Double
+    {
+        return (view!.sheetController.defaults.valueForKey(key) as! [String: AnyObject])["value"] as! Double
+    }
+
+    func doublesPref(key:String) -> [Double]
+    {
+        return (view!.sheetController.defaults.valueForKey(key) as! [String: AnyObject])["values"] as! [Double]
     }
     
     func colorTypeName(colorType:ColorType) -> String  

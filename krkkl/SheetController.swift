@@ -18,7 +18,7 @@ class SheetController : NSWindowController, NSTableViewDelegate
         //println(defaults.values)
         valuesView!.insertRowsAtIndexes(indexes, withAnimation: NSTableViewAnimationOptions.EffectNone)
         let valueColumn = valuesView!.tableColumnWithIdentifier("label")!
-        valueColumn.minWidth = 150
+//        valueColumn.minWidth = 150
     }
 
     func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView?
@@ -31,7 +31,7 @@ class SheetController : NSWindowController, NSTableViewDelegate
             label.editable = false
             label.selectable = false
             label.alignment = .RightTextAlignment
-            tableColumn?.sizeToFit()
+//            tableColumn?.sizeToFit()
             return label
         }
         else if tableColumn?.identifier == "value"

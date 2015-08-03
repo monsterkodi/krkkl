@@ -19,6 +19,12 @@ extension NSColor
         let f = CGFloat(factor)
         return NSColor(red: red()*f, green: green()*f, blue: blue()*f, alpha: alpha())
     }
+
+    func scale(factor: Double) -> NSColor
+    {
+        let f = CGFloat(factor)
+        return NSColor(red: red()*f, green: green()*f, blue: blue()*f, alpha: alpha())
+    }
     
     func fadeTo(color:NSColor, fade:Float) -> NSColor
     {

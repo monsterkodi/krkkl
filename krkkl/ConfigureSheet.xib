@@ -21,7 +21,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="630" height="500"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
             <value key="minSize" type="size" width="630" height="500"/>
             <view key="contentView" wantsLayer="YES" placeholderIntrinsicWidth="621" placeholderIntrinsicHeight="529" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="630" height="500"/>
@@ -55,7 +55,7 @@
                                                                     <color key="backgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
                                                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                                                     <tableColumns>
-                                                                        <tableColumn identifier="label" editable="NO" width="185" minWidth="40" maxWidth="1000" id="O11-15-XBC">
+                                                                        <tableColumn identifier="label" editable="NO" width="189" minWidth="40" maxWidth="1000" id="O11-15-XBC">
                                                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
                                                                                 <font key="font" metaFont="smallSystem"/>
                                                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -69,7 +69,7 @@
                                                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                             <prototypeCellViews>
                                                                                 <tableCellView id="gZs-BG-SQ1">
-                                                                                    <rect key="frame" x="2" y="3" width="185" height="17"/>
+                                                                                    <rect key="frame" x="2" y="3" width="189" height="17"/>
                                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                     <subviews>
                                                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pqw-4p-jIX">
@@ -354,16 +354,16 @@
                 <rect key="frame" x="2" y="2" width="355" height="32"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
-                    <slider identifier="minSlider" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4rx-Eh-Hvi" userLabel="Min Slider">
-                        <rect key="frame" x="65" y="12" width="225" height="17"/>
-                        <sliderCell key="cell" controlSize="mini" continuous="YES" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="below" numberOfTickMarks="5" sliderType="linear" id="VVw-vW-zHc"/>
+                    <slider identifier="minSlider" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4rx-Eh-Hvi" userLabel="Min Slider">
+                        <rect key="frame" x="65" y="12" width="225" height="16"/>
+                        <sliderCell key="cell" controlSize="mini" continuous="YES" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="below" numberOfTickMarks="2" sliderType="linear" id="VVw-vW-zHc"/>
                         <connections>
                             <action selector="takeDoubleValueFrom:" target="oyq-Zj-95T" id="2ub-P0-oTO"/>
                         </connections>
                     </slider>
-                    <slider identifier="maxSlider" verticalHuggingPriority="750" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="hxx-T4-cxC" userLabel="Max Slider">
-                        <rect key="frame" x="65" y="4" width="225" height="17"/>
-                        <sliderCell key="cell" controlSize="mini" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" numberOfTickMarks="5" sliderType="linear" id="Qwc-Pw-lHd"/>
+                    <slider identifier="maxSlider" verticalHuggingPriority="750" misplaced="YES" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="hxx-T4-cxC" userLabel="Max Slider">
+                        <rect key="frame" x="65" y="4" width="225" height="16"/>
+                        <sliderCell key="cell" controlSize="mini" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" numberOfTickMarks="2" sliderType="linear" id="Qwc-Pw-lHd"/>
                         <connections>
                             <action selector="takeDoubleValueFrom:" target="tSo-rj-gQw" id="dCN-l4-dwE"/>
                         </connections>
