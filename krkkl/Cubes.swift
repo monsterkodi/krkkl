@@ -25,6 +25,9 @@ class Cubes
 
     var lastDir:Int = 0
     var nextDir:Int = 0
+    var dirIncr:Int = 0
+    var probSum:Double = 0
+    var probDir:[Double] = [0,0,0]
     var keepDir:[Double] = [0,0,0]
     var reset:String = "" // what happens when the screen border is touched: "wrap", "ping", "center" or "random"
     
@@ -111,8 +114,11 @@ class Cubes
         color_top   = randDblPref("color_top")
         color_left  = randDblPref("color_left")
         color_right = randDblPref("color_right")
+        
+        dirIncr = Int(doublePref("dir_incr"))
 
-        size.y = Int(randDblPref("rows"))
+        size.y = Int(randDblPref("rows")) / (view!.isPreview() ? 2 : 1)
+
         cubeSize.y = view!.height()/size.y
         if (cubeSize.y % 2 == 1) { cubeSize.y -= 1 }
         cubeSize.y = max(2, cubeSize.y)
@@ -131,7 +137,7 @@ class Cubes
         
         // _______________________ derivatives
 
-        cpf = doublePref("cpf")
+        cpf = randDblPref("cpf")
         fps = doublePref("fps")
 
         center.x = size.x/2
@@ -163,6 +169,11 @@ class Cubes
         keepDir[Side.UP.rawValue]    = randDblPref("keep_up")
         keepDir[Side.LEFT.rawValue]  = randDblPref("keep_left")
         keepDir[Side.RIGHT.rawValue] = randDblPref("keep_right")
+        
+        probDir[Side.UP.rawValue]    = randDblPref("prob_up")
+        probDir[Side.LEFT.rawValue]  = randDblPref("prob_left")
+        probDir[Side.RIGHT.rawValue] = randDblPref("prob_right")
+        probSum = probDir.reduce(0.0, combine: { $0 + $1 })
 
         cubeCount = 0
         
@@ -176,6 +187,8 @@ class Cubes
         println("fps \(fps)")
         println("cpf \(cpf)")
         println("keepDir \(keepDir)")
+        println("probDir \(probDir)")
+        println("probSum \(probSum)")
         println("colorInc \(colorInc)")
         println("colorList \(colorListIndex)")
         println("colorType \(colorTypeName(colorType))")
@@ -253,7 +266,28 @@ class Cubes
     {
         var skip = Side.NONE
         
-        nextDir = (randdbl() < keepDir[lastDir%3]) ? lastDir : randint(6)
+        nextDir = lastDir
+        
+        if (randdbl() >= keepDir[lastDir%3])
+        {
+            if dirIncr == 3
+            {
+                switch randdbl()
+                {
+                case let (prob) where prob <= probDir[Side.UP.rawValue]/probSum:
+                    nextDir = randint(2) == 0 ? Side.UP.rawValue : Side.DOWN.rawValue
+                case let (prob) where (probDir[Side.UP.rawValue]/probSum <= prob) && (prob <= probDir[Side.UP.rawValue + Side.LEFT.rawValue]/probSum):
+                    nextDir = randint(2) == 0 ? Side.LEFT.rawValue : Side.BACKR.rawValue
+                default:
+                    nextDir = randint(2) == 0 ? Side.RIGHT.rawValue : Side.BACKL.rawValue
+                }
+            }
+            else
+            {
+                nextDir = (nextDir + dirIncr)%6
+            }
+        }
+
         lastDir = nextDir
         
         let side:Side = Side(rawValue:nextDir)!
