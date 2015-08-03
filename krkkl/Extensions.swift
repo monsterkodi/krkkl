@@ -12,14 +12,16 @@ extension NSColor
     func red()   -> CGFloat { return redComponent   }
     func green() -> CGFloat { return greenComponent }
     func blue()  -> CGFloat { return blueComponent  }
-    func alpha() -> CGFloat { return alphaComponent  }
+    func alpha() -> CGFloat { return alphaComponent }
     
-    func darken(factor: Float) -> NSColor {
+    func darken(factor: Double) -> NSColor
+    {
         let f = CGFloat(factor)
         return NSColor(red: red()*f, green: green()*f, blue: blue()*f, alpha: alpha())
     }
     
-    func fadeTo(color:NSColor, fade:Float) -> NSColor {
+    func fadeTo(color:NSColor, fade:Float) -> NSColor
+    {
         let r = CGFloat(red()   * CGFloat(1.0-fade) + CGFloat(fade) * color.red())
         let g = CGFloat(green() * CGFloat(1.0-fade) + CGFloat(fade) * color.green())
         let b = CGFloat(blue()  * CGFloat(1.0-fade) + CGFloat(fade) * color.blue())

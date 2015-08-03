@@ -108,14 +108,14 @@ class Cubes
         // _______________________ preferences?
 
         let rows = view!.sheetController.defaults.valueForKey("rows") as! [String: AnyObject]
-        let rowsRange = rows["value"] as! [Double]
+        let rowsRange = rows["values"] as! [Double]
         
-        let keep_up     = (view!.sheetController.defaults.valueForKey("keep_up"   )  as! [String: AnyObject])["value"] as! [Double]
-        let keep_left   = (view!.sheetController.defaults.valueForKey("keep_left" )  as! [String: AnyObject])["value"] as! [Double]
-        let keep_right  = (view!.sheetController.defaults.valueForKey("keep_right")  as! [String: AnyObject])["value"] as! [Double]
-        let speed       = (view!.sheetController.defaults.valueForKey("speed")       as! [String: AnyObject])["value"] as! [Double]
-        let cube_amount = (view!.sheetController.defaults.valueForKey("cube_amount") as! [String: AnyObject])["value"] as! [Double]
-        let color_fade  = (view!.sheetController.defaults.valueForKey("color_fade")  as! [String: AnyObject])["value"] as! [Double]
+        let keep_up     = (view!.sheetController.defaults.valueForKey("keep_up"   )  as! [String: AnyObject])["values"] as! [Double]
+        let keep_left   = (view!.sheetController.defaults.valueForKey("keep_left" )  as! [String: AnyObject])["values"] as! [Double]
+        let keep_right  = (view!.sheetController.defaults.valueForKey("keep_right")  as! [String: AnyObject])["values"] as! [Double]
+        let speed       = (view!.sheetController.defaults.valueForKey("speed")       as! [String: AnyObject])["values"] as! [Double]
+        let cube_amount = (view!.sheetController.defaults.valueForKey("cube_amount") as! [String: AnyObject])["values"] as! [Double]
+        let color_fade  = (view!.sheetController.defaults.valueForKey("color_fade")  as! [String: AnyObject])["values"] as! [Double]
 
         size.y = Int(randdblrng(rowsRange[0], rowsRange[1]))
         cubeSize.y = view!.height()/size.y
@@ -383,6 +383,8 @@ class Cubes
         let s = h/2
         let x = pos.x*w
         let y = (pos.x%2 == 0) ? (pos.y*h) : (pos.y*h - s)
+        
+        let contrasts = (view!.sheetController.defaults.valueForKey("contrasts") as! [String: AnyObject])["values"] as! [Double]
      
         if skip != .UP
         {
@@ -397,7 +399,7 @@ class Cubes
         
         if skip != .LEFT
         {
-            rgbColor.darken(0.6).set()
+            rgbColor.darken(1-contrasts[0]).set()
             let path = NSBezierPath()
             path.moveToPoint(NSPoint(x: x    ,y: y))
             path.lineToPoint(NSPoint(x: x-w  ,y: y+s))
@@ -408,7 +410,7 @@ class Cubes
         
         if skip != .RIGHT
         {
-            rgbColor.darken(0.25).set()
+            rgbColor.darken(1-contrasts[1]).set()
             var path = NSBezierPath()
             path.moveToPoint(NSPoint(x: x    ,y: y))
             path.lineToPoint(NSPoint(x: x+w  ,y: y+s))

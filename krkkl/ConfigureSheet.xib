@@ -10,6 +10,7 @@
                 <outlet property="colorsPage" destination="JZD-t0-9k7" id="Cmn-v7-ii8"/>
                 <outlet property="pages" destination="gEd-2e-L15" id="6W5-wE-Q7X"/>
                 <outlet property="rangeBox" destination="2ho-gc-1r6" id="CjX-ss-Gsw"/>
+                <outlet property="valueBox" destination="IrK-eX-xW4" id="Zsj-3y-wHR"/>
                 <outlet property="valuesView" destination="KfL-jK-pS1" id="2wq-Hq-b5r"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="t14-la-H7W"/>
             </connections>
@@ -20,7 +21,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="630" height="500"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <value key="minSize" type="size" width="630" height="500"/>
             <view key="contentView" wantsLayer="YES" placeholderIntrinsicWidth="621" placeholderIntrinsicHeight="529" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="630" height="500"/>
@@ -48,7 +49,7 @@
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <tableView focusRingType="none" verticalHuggingPriority="750" allowsExpansionToolTips="YES" selectionHighlightStyle="none" columnReordering="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="36" viewBased="YES" floatsGroupRows="NO" id="KfL-jK-pS1" userLabel="Values Table">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="238" height="117"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="588" height="0.0"/>
                                                                     <autoresizingMask key="autoresizingMask"/>
                                                                     <size key="intercellSpacing" width="4" height="6"/>
                                                                     <color key="backgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
@@ -354,14 +355,14 @@
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <slider identifier="minSlider" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4rx-Eh-Hvi" userLabel="Min Slider">
-                        <rect key="frame" x="65" y="13" width="225" height="16"/>
+                        <rect key="frame" x="65" y="12" width="225" height="17"/>
                         <sliderCell key="cell" controlSize="mini" continuous="YES" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="below" numberOfTickMarks="5" sliderType="linear" id="VVw-vW-zHc"/>
                         <connections>
                             <action selector="takeDoubleValueFrom:" target="oyq-Zj-95T" id="2ub-P0-oTO"/>
                         </connections>
                     </slider>
                     <slider identifier="maxSlider" verticalHuggingPriority="750" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="hxx-T4-cxC" userLabel="Max Slider">
-                        <rect key="frame" x="65" y="5" width="225" height="16"/>
+                        <rect key="frame" x="65" y="4" width="225" height="17"/>
                         <sliderCell key="cell" controlSize="mini" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" numberOfTickMarks="5" sliderType="linear" id="Qwc-Pw-lHd"/>
                         <connections>
                             <action selector="takeDoubleValueFrom:" target="tSo-rj-gQw" id="dCN-l4-dwE"/>
@@ -412,6 +413,42 @@
             <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
             <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <point key="canvasLocation" x="440.5" y="609"/>
+        </box>
+        <box title="Box" titlePosition="noTitle" id="IrK-eX-xW4" userLabel="ValueBox">
+            <rect key="frame" x="0.0" y="-4" width="359" height="40"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <view key="contentView">
+                <rect key="frame" x="2" y="2" width="355" height="36"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <subviews>
+                    <slider identifier="valueSlider" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Nmo-wG-t5Y" userLabel="Value Slider">
+                        <rect key="frame" x="65" y="12" width="225" height="15"/>
+                        <sliderCell key="cell" controlSize="mini" continuous="YES" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="below" sliderType="linear" id="6Iw-35-f22"/>
+                    </slider>
+                    <textField identifier="valueText" verticalHuggingPriority="750" tag="3" translatesAutoresizingMaskIntoConstraints="NO" id="DId-gu-rbs" userLabel="Value Text">
+                        <rect key="frame" x="298" y="13" width="49" height="16"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="49" id="TP3-UN-37v"/>
+                        </constraints>
+                        <textFieldCell key="cell" controlSize="mini" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" id="Lfk-wR-nj7">
+                            <numberFormatter key="formatter" formatterBehavior="default10_4" localizesFormat="NO" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="QT1-dz-Zgc"/>
+                            <font key="font" metaFont="miniSystem"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstItem="Nmo-wG-t5Y" firstAttribute="leading" secondItem="IrK-eX-xW4" secondAttribute="leading" constant="64" id="eOa-m6-iEX"/>
+                <constraint firstAttribute="trailing" secondItem="DId-gu-rbs" secondAttribute="trailing" constant="7" id="fzN-nX-Ylx"/>
+                <constraint firstItem="Nmo-wG-t5Y" firstAttribute="top" secondItem="IrK-eX-xW4" secondAttribute="top" constant="9" id="i4h-4q-FOG"/>
+                <constraint firstAttribute="trailing" secondItem="Nmo-wG-t5Y" secondAttribute="trailing" constant="64" id="mbz-cN-V4g"/>
+                <constraint firstItem="DId-gu-rbs" firstAttribute="top" secondItem="IrK-eX-xW4" secondAttribute="top" constant="7" id="tjA-JG-Ddt"/>
+            </constraints>
+            <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
+            <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <point key="canvasLocation" x="440.5" y="696"/>
         </box>
     </objects>
     <resources>

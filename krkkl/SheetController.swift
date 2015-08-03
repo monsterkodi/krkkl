@@ -8,58 +8,87 @@ class SheetController : NSWindowController, NSTableViewDelegate
     @IBOutlet var valuesView: NSTableView?
     @IBOutlet var pages:      NSTabView?
     @IBOutlet var rangeBox:   NSBox?
+    @IBOutlet var valueBox:   NSBox?
 
     override func awakeFromNib()
     {
         super.awakeFromNib()
         valuesView!.setDelegate(self)
         let indexes = NSIndexSet(indexesInRange: NSRange(location:0,length:defaults.values.count))
-        println(defaults.values)
+        //println(defaults.values)
         valuesView!.insertRowsAtIndexes(indexes, withAnimation: NSTableViewAnimationOptions.EffectNone)
+        let valueColumn = valuesView!.tableColumnWithIdentifier("label")!
+        valueColumn.minWidth = 150
     }
 
     func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView?
     {
         if tableColumn?.identifier == "label"
         {
-            var label = NSTextView(frame: NSMakeRect(0,0,200,10))
+            var label = NSTextView()
             label.string = defaults.values[row]["label"] as? String
             label.drawsBackground = false
             label.editable = false
             label.selectable = false
+            label.alignment = .RightTextAlignment
+            tableColumn?.sizeToFit()
             return label
         }
         else if tableColumn?.identifier == "value"
         {
-            var clone = rangeBox!.clone()
-            var box = clone.subviews.first! as! NSView
-            box.identifier = defaults.values[row]["key"] as? String
-            
-            var minSlider = box.childWithIdentifier("minSlider") as! NSSlider
-            var maxSlider = box.childWithIdentifier("maxSlider") as! NSSlider
-            var minText   = box.childWithIdentifier("minText") as! NSTextField
-            var maxText   = box.childWithIdentifier("maxText") as! NSTextField
-            
-            let minRange = (defaults.values[row]["range"] as! [Double]).first! as Double
-            let maxRange = (defaults.values[row]["range"] as! [Double]).last! as Double
-            let minValue = (defaults.values[row]["value"] as! [Double]).first! as Double
-            let maxValue = (defaults.values[row]["value"] as! [Double]).last! as Double
-            
-            minText.doubleValue = minValue
-            minSlider.minValue = minRange
-            minSlider.maxValue = maxRange
-            minSlider.doubleValue = minValue
-            minSlider.target = self
-            minSlider.action = Selector("sliderChanged:")
-            
-            maxText.doubleValue = maxValue
-            maxSlider.minValue = minRange
-            maxSlider.maxValue = maxRange
-            maxSlider.doubleValue = maxValue
-            maxSlider.target = self
-            maxSlider.action = Selector("sliderChanged:")
-            
-            return clone
+            if (defaults.values[row]["values"] != nil)
+            {
+                var clone = rangeBox!.clone()
+                var box = clone.subviews.first! as! NSView
+                box.identifier = defaults.values[row]["key"] as? String
+                
+                var minSlider = box.childWithIdentifier("minSlider") as! NSSlider
+                var maxSlider = box.childWithIdentifier("maxSlider") as! NSSlider
+                var minText   = box.childWithIdentifier("minText") as! NSTextField
+                var maxText   = box.childWithIdentifier("maxText") as! NSTextField
+                
+                let minRange = (defaults.values[row]["range"]  as! [Double]).first! as Double
+                let maxRange = (defaults.values[row]["range"]  as! [Double]).last!  as Double
+                let minValue = (defaults.values[row]["values"] as! [Double]).first! as Double
+                let maxValue = (defaults.values[row]["values"] as! [Double]).last!  as Double
+                
+                minText.doubleValue = minValue
+                minSlider.minValue = minRange
+                minSlider.maxValue = maxRange
+                minSlider.doubleValue = minValue
+                minSlider.target = self
+                minSlider.action = Selector("sliderChanged:")
+                
+                maxText.doubleValue = maxValue
+                maxSlider.minValue = minRange
+                maxSlider.maxValue = maxRange
+                maxSlider.doubleValue = maxValue
+                maxSlider.target = self
+                maxSlider.action = Selector("sliderChanged:")
+                return clone
+            }
+            else if (defaults.values[row]["value"] != nil)
+            {
+                var clone = valueBox!.clone()
+                var box = clone.subviews.first! as! NSView
+                box.identifier = defaults.values[row]["key"] as? String
+                
+                var valueSlider = box.childWithIdentifier("valueSlider") as! NSSlider
+                var valueText   = box.childWithIdentifier("valueText") as! NSTextField
+                
+                let minRange = (defaults.values[row]["range"] as! [Double]).first! as Double
+                let maxRange = (defaults.values[row]["range"] as! [Double]).last! as Double
+                let value    =  defaults.values[row]["value"] as! Double
+                
+                valueText.doubleValue = value
+                valueSlider.minValue = minRange
+                valueSlider.maxValue = maxRange
+                valueSlider.doubleValue = value
+                valueSlider.target = self
+                valueSlider.action = Selector("sliderChanged:")
+                
+                return clone
+            }
         }
         return nil
     }
@@ -72,7 +101,15 @@ class SheetController : NSWindowController, NSTableViewDelegate
         let step   = defaults.values[row]["step"] as! Double
         let value  = valueStep(slider.doubleValue, step)
 
-        var text = box.childWithIdentifier(slider.identifier == "minSlider" ? "minText" : "maxText") as! NSTextField
+        var textId = ""
+        switch slider.identifier!
+        {
+        case "minSlider": textId = "minText"
+        case "maxSlider": textId = "maxText"
+        default:          textId = "valueText"
+        }
+        
+        var text = box.childWithIdentifier(textId) as! NSTextField
         text.doubleValue = value
         
         if slider.identifier == "minSlider"
@@ -82,16 +119,20 @@ class SheetController : NSWindowController, NSTableViewDelegate
             otherSlider.doubleValue = max(otherSlider.doubleValue, slider.doubleValue)
             otherText.doubleValue = max(otherText.doubleValue, value)
             
-            defaults.values[row]["value"] = [value, otherText.doubleValue]
+            defaults.values[row]["values"] = [value, otherText.doubleValue]
         }
-        else
+        else if slider.identifier == "maxSlider"
         {
             let otherSlider = box.childWithIdentifier("minSlider") as! NSSlider
             let otherText   = box.childWithIdentifier("minText") as! NSTextField
             otherSlider.doubleValue = min(otherSlider.doubleValue, slider.doubleValue)
             otherText.doubleValue = min(otherText.doubleValue, value)
             
-            defaults.values[row]["value"] = [otherText.doubleValue, value]
+            defaults.values[row]["values"] = [otherText.doubleValue, value]
+        }
+        else if slider.identifier == "valueSlider"
+        {
+            defaults.values[row]["value"] = value
         }
         
         updateDefaults(self)
