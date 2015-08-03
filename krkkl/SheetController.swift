@@ -10,6 +10,7 @@ class SheetController : NSWindowController, NSTableViewDelegate
     @IBOutlet var rangeBox:   NSBox?
     @IBOutlet var valueBox:   NSBox?
     @IBOutlet var labelBox:   NSBox?
+    @IBOutlet var titleBox:   NSBox?
     @IBOutlet var textBox:    NSBox?
 
     override func awakeFromNib()
@@ -26,14 +27,28 @@ class SheetController : NSWindowController, NSTableViewDelegate
     {
         if tableColumn?.identifier == "label"
         {
-            var clone = labelBox!.clone()
-            var label = clone.subviews.first!.subviews.first! as! NSTextField
-            label.stringValue = defaults.values[row]["label"] as! String
-            label.drawsBackground = false
-            label.editable = false
-            label.selectable = false
-            label.alignment = .RightTextAlignment
-            return clone
+            if (defaults.values[row]["title"] != nil)
+            {
+                var clone = titleBox!.clone()
+                var label = clone.subviews.first!.subviews.first! as! NSTextField
+                label.stringValue = defaults.values[row]["title"] as! String
+                label.drawsBackground = false
+                label.editable = false
+                label.selectable = false
+                label.alignment = .RightTextAlignment
+                return clone
+            }
+            else
+            {
+                var clone = labelBox!.clone()
+                var label = clone.subviews.first!.subviews.first! as! NSTextField
+                label.stringValue = defaults.values[row]["label"] as! String
+                label.drawsBackground = false
+                label.editable = false
+                label.selectable = false
+                label.alignment = .RightTextAlignment
+                return clone
+            }
         }
         else if tableColumn?.identifier == "value"
         {
