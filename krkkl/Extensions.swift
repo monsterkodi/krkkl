@@ -34,6 +34,11 @@ extension NSColor
         let a = CGFloat(alpha() * CGFloat(1.0-fade) + CGFloat(fade) * color.alpha())
         return NSColor(red: r, green: g, blue: b, alpha: a)
     }
+    
+    func hex() -> String
+    {
+        return NSString(format: "#%x%x%x", red(), green(), blue()) as String
+    }
 }
 
 extension NSView

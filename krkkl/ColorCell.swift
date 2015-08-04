@@ -1,30 +1,19 @@
 import Cocoa
 
-class ColorCell : NSTextFieldCell
+class ColorCell : NSColorWell
 {
-    override func drawWithFrame(rect:NSRect, inView: NSView)
+    init(color:NSColor)
     {
-        super.drawWithFrame(rect, inView:inView)
-        //    [NSGraphicsContext saveGraphicsState];
-        //
-        //    [[self backgroundColor] set];
-        //    NSRectFill(rect);
-        //
-        //    [[self textColor] set];
-        //    NSRect square = rect;
-        //    square.size.width = square.size.height;
-        //    square = NSInsetRect(square, 2, 2);
-        //    square.origin.x += 1;
-        //    NSRectFill(square);
-        //
-        //    rect.origin.x += 25;
-        //
-        //    NSMutableAttributedString * str = [NSMutableAttributedString withString:[self title]];
-        //    [str setColor:[self textColor]];
-        //    [str addAttribute:NSFontAttributeName value:[self font] range:[str range]];
-        //    [str drawWithRect:rect options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingTruncatesLastVisibleLine];
-        //    
-        //    [NSGraphicsContext restoreGraphicsState];
+        super.init(frame:NSRect())
+        self.color = color
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
+    override func drawRect(dirtyRect: NSRect)
+    {
+        super.drawRect(dirtyRect)
+    }
 }

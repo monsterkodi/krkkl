@@ -22,11 +22,11 @@ class SheetController : NSWindowController, NSTableViewDelegate
         colorLists!.setDelegate(self)
         colors!.setDelegate(self)
                 
-        let indexes = NSIndexSet(indexesInRange: NSRange(location:0,length:defaults.values.count))
+        var indexes = NSIndexSet(indexesInRange: NSRange(location:0,length:defaults.values.count))
         valuesView!.insertRowsAtIndexes(indexes, withAnimation: NSTableViewAnimationOptions.EffectNone)
         
-        let lists = NSIndexSet(indexesInRange: NSRange(location:0,length:defaults.colorLists.count))
-        colorLists!.insertRowsAtIndexes(lists, withAnimation: NSTableViewAnimationOptions.EffectNone)
+        indexes = NSIndexSet(indexesInRange: NSRange(location:0,length:defaults.colorLists.count))
+        colorLists!.insertRowsAtIndexes(indexes, withAnimation: NSTableViewAnimationOptions.EffectNone)
     }
 
     func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView?
@@ -59,7 +59,24 @@ class SheetController : NSWindowController, NSTableViewDelegate
 
     func addColorsView(tableView: NSTableView, tableColumn: NSTableColumn?, row: Int) -> NSView?
     {
-        return NSColorWell();
+        let listIndex = colorLists!.selectedRow
+        let color = defaults.colorLists[listIndex][row]
+        println(color)
+        if tableColumn?.identifier == "color"
+        {
+            return ColorCell(color:color)
+        }
+        else
+        {
+            var clone = titleBox!.clone()
+            var label = clone.subviews.first!.subviews.first! as! NSTextField
+            label.stringValue = color.hex()
+            label.drawsBackground = false
+            label.editable = false
+            label.selectable = false
+            label.alignment = .RightTextAlignment
+            return clone
+        }
     }
 
     func addValueView(tableView: NSTableView, tableColumn: NSTableColumn?, row: Int) -> NSView?
@@ -159,14 +176,26 @@ class SheetController : NSWindowController, NSTableViewDelegate
         return nil
     }
     
-    @IBAction func colorListSelected(sender: AnyObject) { updateTableHighlight(sender as! NSTableView) }
-    func tableViewSelectionDidChange(notification: NSNotification) { updateTableHighlight(notification.object as! NSTableView) }
-    
-    func updateTableHighlight(table:NSTableView)
+    @IBAction func colorListSelected(sender: AnyObject) { showColorList(sender as! NSTableView) }
+    func tableViewSelectionDidChange(notification: NSNotification)
     {
-//        println(table)
-//        println(table.selectedRow)
-//        println(table.rowViewAtRow(table.selectedRow, makeIfNecessary: false))
+        let table = notification.object as! NSTableView
+        if table == colorLists
+        {
+            showColorList(table)
+        }
+    }
+    
+    func showColorList(table:NSTableView)
+    {
+        let row = table.selectedRow
+        var indexes = NSIndexSet(indexesInRange: NSRange(location:0,length:colors!.numberOfRows))
+        colors!.removeRowsAtIndexes(indexes, withAnimation: NSTableViewAnimationOptions.EffectNone)
+        if row >= 0
+        {
+            indexes = NSIndexSet(indexesInRange: NSRange(location:0,length:defaults.colorLists[row].count))
+            colors!.insertRowsAtIndexes(indexes, withAnimation: NSTableViewAnimationOptions.EffectNone)
+        }
     }
 
     @IBAction func sliderChanged(sender: AnyObject)
@@ -216,34 +245,46 @@ class SheetController : NSWindowController, NSTableViewDelegate
     
     @IBAction func addColorList(sender: AnyObject)
     {
-        var row = colorLists!.selectedRow
-        if row < 0 { row  = colorLists!.numberOfRows }
-        println("addColorList")
+        var row = colorLists!.selectedRow+1
         defaults.colorLists.insert([colorRGB([0.0,0.0,0.0])], atIndex:row)
-        let indexes = NSIndexSet(index:row)
-        colorLists!.insertRowsAtIndexes(indexes, withAnimation: NSTableViewAnimationOptions.SlideDown)
+        colorLists!.insertRowsAtIndexes(NSIndexSet(index:row), withAnimation: NSTableViewAnimationOptions.SlideLeft)
         colorLists!.selectRowIndexes(NSIndexSet(index:row), byExtendingSelection:false)
     }
 
     @IBAction func delColorList(sender: AnyObject)
     {
         let row = colorLists!.selectedRow
-        if row < 0 { return }
-        colorLists!.selectRowIndexes(NSIndexSet(index:row+1), byExtendingSelection:false)
-        defaults.colorLists.removeAtIndex(row)
-
-        let indexes = NSIndexSet(index:row)
-        colorLists!.removeRowsAtIndexes(indexes, withAnimation: NSTableViewAnimationOptions.SlideLeft)
+        if row >= 0
+        {
+            colorLists!.selectRowIndexes(NSIndexSet(index:row==colorLists!.numberOfRows-1 ? row-1 : row+1), byExtendingSelection:false)
+            defaults.colorLists.removeAtIndex(row)
+            colorLists!.removeRowsAtIndexes(NSIndexSet(index:row), withAnimation: NSTableViewAnimationOptions.SlideRight)
+        }
     }
 
     @IBAction func addColor(sender: AnyObject)
     {
-        println("addColor")
+        var listIndex = colorLists!.selectedRow
+        if  listIndex >= 0
+        {
+            var row = colors!.selectedRow + 1
+            defaults.colorLists[listIndex].insert(colorRGB([1.0,0.0,0.0]), atIndex:row)
+            colors!.insertRowsAtIndexes(NSIndexSet(index:row), withAnimation: NSTableViewAnimationOptions.SlideLeft)
+            colors!.selectRowIndexes(NSIndexSet(index:row), byExtendingSelection:false)
+        }
     }
     
     @IBAction func delColor(sender: AnyObject)
     {
-        println("delColor")
+        let row = colors!.selectedRow
+        if row >= 0
+        {
+            println("delColor \(row)")
+            var listIndex = colorLists!.selectedRow
+            colors!.selectRowIndexes(NSIndexSet(index:row==colors!.numberOfRows-1 ? row-1 : row+1), byExtendingSelection:false)
+            defaults.colorLists[listIndex].removeAtIndex(row)
+            colors!.removeRowsAtIndexes(NSIndexSet(index:row), withAnimation: NSTableViewAnimationOptions.SlideRight)
+        }
     }
 
     @IBAction func showPage(sender: AnyObject)
