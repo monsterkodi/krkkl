@@ -21,12 +21,11 @@ class SheetController : NSWindowController, NSTableViewDelegate
         valuesView!.setDelegate(self)
         colorLists!.setDelegate(self)
         colors!.setDelegate(self)
-        
+                
         let indexes = NSIndexSet(indexesInRange: NSRange(location:0,length:defaults.values.count))
         valuesView!.insertRowsAtIndexes(indexes, withAnimation: NSTableViewAnimationOptions.EffectNone)
         
         let lists = NSIndexSet(indexesInRange: NSRange(location:0,length:defaults.colorLists.count))
-        println(defaults.colorLists)
         colorLists!.insertRowsAtIndexes(lists, withAnimation: NSTableViewAnimationOptions.EffectNone)
     }
 
@@ -44,13 +43,17 @@ class SheetController : NSWindowController, NSTableViewDelegate
         }
     }
     
+    func tableView(tableView: NSTableView, rowViewForRow row: Int) -> NSTableRowView?
+    {
+        return TableRow()
+    }
+    
     func addColorListsView(tableView: NSTableView, tableColumn: NSTableColumn?, row: Int) -> NSView?
     {
         let view = NSView()
-        view.autoresizesSubviews = false
         let cell = ListCell()
+        cell.autoresizingMask = NSAutoresizingMaskOptions.ViewWidthSizable | NSAutoresizingMaskOptions.ViewHeightSizable
         view.addSubview(cell)
-        cell.initConstraints()
         return view
     }
 
@@ -156,17 +159,16 @@ class SheetController : NSWindowController, NSTableViewDelegate
         return nil
     }
     
-    @IBAction func colorListSelected(sender: AnyObject)
-    {
-        println(sender)
-    }
+    @IBAction func colorListSelected(sender: AnyObject) { updateTableHighlight(sender as! NSTableView) }
+    func tableViewSelectionDidChange(notification: NSNotification) { updateTableHighlight(notification.object as! NSTableView) }
     
-    func tableViewSelectionDidChange(notification: NSNotification)
+    func updateTableHighlight(table:NSTableView)
     {
-        println("didChange")
-        println(notification.object)
+//        println(table)
+//        println(table.selectedRow)
+//        println(table.rowViewAtRow(table.selectedRow, makeIfNecessary: false))
     }
-    
+
     @IBAction func sliderChanged(sender: AnyObject)
     {
         let slider = sender as! NSSlider
@@ -214,13 +216,24 @@ class SheetController : NSWindowController, NSTableViewDelegate
     
     @IBAction func addColorList(sender: AnyObject)
     {
+        var row = colorLists!.selectedRow
+        if row < 0 { row  = colorLists!.numberOfRows }
         println("addColorList")
-        defaults.colorLists += [[colorRGB([0.0,0.0,0.0])]]
+        defaults.colorLists.insert([colorRGB([0.0,0.0,0.0])], atIndex:row)
+        let indexes = NSIndexSet(index:row)
+        colorLists!.insertRowsAtIndexes(indexes, withAnimation: NSTableViewAnimationOptions.SlideDown)
+        colorLists!.selectRowIndexes(NSIndexSet(index:row), byExtendingSelection:false)
     }
 
     @IBAction func delColorList(sender: AnyObject)
     {
-        println("delColorList")
+        let row = colorLists!.selectedRow
+        if row < 0 { return }
+        colorLists!.selectRowIndexes(NSIndexSet(index:row+1), byExtendingSelection:false)
+        defaults.colorLists.removeAtIndex(row)
+
+        let indexes = NSIndexSet(index:row)
+        colorLists!.removeRowsAtIndexes(indexes, withAnimation: NSTableViewAnimationOptions.SlideLeft)
     }
 
     @IBAction func addColor(sender: AnyObject)

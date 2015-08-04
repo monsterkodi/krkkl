@@ -23,6 +23,8 @@
 		C33B3EE01B6D1B040025CECB /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33B3EDE1B6D1B040025CECB /* ListCell.swift */; };
 		C33B3EE21B6D1C710025CECB /* ColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33B3EE11B6D1C710025CECB /* ColorCell.swift */; };
 		C33B3EE31B6D1C710025CECB /* ColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33B3EE11B6D1C710025CECB /* ColorCell.swift */; };
+		C33B3EE51B7162AE0025CECB /* TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33B3EE41B7162AE0025CECB /* TableView.swift */; };
+		C33B3EE61B7162AE0025CECB /* TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33B3EE41B7162AE0025CECB /* TableView.swift */; };
 		C39F6FC81B67F2FB008519FA /* KrkklView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39F6FC71B67F2FB008519FA /* KrkklView.swift */; };
 		C3C2047C1B67F63B00C43606 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C2047B1B67F63B00C43606 /* AppDelegate.swift */; };
 		C3C2047E1B67F63C00C43606 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3C2047D1B67F63C00C43606 /* Images.xcassets */; };
@@ -40,6 +42,7 @@
 		C33B3ED61B6CFA5F0025CECB /* Defaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Defaults.swift; sourceTree = "<group>"; };
 		C33B3EDE1B6D1B040025CECB /* ListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		C33B3EE11B6D1C710025CECB /* ColorCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorCell.swift; sourceTree = "<group>"; };
+		C33B3EE41B7162AE0025CECB /* TableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableView.swift; sourceTree = "<group>"; };
 		C365BA211B67F18D008A49B5 /* krkkl.saver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = krkkl.saver; sourceTree = BUILT_PRODUCTS_DIR; };
 		C365BA251B67F18D008A49B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C39F6FC71B67F2FB008519FA /* KrkklView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KrkklView.swift; sourceTree = "<group>"; };
@@ -94,6 +97,7 @@
 				C33B3ED61B6CFA5F0025CECB /* Defaults.swift */,
 				C30B0F581B6AA23000144035 /* Cubes.swift */,
 				C33B3EDE1B6D1B040025CECB /* ListCell.swift */,
+				C33B3EE41B7162AE0025CECB /* TableView.swift */,
 				C33B3EE11B6D1C710025CECB /* ColorCell.swift */,
 				C39F6FC71B67F2FB008519FA /* KrkklView.swift */,
 				C30B0F551B6A9B4700144035 /* Extensions.swift */,
@@ -248,6 +252,7 @@
 				C33B3EE21B6D1C710025CECB /* ColorCell.swift in Sources */,
 				C33B3EDB1B6CFA5F0025CECB /* Defaults.swift in Sources */,
 				C33B3EDF1B6D1B040025CECB /* ListCell.swift in Sources */,
+				C33B3EE51B7162AE0025CECB /* TableView.swift in Sources */,
 				C30B0F591B6AA23000144035 /* Cubes.swift in Sources */,
 				C30B0F561B6A9B4700144035 /* Extensions.swift in Sources */,
 			);
@@ -261,6 +266,7 @@
 				C33B3EE31B6D1C710025CECB /* ColorCell.swift in Sources */,
 				C33B3EDC1B6CFA5F0025CECB /* Defaults.swift in Sources */,
 				C3C204941B67F74500C43606 /* KrkklView.swift in Sources */,
+				C33B3EE61B7162AE0025CECB /* TableView.swift in Sources */,
 				C33B3EE01B6D1B040025CECB /* ListCell.swift in Sources */,
 				C30B0F571B6A9B4700144035 /* Extensions.swift in Sources */,
 				C3C2047C1B67F63B00C43606 /* AppDelegate.swift in Sources */,

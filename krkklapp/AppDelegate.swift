@@ -19,6 +19,8 @@ extension AppDelegate: NSApplicationDelegate
 {
     func applicationDidFinishLaunching(notification: NSNotification)
     {
+        NSUserDefaults.standardUserDefaults().setBool(false, forKey: "NSConstraintBasedLayoutVisualizeMutuallyExclusiveConstraints")
+        
         view = KrkklView(frame: CGRectZero, isPreview: false)
         view!.autoresizingMask = NSAutoresizingMaskOptions.ViewWidthSizable | NSAutoresizingMaskOptions.ViewHeightSizable
         view!.frame = window.contentView.bounds
