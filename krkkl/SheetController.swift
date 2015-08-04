@@ -5,6 +5,8 @@ class SheetController : NSWindowController, NSTableViewDelegate
     var defaults = Defaults()
     
     @IBOutlet var colorsPage: NSView?
+    @IBOutlet var colorLists: NSTableView?
+    @IBOutlet var colors:     NSTableView?
     @IBOutlet var valuesView: NSTableView?
     @IBOutlet var pages:      NSTabView?
     @IBOutlet var rangeBox:   NSBox?
@@ -17,13 +19,47 @@ class SheetController : NSWindowController, NSTableViewDelegate
     {
         super.awakeFromNib()
         valuesView!.setDelegate(self)
+        colorLists!.setDelegate(self)
+        colors!.setDelegate(self)
+        
         let indexes = NSIndexSet(indexesInRange: NSRange(location:0,length:defaults.values.count))
-        //println(defaults.values)
         valuesView!.insertRowsAtIndexes(indexes, withAnimation: NSTableViewAnimationOptions.EffectNone)
-        let valueColumn = valuesView!.tableColumnWithIdentifier("label")!
+        
+        let lists = NSIndexSet(indexesInRange: NSRange(location:0,length:defaults.colorLists.count))
+        println(defaults.colorLists)
+        colorLists!.insertRowsAtIndexes(lists, withAnimation: NSTableViewAnimationOptions.EffectNone)
     }
 
     func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView?
+    {
+        switch tableView
+        {
+        case valuesView!:
+            return addValueView(tableView, tableColumn:tableColumn, row:row)
+        case colorLists!:
+            return addColorListsView(tableView, tableColumn:tableColumn, row:row)
+        case colors!:
+            return addColorsView(tableView, tableColumn:tableColumn, row:row)
+        default: return nil;
+        }
+    }
+    
+    func addColorListsView(tableView: NSTableView, tableColumn: NSTableColumn?, row: Int) -> NSView?
+    {
+        let view = NSView()
+        view.autoresizesSubviews = false
+        let cell = ListCell()
+        view.addSubview(cell)
+        cell.initConstraints()
+        return view
+    }
+
+    func addColorsView(tableView: NSTableView, tableColumn: NSTableColumn?, row: Int) -> NSView?
+    {
+        return NSColorWell();
+    }
+
+    func addValueView(tableView: NSTableView, tableColumn: NSTableColumn?, row: Int) -> NSView?
     {
         if tableColumn?.identifier == "label"
         {
@@ -120,6 +156,17 @@ class SheetController : NSWindowController, NSTableViewDelegate
         return nil
     }
     
+    @IBAction func colorListSelected(sender: AnyObject)
+    {
+        println(sender)
+    }
+    
+    func tableViewSelectionDidChange(notification: NSNotification)
+    {
+        println("didChange")
+        println(notification.object)
+    }
+    
     @IBAction func sliderChanged(sender: AnyObject)
     {
         let slider = sender as! NSSlider
@@ -165,6 +212,27 @@ class SheetController : NSWindowController, NSTableViewDelegate
         updateDefaults(self)
     }
     
+    @IBAction func addColorList(sender: AnyObject)
+    {
+        println("addColorList")
+        defaults.colorLists += [[colorRGB([0.0,0.0,0.0])]]
+    }
+
+    @IBAction func delColorList(sender: AnyObject)
+    {
+        println("delColorList")
+    }
+
+    @IBAction func addColor(sender: AnyObject)
+    {
+        println("addColor")
+    }
+    
+    @IBAction func delColor(sender: AnyObject)
+    {
+        println("delColor")
+    }
+
     @IBAction func showPage(sender: AnyObject)
     {
         pages?.selectTabViewItemAtIndex(sender.selectedSegment)

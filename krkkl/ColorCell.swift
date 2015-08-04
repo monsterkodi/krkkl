@@ -26,4 +26,5 @@ class ColorCell : NSTextFieldCell
         //    
         //    [NSGraphicsContext restoreGraphicsState];
     }
+    
 }
