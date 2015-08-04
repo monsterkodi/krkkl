@@ -14,6 +14,7 @@ class SheetController : NSWindowController, NSTableViewDelegate
     @IBOutlet var labelBox:   NSBox?
     @IBOutlet var titleBox:   NSBox?
     @IBOutlet var textBox:    NSBox?
+    @IBOutlet var colorBox:   NSBox?
 
     override func awakeFromNib()
     {
@@ -61,16 +62,22 @@ class SheetController : NSWindowController, NSTableViewDelegate
     {
         let listIndex = colorLists!.selectedRow
         let color = defaults.colorLists[listIndex][row]
-        println(color)
         if tableColumn?.identifier == "color"
         {
             return ColorCell(color:color)
         }
         else
         {
-            var clone = titleBox!.clone()
+            var clone = colorBox!.clone()
             var label = clone.subviews.first!.subviews.first! as! NSTextField
-            label.stringValue = color.hex()
+            switch tableColumn!.identifier
+            {
+            case "red":   label.stringValue = String(Int(color.red()*255))
+            case "green": label.stringValue = String(Int(color.green()*255))
+            case "blue":  label.stringValue = String(Int(color.blue()*255))
+            default: break
+            }
+            
             label.drawsBackground = false
             label.editable = false
             label.selectable = false
@@ -268,7 +275,8 @@ class SheetController : NSWindowController, NSTableViewDelegate
         if  listIndex >= 0
         {
             var row = colors!.selectedRow + 1
-            defaults.colorLists[listIndex].insert(colorRGB([1.0,0.0,0.0]), atIndex:row)
+            let color = randColor()
+            defaults.colorLists[listIndex].insert(color, atIndex:row)
             colors!.insertRowsAtIndexes(NSIndexSet(index:row), withAnimation: NSTableViewAnimationOptions.SlideLeft)
             colors!.selectRowIndexes(NSIndexSet(index:row), byExtendingSelection:false)
         }

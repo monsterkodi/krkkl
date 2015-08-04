@@ -5,7 +5,7 @@ class Defaults
     var userDefaults: NSUserDefaults
     
     let defaultValues:[[String: AnyObject]] = [
-        [                        "title": "",                        "text": "values are choosen randomly between top and bottom sliders!"],
+        [                        "title": "",                        "text": "values are choosen randomly between top and bottom sliders"],
         ["key": "rows",          "title": "number of cube rows",     "values": [20,  60],   "range":  [10,   100], "step": 1   ],
         ["key": "cube_amount",   "title": "cube amount",             "values": [3,    5],   "range":  [1,     10], "step": 0.2 ],
         ["key": "cpf",           "title": "cubes per frame",         "values": [1,    1],   "range":  [1,    200], "step": 1   ],
@@ -48,6 +48,34 @@ class Defaults
         colorRGB([0.0, 0.0, 1.0]),
         colorRGB([0.0, 0.0, 0.5]),
         colorRGB([0.2, 0.2, 0.2]),
+    ],[
+        colorRGB([0.1, 0.1, 0.1]),
+        colorRGB([1.0, 1.0, 1.0]),
+        colorRGB([0.5, 0.5, 0.5]),
+        colorRGB([1.0, 1.0, 1.0]),
+        colorRGB([0.5, 0.5, 0.5]),
+        colorRGB([0.2, 0.2, 0.2]),
+    ],[
+        colorRGB([0.1, 0.1, 0.1]),
+        colorRGB([1.0, 0.0, 0.0]),
+        colorRGB([0.1, 0.1, 0.1]),
+        colorRGB([1.0, 1.0, 1.0]),
+        colorRGB([0.1, 0.1, 0.1]),
+        colorRGB([1.0, 0.0, 0.0]),
+    ],[
+        colorRGB([1.0, 0.0, 0.0]),
+        colorRGB([0.0, 1.0, 0.0]),
+        colorRGB([0.0, 0.0, 1.0]),
+        colorRGB([1.0, 0.0, 0.0]),
+        colorRGB([0.0, 1.0, 0.0]),
+        colorRGB([0.0, 0.0, 1.0]),
+    ],[
+        colorRGB([0.1, 0.1, 0.1]),
+        colorRGB([1.0, 0.0, 0.0]),
+        colorRGB([0.1, 0.1, 0.1]),
+        colorRGB([0.0, 1.0, 0.0]),
+        colorRGB([0.1, 0.1, 0.1]),
+        colorRGB([0.0, 0.0, 1.0]),
     ]]
 
     init()

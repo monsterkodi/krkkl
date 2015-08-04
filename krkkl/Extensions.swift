@@ -37,7 +37,7 @@ extension NSColor
     
     func hex() -> String
     {
-        return NSString(format: "#%x%x%x", red(), green(), blue()) as String
+        return NSString(format: "#%x%x%x", Int(red()*255), Int(green()*255), Int(blue()*255)) as String
     }
 }
 
