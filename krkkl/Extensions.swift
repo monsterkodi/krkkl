@@ -7,6 +7,14 @@
 */
 import AppKit
 
+/*
+   0000000   0000000   000       0000000   00000000 
+  000       000   000  000      000   000  000   000
+  000       000   000  000      000   000  0000000  
+  000       000   000  000      000   000  000   000
+   0000000   0000000   0000000   0000000   000   000
+*/
+
 extension NSColor
 {
     func red()   -> CGFloat { return redComponent   }
@@ -41,6 +49,14 @@ extension NSColor
     }
 }
 
+/*
+  000   000  000  00000000  000   000
+  000   000  000  000       000 0 000
+   000 000   000  0000000   000000000
+     000     000  000       000   000
+      0      000  00000000  00     00
+*/
+
 extension NSView
 {
     func childWithIdentifier(identifier:String) -> NSView?
@@ -66,6 +82,14 @@ extension NSView
         return NSKeyedUnarchiver.unarchiveObjectWithData(data) as! NSView
     }
 }
+
+/*
+  00     00  000   0000000   0000000
+  000   000  000  000       000     
+  000000000  000  0000000   000     
+  000 0 000  000       000  000     
+  000   000  000  0000000    0000000
+*/
 
 func randint(n: Int) -> Int { return Int(arc4random_uniform(UInt32(n))) }
 func randflt() -> Float { return Float(arc4random()) / Float(UINT32_MAX) }

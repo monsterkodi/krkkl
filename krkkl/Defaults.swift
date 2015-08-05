@@ -4,6 +4,14 @@ class Defaults
 {
     var userDefaults: NSUserDefaults
     
+    /*
+      000   000   0000000   000      000   000  00000000   0000000
+      000   000  000   000  000      000   000  000       000     
+       000 000   000000000  000      000   000  0000000   0000000 
+         000     000   000  000      000   000  000            000
+          0      000   000  0000000   0000000   00000000  0000000 
+    */
+    
     let defaultValues:[[String: AnyObject]] = [
         [                        "title": "",                        "text": "values are choosen randomly between top and bottom sliders"],
         ["key": "rows",          "title": "number of cube rows",     "values": [20,  60],   "range":  [10,   100], "step": 1   ],
@@ -29,6 +37,14 @@ class Defaults
         ["key": "fps",           "title": "frames per second",       "value" :  60,         "range":  [1,     60], "step": 1   ],
         ["key": "fade",          "title": "fade duration in frames", "value" : 100,         "range":  [10,   240], "step": 1   ],
     ]
+    
+    /*
+       0000000   0000000   000       0000000   00000000    0000000
+      000       000   000  000      000   000  000   000  000     
+      000       000   000  000      000   000  0000000    0000000 
+      000       000   000  000      000   000  000   000       000
+       0000000   0000000   0000000   0000000   000   000  0000000 
+    */
     
     let defaultColorLists:[[NSColor]] = [[
         colorRGB([0.1, 0.1, 0.1]),

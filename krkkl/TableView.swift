@@ -3,11 +3,6 @@ import Cocoa
 
 class TableView : NSTableView
 {
-//    override func rowViewAtRow(row:Int, makeIfNecessary:Bool) -> AnyObject?
-//    {
-//        println("rowViewAtRow \(row)")
-//        return super.rowViewAtRow(row, makeIfNecessary:makeIfNecessary)
-//    }
 }
 
 class TableRow : NSTableRowView

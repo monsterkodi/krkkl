@@ -30,6 +30,14 @@ class SheetController : NSWindowController, NSTableViewDelegate
         colorLists!.insertRowsAtIndexes(indexes, withAnimation: NSTableViewAnimationOptions.EffectNone)
     }
 
+    /*
+      000000000   0000000   0000000    000      00000000   0000000
+         000     000   000  000   000  000      000       000     
+         000     000000000  0000000    000      0000000   0000000 
+         000     000   000  000   000  000      000            000
+         000     000   000  0000000    0000000  00000000  0000000 
+    */
+
     func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView?
     {
         switch tableView
@@ -45,6 +53,14 @@ class SheetController : NSWindowController, NSTableViewDelegate
     {
         return TableRow()
     }
+    
+    /*
+       0000000   0000000   000       0000000   00000000   000   000  000  00000000  000   000   0000000
+      000       000   000  000      000   000  000   000  000   000  000  000       000 0 000  000     
+      000       000   000  000      000   000  0000000     000 000   000  0000000   000000000  0000000 
+      000       000   000  000      000   000  000   000     000     000  000       000   000       000
+       0000000   0000000   0000000   0000000   000   000      0      000  00000000  00     00  0000000 
+    */
     
     func addColorListsView(tableView: NSTableView, tableColumn: NSTableColumn?, row: Int) -> NSView?
     {
@@ -86,6 +102,109 @@ class SheetController : NSWindowController, NSTableViewDelegate
             return clone
         }
     }
+    
+    /*
+       0000000   0000000   000       0000000   00000000   000      000   0000000  000000000   0000000
+      000       000   000  000      000   000  000   000  000      000  000          000     000     
+      000       000   000  000      000   000  0000000    000      000  0000000      000     0000000 
+      000       000   000  000      000   000  000   000  000      000       000     000          000
+       0000000   0000000   0000000   0000000   000   000  0000000  000  0000000      000     0000000 
+    */
+
+    @IBAction func colorListSelected(sender: AnyObject) { showColorList(sender as! NSTableView) }
+    func tableViewSelectionDidChange(notification: NSNotification)
+    {
+        let table = notification.object as! NSTableView
+        if table == colorLists
+        {
+            showColorList(table)
+        }
+    }
+
+    func showColorList(table:NSTableView)
+    {
+        let row = table.selectedRow
+        var indexes = NSIndexSet(indexesInRange: NSRange(location:0,length:colors!.numberOfRows))
+        colors!.removeRowsAtIndexes(indexes, withAnimation: NSTableViewAnimationOptions.EffectNone)
+        if row >= 0
+        {
+            indexes = NSIndexSet(indexesInRange: NSRange(location:0,length:defaults.colorLists[row].count))
+            colors!.insertRowsAtIndexes(indexes, withAnimation: NSTableViewAnimationOptions.EffectNone)
+        }
+        colors?.selectRowIndexes(NSIndexSet(index:0), byExtendingSelection:false)
+    }
+
+    @IBAction func addColorList(sender: AnyObject)
+    {
+        var row = colorLists!.selectedRow+1
+        defaults.colorLists.insert([colorRGB([0.0,0.0,0.0])], atIndex:row)
+        colorLists!.insertRowsAtIndexes(NSIndexSet(index:row), withAnimation: NSTableViewAnimationOptions.SlideLeft)
+        colorLists!.selectRowIndexes(NSIndexSet(index:row), byExtendingSelection:false)
+    }
+
+    @IBAction func delColorList(sender: AnyObject)
+    {
+        let row = colorLists!.selectedRow
+        if row >= 0
+        {
+            colorLists!.selectRowIndexes(NSIndexSet(index:row==colorLists!.numberOfRows-1 ? row-1 : row+1), byExtendingSelection:false)
+            defaults.colorLists.removeAtIndex(row)
+            colorLists!.removeRowsAtIndexes(NSIndexSet(index:row), withAnimation: NSTableViewAnimationOptions.SlideRight)
+        }
+    }
+
+    /*
+       0000000   0000000   000       0000000   00000000    0000000
+      000       000   000  000      000   000  000   000  000     
+      000       000   000  000      000   000  0000000    0000000 
+      000       000   000  000      000   000  000   000       000
+       0000000   0000000   0000000   0000000   000   000  0000000 
+    */
+
+    @IBAction func addColor(sender: AnyObject)
+    {
+        var listIndex = colorLists!.selectedRow
+        if  listIndex >= 0
+        {
+            var row = colors!.selectedRow + 1
+            let color = randColor()
+            defaults.colorLists[listIndex].insert(color, atIndex:row)
+            colors!.insertRowsAtIndexes(NSIndexSet(index:row), withAnimation: NSTableViewAnimationOptions.SlideLeft)
+            colors!.selectRowIndexes(NSIndexSet(index:row), byExtendingSelection:false)
+        }
+    }
+
+    @IBAction func delColor(sender: AnyObject)
+    {
+        let row = colors!.selectedRow
+        if row >= 0
+        {
+            println("delColor \(row)")
+            var listIndex = colorLists!.selectedRow
+            colors!.selectRowIndexes(NSIndexSet(index:row==colors!.numberOfRows-1 ? row-1 : row+1), byExtendingSelection:false)
+            defaults.colorLists[listIndex].removeAtIndex(row)
+            colors!.removeRowsAtIndexes(NSIndexSet(index:row), withAnimation: NSTableViewAnimationOptions.SlideRight)
+        }
+    }
+
+    func colorCellChanged(sender:AnyObject)
+    {
+        let colorCell = sender as! ColorCell
+        println("colorCellChanged \(colorCell.index())")
+        var listIndex = colorLists!.selectedRow
+        if  listIndex >= 0
+        {
+            defaults.colorLists[listIndex][colorCell.index()] = colorCell.color
+        }
+    }
+        
+    /*
+      000   000   0000000   000      000   000  00000000   0000000
+      000   000  000   000  000      000   000  000       000     
+       000 000   000000000  000      000   000  0000000   0000000 
+         000     000   000  000      000   000  000            000
+          0      000   000  0000000   0000000   00000000  0000000 
+    */
 
     func addValueView(tableView: NSTableView, tableColumn: NSTableColumn?, row: Int) -> NSView?
     {
@@ -183,28 +302,13 @@ class SheetController : NSWindowController, NSTableViewDelegate
         return nil
     }
     
-    @IBAction func colorListSelected(sender: AnyObject) { showColorList(sender as! NSTableView) }
-    func tableViewSelectionDidChange(notification: NSNotification)
-    {
-        let table = notification.object as! NSTableView
-        if table == colorLists
-        {
-            showColorList(table)
-        }
-    }
-    
-    func showColorList(table:NSTableView)
-    {
-        let row = table.selectedRow
-        var indexes = NSIndexSet(indexesInRange: NSRange(location:0,length:colors!.numberOfRows))
-        colors!.removeRowsAtIndexes(indexes, withAnimation: NSTableViewAnimationOptions.EffectNone)
-        if row >= 0
-        {
-            indexes = NSIndexSet(indexesInRange: NSRange(location:0,length:defaults.colorLists[row].count))
-            colors!.insertRowsAtIndexes(indexes, withAnimation: NSTableViewAnimationOptions.EffectNone)
-        }
-        colors?.selectRowIndexes(NSIndexSet(index:0), byExtendingSelection:false)
-    }
+    /*
+       0000000  000      000  0000000    00000000  00000000 
+      000       000      000  000   000  000       000   000
+      0000000   000      000  000   000  0000000   0000000  
+           000  000      000  000   000  000       000   000
+      0000000   0000000  000  0000000    00000000  000   000
+    */
 
     @IBAction func sliderChanged(sender: AnyObject)
     {
@@ -250,62 +354,14 @@ class SheetController : NSWindowController, NSTableViewDelegate
         
         updateDefaults(self)
     }
-    
-    @IBAction func addColorList(sender: AnyObject)
-    {
-        var row = colorLists!.selectedRow+1
-        defaults.colorLists.insert([colorRGB([0.0,0.0,0.0])], atIndex:row)
-        colorLists!.insertRowsAtIndexes(NSIndexSet(index:row), withAnimation: NSTableViewAnimationOptions.SlideLeft)
-        colorLists!.selectRowIndexes(NSIndexSet(index:row), byExtendingSelection:false)
-    }
 
-    @IBAction func delColorList(sender: AnyObject)
-    {
-        let row = colorLists!.selectedRow
-        if row >= 0
-        {
-            colorLists!.selectRowIndexes(NSIndexSet(index:row==colorLists!.numberOfRows-1 ? row-1 : row+1), byExtendingSelection:false)
-            defaults.colorLists.removeAtIndex(row)
-            colorLists!.removeRowsAtIndexes(NSIndexSet(index:row), withAnimation: NSTableViewAnimationOptions.SlideRight)
-        }
-    }
-
-    @IBAction func addColor(sender: AnyObject)
-    {
-        var listIndex = colorLists!.selectedRow
-        if  listIndex >= 0
-        {
-            var row = colors!.selectedRow + 1
-            let color = randColor()
-            defaults.colorLists[listIndex].insert(color, atIndex:row)
-            colors!.insertRowsAtIndexes(NSIndexSet(index:row), withAnimation: NSTableViewAnimationOptions.SlideLeft)
-            colors!.selectRowIndexes(NSIndexSet(index:row), byExtendingSelection:false)
-        }
-    }
-    
-    @IBAction func delColor(sender: AnyObject)
-    {
-        let row = colors!.selectedRow
-        if row >= 0
-        {
-            println("delColor \(row)")
-            var listIndex = colorLists!.selectedRow
-            colors!.selectRowIndexes(NSIndexSet(index:row==colors!.numberOfRows-1 ? row-1 : row+1), byExtendingSelection:false)
-            defaults.colorLists[listIndex].removeAtIndex(row)
-            colors!.removeRowsAtIndexes(NSIndexSet(index:row), withAnimation: NSTableViewAnimationOptions.SlideRight)
-        }
-    }
-
-    func colorCellChanged(sender:AnyObject)
-    {
-        let colorCell = sender as! ColorCell
-        println("colorCellChanged \(colorCell.index())")
-        var listIndex = colorLists!.selectedRow
-        if  listIndex >= 0
-        {
-            defaults.colorLists[listIndex][colorCell.index()] = colorCell.color
-        }
-    }
+    /*
+      00     00  000   0000000   0000000
+      000   000  000  000       000     
+      000000000  000  0000000   000     
+      000 0 000  000       000  000     
+      000   000  000  0000000    0000000
+    */
 
     @IBAction func showPage(sender: AnyObject)
     {
