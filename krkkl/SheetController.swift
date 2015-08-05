@@ -135,7 +135,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
     @IBAction func addColorList(sender: AnyObject)
     {
         var row = colorLists!.selectedRow+1
-        defaults.colorLists.insert([colorRGB([0.0,0.0,0.0])], atIndex:row)
+        defaults.colorLists.insert([randColor()], atIndex:row)
         colorLists!.insertRow(row)
         colorLists!.selectRow(row)
     }
@@ -150,6 +150,23 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
             defaults.colorLists.removeAtIndex(row)
             colorLists!.removeRow(row)
         }
+    }
+    
+    @IBAction func duplicateColorList(sender: AnyObject)
+    {
+        var row = colorLists!.selectedRow+1
+        defaults.colorLists.insert(defaults.colorLists[colorLists!.selectedRow], atIndex:row)
+        colorLists!.insertRow(row)
+        colorLists!.selectRow(row)
+    }
+    
+    @IBAction func restoreDefaultColorLists(sender: AnyObject)
+    {
+        defaults.colorLists = defaults.defaultColorLists
+        colorLists!.clear()
+        colors!.clear()
+        colorLists!.insertRows(defaults.colorLists.count)
+        colorLists!.selectRow(0)
     }
     
     func updateColorList(listIndex:Int)
@@ -206,21 +223,6 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
         }
     }
     
-    @IBAction func duplicateColorList(sender: AnyObject)
-    {
-        println("duplicateColorList")
-    }
-
-    @IBAction func restoreDefaultColorLists(sender: AnyObject)
-    {
-        println("restoreDefaultColorLists")
-        defaults.colorLists = defaults.defaultColorLists
-        colorLists!.clear()
-        colors!.clear()
-        colorLists!.insertRows(defaults.colorLists.count)
-        colorLists!.selectRow(0)
-    }
-
     @IBAction func duplicateColor(sender: AnyObject)
     {
         println("duplicateColor")
