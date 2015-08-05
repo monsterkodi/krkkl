@@ -65,7 +65,6 @@ class SheetController : NSWindowController, NSTableViewDelegate
             colorCell.bordered = false
             colorCell.action = Selector("colorCellChanged:")
             colorCell.target = self
-            colorCell.index = row
             return colorCell
         }
         else
@@ -86,12 +85,6 @@ class SheetController : NSWindowController, NSTableViewDelegate
             label.alignment = .RightTextAlignment
             return clone
         }
-    }
-    
-    func colorCellChanged(sender:AnyObject)
-    {
-        let colorCell = sender as! ColorCell
-        println("colorCellChanged \(colorCell.index)")
     }
 
     func addValueView(tableView: NSTableView, tableColumn: NSTableColumn?, row: Int) -> NSView?
@@ -131,7 +124,6 @@ class SheetController : NSWindowController, NSTableViewDelegate
                 label.drawsBackground = false
                 label.editable = false
                 label.selectable = false
-                label.alignment = .LeftTextAlignment
                 return clone
             }
             else if (defaults.values[row]["values"] != nil)
@@ -211,6 +203,7 @@ class SheetController : NSWindowController, NSTableViewDelegate
             indexes = NSIndexSet(indexesInRange: NSRange(location:0,length:defaults.colorLists[row].count))
             colors!.insertRowsAtIndexes(indexes, withAnimation: NSTableViewAnimationOptions.EffectNone)
         }
+        colors?.selectRowIndexes(NSIndexSet(index:0), byExtendingSelection:false)
     }
 
     @IBAction func sliderChanged(sender: AnyObject)
@@ -300,6 +293,17 @@ class SheetController : NSWindowController, NSTableViewDelegate
             colors!.selectRowIndexes(NSIndexSet(index:row==colors!.numberOfRows-1 ? row-1 : row+1), byExtendingSelection:false)
             defaults.colorLists[listIndex].removeAtIndex(row)
             colors!.removeRowsAtIndexes(NSIndexSet(index:row), withAnimation: NSTableViewAnimationOptions.SlideRight)
+        }
+    }
+
+    func colorCellChanged(sender:AnyObject)
+    {
+        let colorCell = sender as! ColorCell
+        println("colorCellChanged \(colorCell.index())")
+        var listIndex = colorLists!.selectedRow
+        if  listIndex >= 0
+        {
+            defaults.colorLists[listIndex][colorCell.index()] = colorCell.color
         }
     }
 

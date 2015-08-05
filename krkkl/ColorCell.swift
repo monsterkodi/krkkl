@@ -2,7 +2,6 @@ import Cocoa
 
 class ColorCell : NSColorWell
 {
-    var index = -1
     var doActivate = false
     
     init(color:NSColor)
@@ -32,6 +31,12 @@ class ColorCell : NSColorWell
         shadow.set()
 
         NSGraphicsContext.restoreGraphicsState()
+    }
+    
+    func index() -> Int
+    {
+        let table = superview!.superview as! NSTableView
+        return table.rowForView(self)
     }
     
     override func mouseDown(theEvent: NSEvent)

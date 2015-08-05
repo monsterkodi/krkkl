@@ -39,54 +39,6 @@ class Cubes
     var colorInc:Float = 0
     var colorIndex:Int = 0
     var colorList:[NSColor] = []
-    var colorLists:[[[Float]]] = [[
-        [0.1, 0.1, 0.1],
-        [0.2, 0.2, 0.2],
-        [1.0, 0.0, 0.0],
-        [1.0, 0.5, 0.0],
-        [1.0, 0.7, 0.0],
-        [1.0, 0.5, 0.0],
-        [1.0, 0.0, 0.0],
-        [0.2, 0.2, 0.2],
-    ],[
-        [0.1, 0.1, 0.1],
-        [0.2, 0.2, 0.2],
-        [0.0, 0.0, 0.5],
-        [0.0, 0.0, 1.0],
-        [0.5, 0.5, 1.0],
-        [0.0, 0.0, 1.0],
-        [0.0, 0.0, 0.5],
-        [0.2, 0.2, 0.2],
-    ],[
-        [0.1, 0.1, 0.1],
-        [1.0, 1.0, 1.0],
-        [0.5, 0.5, 0.5],
-        [1.0, 1.0, 1.0],
-        [0.5, 0.5, 0.5],
-        [0.2, 0.2, 0.2],
-    ],[
-        [0.1, 0.1, 0.1],
-        [1.0, 0.0, 0.0],
-        [0.1, 0.1, 0.1],
-        [1.0, 1.0, 1.0],
-        [0.1, 0.1, 0.1],
-        [1.0, 0.0, 0.0],
-    ],[
-        [1.0, 0.0, 0.0],
-        [0.0, 1.0, 0.0],
-        [0.0, 0.0, 1.0],
-        [1.0, 0.0, 0.0],
-        [0.0, 1.0, 0.0],
-        [0.0, 0.0, 1.0],
-    ],[
-        [0.1, 0.1, 0.1],
-        [1.0, 0.0, 0.0],
-        [0.1, 0.1, 0.1],
-        [0.0, 1.0, 0.0],
-        [0.1, 0.1, 0.1],
-        [0.0, 0.0, 1.0],
-    ]]
-
     var thisColor  = colorRGB([0,0,0])
     var nextColor  = colorRGB([0,0,0])
     var resetColor = colorRGB([0,0,0])
@@ -126,10 +78,6 @@ class Cubes
         cubeSize.x = Int(sin(M_PI/3) * Double(cubeSize.y))
         size.x = view!.width()/cubeSize.x
 
-        colorType = randflt() < Float(2)/Float(colorLists.count+2) ? (randflt()<0.5 ? .RANDOM : .DIRECTION) : .LIST
-
-//        colorInc = randflt()
-//        colorInc = 1 + colorInc * colorInc * colorInc * colorInc * 99
         colorInc = Float(randDblPref("color_fade"))
         
         maxCubes = Int(Double(size.y * size.y)*randDblPref("cube_amount"))
@@ -147,12 +95,11 @@ class Cubes
         colorFade = 0
         colorIndex = 0
 
+        let colorLists = defaults().colorLists
+        colorType = randflt() < Float(2)/Float(colorLists.count+2) ? (randflt()<0.5 ? .RANDOM : .DIRECTION) : .LIST
+
         let colorListIndex = randint(colorLists.count)
-        colorList = []
-        for i in 0...colorLists[colorListIndex].count-1
-        {
-            colorList += [colorRGB(colorLists[colorListIndex][i])]
-        }
+        colorList = defaults().colorLists[colorListIndex]
 
         thisColor = colorRGB([0,0,0])
         switch colorType
@@ -456,12 +403,12 @@ class Cubes
 
     func doublePref(key:String) -> Double
     {
-        return (view!.sheetController.defaults.valueForKey(key) as! [String: AnyObject])["value"] as! Double
+        return (defaults().valueForKey(key) as! [String: AnyObject])["value"] as! Double
     }
 
     func doublesPref(key:String) -> [Double]
     {
-        return (view!.sheetController.defaults.valueForKey(key) as! [String: AnyObject])["values"] as! [Double]
+        return (defaults().valueForKey(key) as! [String: AnyObject])["values"] as! [Double]
     }
     
     func colorTypeName(colorType:ColorType) -> String  
@@ -474,4 +421,6 @@ class Cubes
             case .NUM:       return "???"
         }
     }
+    
+    func defaults() -> Defaults { return view!.sheetController.defaults }
 }

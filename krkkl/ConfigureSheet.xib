@@ -29,6 +29,7 @@
             <rect key="contentRect" x="196" y="240" width="630" height="500"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
             <value key="minSize" type="size" width="630" height="500"/>
+            <value key="maxSize" type="size" width="630" height="1000"/>
             <view key="contentView" wantsLayer="YES" placeholderIntrinsicWidth="621" placeholderIntrinsicHeight="529" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="630" height="500"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -48,13 +49,13 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="588" height="378"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
-                                                    <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="17" horizontalPageScroll="10" verticalLineScroll="17" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="allowed" translatesAutoresizingMaskIntoConstraints="NO" id="Xcr-Tx-OYo" userLabel="Values Scroll">
+                                                    <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="32" horizontalPageScroll="10" verticalLineScroll="32" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="allowed" translatesAutoresizingMaskIntoConstraints="NO" id="Xcr-Tx-OYo" userLabel="Values Scroll">
                                                         <rect key="frame" x="0.0" y="0.0" width="588" height="378"/>
                                                         <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="9Tf-iD-mNo">
                                                             <rect key="frame" x="1" y="17" width="238" height="117"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <tableView focusRingType="none" verticalHuggingPriority="750" verticalCompressionResistancePriority="250" allowsExpansionToolTips="YES" selectionHighlightStyle="none" columnReordering="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="KfL-jK-pS1" userLabel="Values Table">
+                                                                <tableView focusRingType="none" verticalHuggingPriority="750" verticalCompressionResistancePriority="250" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" columnReordering="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="32" rowSizeStyle="automatic" viewBased="YES" id="KfL-jK-pS1" userLabel="Values Table">
                                                                     <rect key="frame" x="0.0" y="0.0" width="588" height="0.0"/>
                                                                     <autoresizingMask key="autoresizingMask"/>
                                                                     <size key="intercellSpacing" width="4" height="0.0"/>
@@ -75,7 +76,7 @@
                                                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                             <prototypeCellViews>
                                                                                 <tableCellView id="gZs-BG-SQ1">
-                                                                                    <rect key="frame" x="2" y="3" width="189" height="32"/>
+                                                                                    <rect key="frame" x="2" y="0.0" width="189" height="32"/>
                                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                     <subviews>
                                                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pqw-4p-jIX">
@@ -93,7 +94,7 @@
                                                                                 </tableCellView>
                                                                             </prototypeCellViews>
                                                                         </tableColumn>
-                                                                        <tableColumn identifier="value" width="395" minWidth="10" maxWidth="3.4028234663852886e+38" id="EPT-tv-bBT">
+                                                                        <tableColumn identifier="value" width="209" minWidth="10" maxWidth="378" id="EPT-tv-bBT">
                                                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="justified">
                                                                                 <font key="font" metaFont="smallSystem"/>
                                                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -107,7 +108,7 @@
                                                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                             <prototypeCellViews>
                                                                                 <tableCellView id="kyo-Kq-Oht">
-                                                                                    <rect key="frame" x="195" y="3" width="395" height="32"/>
+                                                                                    <rect key="frame" x="195" y="0.0" width="209" height="32"/>
                                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                     <subviews>
                                                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3pF-aY-1Es">
@@ -578,10 +579,10 @@
         </window>
         <arrayController id="e2n-pd-Vur" userLabel="Values Controller"/>
         <box autoresizesSubviews="NO" title="Value Boxes" id="YAJ-ns-WAE" userLabel="Value Boxes">
-            <rect key="frame" x="0.0" y="6" width="636" height="167"/>
+            <rect key="frame" x="0.0" y="-5" width="636" height="237"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <view key="contentView">
-                <rect key="frame" x="2" y="2" width="632" height="150"/>
+                <rect key="frame" x="2" y="2" width="632" height="220"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <box ambiguous="YES" misplaced="YES" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="IrK-eX-xW4" userLabel="ValueBox">
@@ -619,31 +620,6 @@
                         </constraints>
                         <color key="borderColor" white="1" alpha="0.20000000000000001" colorSpace="calibratedWhite"/>
                         <color key="fillColor" white="1" alpha="0.20000000000000001" colorSpace="calibratedWhite"/>
-                    </box>
-                    <box autoresizesSubviews="NO" verticalHuggingPriority="1000" verticalCompressionResistancePriority="20" ambiguous="YES" misplaced="YES" transparent="YES" title="Box" borderType="line" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="zoj-jw-9m3" userLabel="LabelBox">
-                        <rect key="frame" x="14" y="60" width="359" height="39"/>
-                        <view key="contentView">
-                            <rect key="frame" x="1" y="1" width="357" height="37"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            <subviews>
-                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" misplaced="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Sex-0T-Suk" userLabel="Label">
-                                    <rect key="frame" x="10" y="12" width="342" height="14"/>
-                                    <textFieldCell key="cell" controlSize="mini" sendsActionOnEndEditing="YES" title="label" id="ksI-K9-MOX">
-                                        <font key="font" metaFont="smallSystem"/>
-                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                    </textFieldCell>
-                                </textField>
-                            </subviews>
-                        </view>
-                        <constraints>
-                            <constraint firstAttribute="height" relation="greaterThanOrEqual" priority="750" constant="16" id="NEb-aT-9DS"/>
-                            <constraint firstAttribute="centerY" secondItem="Sex-0T-Suk" secondAttribute="centerY" id="QHz-t2-QaP"/>
-                            <constraint firstItem="Sex-0T-Suk" firstAttribute="leading" secondItem="zoj-jw-9m3" secondAttribute="leading" constant="10" id="bSZ-P5-d2w"/>
-                            <constraint firstAttribute="trailing" secondItem="Sex-0T-Suk" secondAttribute="trailing" constant="5" id="nNJ-qG-Lyy"/>
-                        </constraints>
-                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </box>
                     <box ambiguous="YES" misplaced="YES" title="Box" boxType="secondary" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="2ho-gc-1r6" userLabel="RangeBox">
                         <rect key="frame" x="260" y="9" width="359" height="40"/>
@@ -710,6 +686,31 @@
                         <color key="borderColor" white="0.9044877819548871" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="fillColor" white="0.90243186090225569" alpha="1" colorSpace="calibratedWhite"/>
                     </box>
+                    <box autoresizesSubviews="NO" verticalHuggingPriority="1000" verticalCompressionResistancePriority="20" ambiguous="YES" misplaced="YES" transparent="YES" title="Box" borderType="line" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="zoj-jw-9m3" userLabel="LabelBox">
+                        <rect key="frame" x="14" y="60" width="359" height="39"/>
+                        <view key="contentView">
+                            <rect key="frame" x="1" y="1" width="357" height="37"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" misplaced="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Sex-0T-Suk" userLabel="Label">
+                                    <rect key="frame" x="10" y="12" width="342" height="14"/>
+                                    <textFieldCell key="cell" controlSize="mini" sendsActionOnEndEditing="YES" title="label" id="ksI-K9-MOX">
+                                        <font key="font" metaFont="smallSystem"/>
+                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                    </textFieldCell>
+                                </textField>
+                            </subviews>
+                        </view>
+                        <constraints>
+                            <constraint firstAttribute="height" relation="greaterThanOrEqual" priority="750" constant="16" id="NEb-aT-9DS"/>
+                            <constraint firstAttribute="centerY" secondItem="Sex-0T-Suk" secondAttribute="centerY" id="QHz-t2-QaP"/>
+                            <constraint firstItem="Sex-0T-Suk" firstAttribute="leading" secondItem="zoj-jw-9m3" secondAttribute="leading" constant="10" id="bSZ-P5-d2w"/>
+                            <constraint firstAttribute="trailing" secondItem="Sex-0T-Suk" secondAttribute="trailing" constant="5" id="nNJ-qG-Lyy"/>
+                        </constraints>
+                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
+                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </box>
                     <box autoresizesSubviews="NO" verticalHuggingPriority="1000" verticalCompressionResistancePriority="20" ambiguous="YES" misplaced="YES" transparent="YES" title="Box" borderType="line" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="Ezl-Up-mC5" userLabel="TitleBox">
                         <rect key="frame" x="14" y="97" width="359" height="39"/>
                         <view key="contentView">
@@ -724,31 +725,6 @@
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
-                                <box autoresizesSubviews="NO" verticalHuggingPriority="1000" verticalCompressionResistancePriority="20" ambiguous="YES" misplaced="YES" transparent="YES" title="Box" borderType="line" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="9KL-Iw-Rxh" userLabel="TextBox">
-                                    <rect key="frame" x="241" y="-1" width="359" height="39"/>
-                                    <view key="contentView">
-                                        <rect key="frame" x="1" y="1" width="357" height="37"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                        <subviews>
-                                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" misplaced="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pwQ-tF-Lpr" userLabel="Label">
-                                                <rect key="frame" x="10" y="12" width="342" height="14"/>
-                                                <textFieldCell key="cell" controlSize="mini" sendsActionOnEndEditing="YES" title="text" id="7M5-Dy-aaf">
-                                                    <font key="font" metaFont="smallSystem"/>
-                                                    <color key="textColor" name="headerColor" catalog="System" colorSpace="catalog"/>
-                                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                </textFieldCell>
-                                            </textField>
-                                        </subviews>
-                                    </view>
-                                    <constraints>
-                                        <constraint firstAttribute="trailing" secondItem="pwQ-tF-Lpr" secondAttribute="trailing" constant="5" id="1My-JW-vjJ"/>
-                                        <constraint firstItem="pwQ-tF-Lpr" firstAttribute="leading" secondItem="9KL-Iw-Rxh" secondAttribute="leading" constant="10" id="2sd-rI-mg0"/>
-                                        <constraint firstAttribute="height" constant="16" id="T6y-ed-0ws"/>
-                                        <constraint firstAttribute="centerY" secondItem="pwQ-tF-Lpr" secondAttribute="centerY" id="dao-LV-Dbg"/>
-                                    </constraints>
-                                    <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                                    <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </box>
                             </subviews>
                         </view>
                         <constraints>
@@ -774,31 +750,6 @@
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
-                                <box autoresizesSubviews="NO" verticalHuggingPriority="1000" verticalCompressionResistancePriority="20" ambiguous="YES" misplaced="YES" transparent="YES" title="Box" borderType="line" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="DXT-NS-4Fu" userLabel="TextBox">
-                                    <rect key="frame" x="241" y="-1" width="359" height="39"/>
-                                    <view key="contentView">
-                                        <rect key="frame" x="1" y="1" width="357" height="37"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                        <subviews>
-                                            <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" misplaced="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="w1E-Dh-Q9x" userLabel="Label">
-                                                <rect key="frame" x="10" y="12" width="342" height="14"/>
-                                                <textFieldCell key="cell" controlSize="mini" sendsActionOnEndEditing="YES" title="text" id="7XB-ky-wil">
-                                                    <font key="font" metaFont="smallSystem"/>
-                                                    <color key="textColor" name="headerColor" catalog="System" colorSpace="catalog"/>
-                                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                </textFieldCell>
-                                            </textField>
-                                        </subviews>
-                                    </view>
-                                    <constraints>
-                                        <constraint firstAttribute="centerY" secondItem="w1E-Dh-Q9x" secondAttribute="centerY" id="86r-zR-Ds9"/>
-                                        <constraint firstItem="w1E-Dh-Q9x" firstAttribute="leading" secondItem="DXT-NS-4Fu" secondAttribute="leading" constant="10" id="9KG-GL-3Ra"/>
-                                        <constraint firstAttribute="height" constant="16" id="esw-xk-Y4k"/>
-                                        <constraint firstAttribute="trailing" secondItem="w1E-Dh-Q9x" secondAttribute="trailing" constant="5" id="rSF-bY-e1G"/>
-                                    </constraints>
-                                    <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                                    <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </box>
                             </subviews>
                         </view>
                         <constraints>
@@ -810,15 +761,42 @@
                         <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </box>
+                    <box autoresizesSubviews="NO" verticalHuggingPriority="1000" verticalCompressionResistancePriority="20" ambiguous="YES" misplaced="YES" transparent="YES" title="Box" borderType="line" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="9KL-Iw-Rxh" userLabel="TextBox">
+                        <rect key="frame" x="259" y="125" width="359" height="39"/>
+                        <view key="contentView">
+                            <rect key="frame" x="1" y="1" width="357" height="37"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" misplaced="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pwQ-tF-Lpr" userLabel="Label">
+                                    <rect key="frame" x="10" y="12" width="342" height="14"/>
+                                    <textFieldCell key="cell" controlSize="mini" sendsActionOnEndEditing="YES" alignment="center" title="text" id="7M5-Dy-aaf">
+                                        <font key="font" metaFont="smallSystem"/>
+                                        <color key="textColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                    </textFieldCell>
+                                </textField>
+                            </subviews>
+                        </view>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="pwQ-tF-Lpr" secondAttribute="trailing" constant="5" id="1My-JW-vjJ"/>
+                            <constraint firstItem="pwQ-tF-Lpr" firstAttribute="leading" secondItem="9KL-Iw-Rxh" secondAttribute="leading" constant="10" id="2sd-rI-mg0"/>
+                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="16" id="T6y-ed-0ws"/>
+                            <constraint firstAttribute="centerY" secondItem="pwQ-tF-Lpr" secondAttribute="centerY" id="dao-LV-Dbg"/>
+                        </constraints>
+                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
+                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </box>
                 </subviews>
             </view>
             <constraints>
+                <constraint firstAttribute="centerY" secondItem="9KL-Iw-Rxh" secondAttribute="centerY" id="hoj-eR-zB9"/>
                 <constraint firstAttribute="centerY" secondItem="Ezl-Up-mC5" secondAttribute="centerY" id="pvc-Mb-Rsp"/>
                 <constraint firstAttribute="centerY" secondItem="zoj-jw-9m3" secondAttribute="centerY" id="q8N-fe-Tk0"/>
+                <constraint firstAttribute="centerX" secondItem="9KL-Iw-Rxh" secondAttribute="centerX" id="wMA-1d-KkQ"/>
             </constraints>
             <color key="borderColor" white="1" alpha="0.20000000000000001" colorSpace="calibratedWhite"/>
             <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-            <point key="canvasLocation" x="330" y="-373.5"/>
+            <point key="canvasLocation" x="330" y="-338.5"/>
         </box>
     </objects>
     <resources>
