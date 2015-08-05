@@ -33,10 +33,11 @@ class ColorCell : NSColorWell
         NSGraphicsContext.restoreGraphicsState()
     }
     
+    func table() -> TableView { return superview!.superview as! TableView }
+    
     func index() -> Int
     {
-        let table = superview!.superview as! NSTableView
-        return table.rowForView(self)
+        return table().rowForView(self)
     }
     
     override func mouseDown(theEvent: NSEvent)
@@ -57,6 +58,8 @@ class ColorCell : NSColorWell
         {
             activate(true)
             doActivate = false
+            
+            table().selectRow(index())
         }
     }
 }

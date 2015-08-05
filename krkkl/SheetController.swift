@@ -5,9 +5,9 @@ class SheetController : NSWindowController, NSTableViewDelegate
     var defaults = Defaults()
     
     @IBOutlet var colorsPage: NSView?
-    @IBOutlet var colorLists: NSTableView?
-    @IBOutlet var colors:     NSTableView?
-    @IBOutlet var valuesView: NSTableView?
+    @IBOutlet var colorLists: TableView?
+    @IBOutlet var colors:     TableView?
+    @IBOutlet var valuesView: TableView?
     @IBOutlet var pages:      NSTabView?
     @IBOutlet var rangeBox:   NSBox?
     @IBOutlet var valueBox:   NSBox?
@@ -24,7 +24,9 @@ class SheetController : NSWindowController, NSTableViewDelegate
         colors!.setDelegate(self)
                 
         var indexes = NSIndexSet(indexesInRange: NSRange(location:0,length:defaults.values.count))
-        valuesView!.insertRowsAtIndexes(indexes, withAnimation: NSTableViewAnimationOptions.EffectNone)
+//        valuesView!.insertRowsAtIndexes(indexes, withAnimation: NSTableViewAnimationOptions.EffectNone)
+
+        valuesView!.insertRows(defaults.values.count)
         
         indexes = NSIndexSet(indexesInRange: NSRange(location:0,length:defaults.colorLists.count))
         colorLists!.insertRowsAtIndexes(indexes, withAnimation: NSTableViewAnimationOptions.EffectNone)
@@ -89,9 +91,9 @@ class SheetController : NSWindowController, NSTableViewDelegate
             var label = clone.subviews.first!.subviews.first! as! NSTextField
             switch tableColumn!.identifier
             {
-            case "red":   label.stringValue = String(Int(color.red()*255))
-            case "green": label.stringValue = String(Int(color.green()*255))
-            case "blue":  label.stringValue = String(Int(color.blue()*255))
+            case "red":   label.stringValue = String(Int(round(color.red()*255.0)))
+            case "green": label.stringValue = String(Int(round(color.green()*255)))
+            case "blue":  label.stringValue = String(Int(round(color.blue()*255)))
             default: break
             }
             
@@ -131,25 +133,26 @@ class SheetController : NSWindowController, NSTableViewDelegate
             indexes = NSIndexSet(indexesInRange: NSRange(location:0,length:defaults.colorLists[row].count))
             colors!.insertRowsAtIndexes(indexes, withAnimation: NSTableViewAnimationOptions.EffectNone)
         }
-        colors?.selectRowIndexes(NSIndexSet(index:0), byExtendingSelection:false)
+        colors?.selectRow(0)
     }
 
     @IBAction func addColorList(sender: AnyObject)
     {
         var row = colorLists!.selectedRow+1
         defaults.colorLists.insert([colorRGB([0.0,0.0,0.0])], atIndex:row)
-        colorLists!.insertRowsAtIndexes(NSIndexSet(index:row), withAnimation: NSTableViewAnimationOptions.SlideLeft)
-        colorLists!.selectRowIndexes(NSIndexSet(index:row), byExtendingSelection:false)
+        colorLists!.insertRow(row)
+        colorLists!.selectRow(row)
     }
 
     @IBAction func delColorList(sender: AnyObject)
     {
         let row = colorLists!.selectedRow
+        if defaults.colorLists.count <= 1 { return }
         if row >= 0
         {
-            colorLists!.selectRowIndexes(NSIndexSet(index:row==colorLists!.numberOfRows-1 ? row-1 : row+1), byExtendingSelection:false)
+            colorLists!.selectRow(row==colorLists!.numberOfRows-1 ? row-1 : row+1)
             defaults.colorLists.removeAtIndex(row)
-            colorLists!.removeRowsAtIndexes(NSIndexSet(index:row), withAnimation: NSTableViewAnimationOptions.SlideRight)
+            colorLists!.removeRow(row)
         }
     }
 
@@ -169,8 +172,8 @@ class SheetController : NSWindowController, NSTableViewDelegate
             var row = colors!.selectedRow + 1
             let color = randColor()
             defaults.colorLists[listIndex].insert(color, atIndex:row)
-            colors!.insertRowsAtIndexes(NSIndexSet(index:row), withAnimation: NSTableViewAnimationOptions.SlideLeft)
-            colors!.selectRowIndexes(NSIndexSet(index:row), byExtendingSelection:false)
+            colors!.insertRow(row)
+            colors!.selectRow(row)
         }
     }
 
@@ -181,9 +184,9 @@ class SheetController : NSWindowController, NSTableViewDelegate
         {
             println("delColor \(row)")
             var listIndex = colorLists!.selectedRow
-            colors!.selectRowIndexes(NSIndexSet(index:row==colors!.numberOfRows-1 ? row-1 : row+1), byExtendingSelection:false)
+            colors!.selectRow(row==colors!.numberOfRows-1 ? row-1 : row+1)
             defaults.colorLists[listIndex].removeAtIndex(row)
-            colors!.removeRowsAtIndexes(NSIndexSet(index:row), withAnimation: NSTableViewAnimationOptions.SlideRight)
+            colors!.removeRow(row)
         }
     }
 
@@ -197,7 +200,45 @@ class SheetController : NSWindowController, NSTableViewDelegate
             defaults.colorLists[listIndex][colorCell.index()] = colorCell.color
         }
     }
-        
+    
+    @IBAction func duplicateColorList(sender: AnyObject)
+    {
+        println("duplicateColorList")
+    }
+
+    @IBAction func restoreDefaultColorLists(sender: AnyObject)
+    {
+        println("restoreDefaultColorLists")
+        defaults.colorLists = defaults.defaultColorLists
+        colorLists!.clear()
+        colors!.clear()
+        colorLists!.insertRows(defaults.colorLists.count)
+        colorLists!.selectRow(0)
+    }
+
+    @IBAction func duplicateColor(sender: AnyObject)
+    {
+        println("duplicateColor")
+    }
+
+    @IBAction func darkenColor(sender: AnyObject)
+    {
+        println("darkenColor")
+    }
+
+    @IBAction func lightenColor(sender: AnyObject)
+    {
+        println("lightenColor")
+    }
+
+    @IBAction func showMenu(sender: AnyObject)
+    {
+        let pos = CGPoint(x:-sender.frame.size.width*2+5, y:sender.frame.size.height+3)
+        let menu = sender.menu as NSMenu?
+        let view = sender as! NSView
+        menu!.popUpMenuPositioningItem(menu?.itemArray.first as? NSMenuItem, atLocation:pos, inView:view)
+    }
+
     /*
       000   000   0000000   000      000   000  00000000   0000000
       000   000  000   000  000      000   000  000       000     
@@ -368,7 +409,7 @@ class SheetController : NSWindowController, NSTableViewDelegate
         pages?.selectTabViewItemAtIndex(sender.selectedSegment)
         if sender.selectedSegment == 1
         {
-            colorLists?.selectRowIndexes(NSIndexSet(index:0), byExtendingSelection:false)
+            colorLists?.selectRow(0)
         }
     }
     

@@ -55,8 +55,8 @@
                                                             <rect key="frame" x="1" y="17" width="238" height="117"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <tableView focusRingType="none" verticalHuggingPriority="750" verticalCompressionResistancePriority="250" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" columnReordering="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="32" rowSizeStyle="automatic" viewBased="YES" id="KfL-jK-pS1" userLabel="Values Table">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="588" height="0.0"/>
+                                                                <tableView focusRingType="none" verticalHuggingPriority="750" verticalCompressionResistancePriority="250" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="none" columnReordering="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="32" rowSizeStyle="automatic" viewBased="YES" id="KfL-jK-pS1" userLabel="Values Table" customClass="TableView" customModule="krkkl" customModuleProvider="target">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="575" height="0.0"/>
                                                                     <autoresizingMask key="autoresizingMask"/>
                                                                     <size key="intercellSpacing" width="4" height="0.0"/>
                                                                     <color key="backgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
@@ -94,7 +94,7 @@
                                                                                 </tableCellView>
                                                                             </prototypeCellViews>
                                                                         </tableColumn>
-                                                                        <tableColumn identifier="value" width="209" minWidth="10" maxWidth="378" id="EPT-tv-bBT">
+                                                                        <tableColumn identifier="value" width="378" minWidth="10" maxWidth="378" id="EPT-tv-bBT">
                                                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="justified">
                                                                                 <font key="font" metaFont="smallSystem"/>
                                                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -203,6 +203,10 @@
                                                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                                                         <font key="font" metaFont="system"/>
                                                                                     </buttonCell>
+                                                                                    <connections>
+                                                                                        <action selector="showMenu:" target="-2" id="BtT-iE-QEt"/>
+                                                                                        <outlet property="menu" destination="OH6-YZ-Noa" id="tTf-T0-8ZC"/>
+                                                                                    </connections>
                                                                                 </button>
                                                                             </subviews>
                                                                             <constraints>
@@ -223,13 +227,13 @@
                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                 <subviews>
                                                                                     <tableView autoresizesSubviews="NO" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="26" viewBased="YES" floatsGroupRows="NO" id="bAE-ux-hQ8" customClass="TableView" customModule="krkkl" customModuleProvider="target">
-                                                                                        <rect key="frame" x="0.0" y="0.0" width="238" height="117"/>
+                                                                                        <rect key="frame" x="0.0" y="0.0" width="135" height="0.0"/>
                                                                                         <autoresizingMask key="autoresizingMask"/>
                                                                                         <size key="intercellSpacing" width="11" height="9"/>
                                                                                         <color key="backgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
                                                                                         <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                                                                         <tableColumns>
-                                                                                            <tableColumn width="132" minWidth="40" maxWidth="1000" id="RRc-9c-mO7">
+                                                                                            <tableColumn width="124" minWidth="40" maxWidth="1000" id="RRc-9c-mO7">
                                                                                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
                                                                                                     <font key="font" metaFont="smallSystem"/>
                                                                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -269,7 +273,7 @@
                                                                                 </subviews>
                                                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                             </clipView>
-                                                                            <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="axr-Pf-doF">
+                                                                            <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="axr-Pf-doF">
                                                                                 <rect key="frame" x="1" y="119" width="223" height="15"/>
                                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                             </scroller>
@@ -329,12 +333,29 @@
                                                                                         <action selector="delColor:" target="-2" id="u8g-jW-MyK"/>
                                                                                     </connections>
                                                                                 </button>
+                                                                                <button misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hhm-mR-BXP" userLabel="action">
+                                                                                    <rect key="frame" x="49" y="2" width="24" height="24"/>
+                                                                                    <constraints>
+                                                                                        <constraint firstAttribute="width" constant="24" id="4W1-Ob-qOP"/>
+                                                                                        <constraint firstAttribute="height" constant="24" id="9Sv-8P-Oce"/>
+                                                                                    </constraints>
+                                                                                    <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSActionTemplate" imagePosition="overlaps" alignment="center" refusesFirstResponder="YES" state="on" imageScaling="proportionallyDown" inset="2" id="YEC-0k-HWZ">
+                                                                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                                        <font key="font" metaFont="system"/>
+                                                                                    </buttonCell>
+                                                                                    <connections>
+                                                                                        <action selector="showMenu:" target="-2" id="qRZ-ow-dzU"/>
+                                                                                        <outlet property="menu" destination="4sS-gW-hkp" id="bVF-Y7-yXk"/>
+                                                                                    </connections>
+                                                                                </button>
                                                                             </subviews>
                                                                             <constraints>
                                                                                 <constraint firstItem="PW5-6l-897" firstAttribute="leading" secondItem="MiH-0Y-Oks" secondAttribute="trailing" id="3x8-D5-UJE"/>
+                                                                                <constraint firstItem="Hhm-mR-BXP" firstAttribute="leading" secondItem="PW5-6l-897" secondAttribute="trailing" id="4SJ-hW-kxF"/>
                                                                                 <constraint firstAttribute="height" constant="29" id="MD7-zd-o3c"/>
                                                                                 <constraint firstItem="MiH-0Y-Oks" firstAttribute="leading" secondItem="9yx-TW-PMx" secondAttribute="leading" id="MNZ-cO-Drc"/>
                                                                                 <constraint firstAttribute="width" constant="100" id="SZF-5a-Zjv"/>
+                                                                                <constraint firstAttribute="bottom" secondItem="Hhm-mR-BXP" secondAttribute="bottom" constant="2" id="Vho-Sw-h7P"/>
                                                                                 <constraint firstAttribute="bottom" secondItem="MiH-0Y-Oks" secondAttribute="bottom" constant="2" id="lZW-yd-0Kb"/>
                                                                                 <constraint firstAttribute="bottom" secondItem="PW5-6l-897" secondAttribute="bottom" constant="2" id="sku-wU-PX3"/>
                                                                             </constraints>
@@ -346,7 +367,7 @@
                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                 <subviews>
                                                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="30" viewBased="YES" id="pXX-fa-bJa" customClass="TableView" customModule="krkkl" customModuleProvider="target">
-                                                                                        <rect key="frame" x="0.0" y="0.0" width="238" height="117"/>
+                                                                                        <rect key="frame" x="0.0" y="0.0" width="424" height="0.0"/>
                                                                                         <autoresizingMask key="autoresizingMask"/>
                                                                                         <size key="intercellSpacing" width="0.0" height="2"/>
                                                                                         <color key="backgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
@@ -448,7 +469,7 @@
                                                                                                     </tableCellView>
                                                                                                 </prototypeCellViews>
                                                                                             </tableColumn>
-                                                                                            <tableColumn identifier="color" width="279" minWidth="10" maxWidth="3.4028234663852886e+38" id="Nis-ee-kSd" userLabel="color">
+                                                                                            <tableColumn identifier="color" width="340" minWidth="10" maxWidth="3.4028234663852886e+38" id="Nis-ee-kSd" userLabel="color">
                                                                                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
                                                                                                     <font key="font" metaFont="smallSystem"/>
                                                                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -796,8 +817,48 @@
             </constraints>
             <color key="borderColor" white="1" alpha="0.20000000000000001" colorSpace="calibratedWhite"/>
             <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-            <point key="canvasLocation" x="330" y="-338.5"/>
+            <point key="canvasLocation" x="330" y="-202.5"/>
         </box>
+        <menu id="OH6-YZ-Noa" userLabel="ColorListsMenu">
+            <items>
+                <menuItem title="Duplicate Color List" id="gFI-LX-JEy">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="duplicateColorList:" target="-2" id="Na4-Ye-3d9"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Restore Default Color Lists" id="cNO-WU-pDz">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="restoreDefaultColorLists:" target="-2" id="nbL-dp-kVc"/>
+                    </connections>
+                </menuItem>
+            </items>
+            <point key="canvasLocation" x="106" y="-423.5"/>
+        </menu>
+        <menu id="4sS-gW-hkp" userLabel="ColorsMenu">
+            <items>
+                <menuItem title="Duplicate Color" id="Ik0-cC-ZHN">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="duplicateColor:" target="-2" id="TYa-OF-32p"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Darken Color" id="1o3-U1-LbU">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="darkenColor:" target="-2" id="MeW-JF-6Vs"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Lighten Color" id="wp7-SG-SuU">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="lightenColor:" target="-2" id="EKf-0y-0j7"/>
+                    </connections>
+                </menuItem>
+            </items>
+            <point key="canvasLocation" x="321" y="-413.5"/>
+        </menu>
     </objects>
     <resources>
         <image name="NSActionTemplate" width="14" height="14"/>
