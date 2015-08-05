@@ -96,10 +96,21 @@ class Cubes
         colorIndex = 0
 
         let colorLists = defaults().colorLists
-        colorType = randflt() < Float(2)/Float(colorLists.count+2) ? (randflt()<0.5 ? .RANDOM : .DIRECTION) : .LIST
-
         let colorListIndex = randint(colorLists.count)
         colorList = defaults().colorLists[colorListIndex]
+        
+        if (colorList.count == 0)
+        {
+            colorType = .RANDOM
+        }
+        else if (colorList.count == 1 && colorList[0].hex() == "#000")
+        {
+            colorType = .DIRECTION
+        }
+        else
+        {
+            colorType = .LIST
+        }
 
         thisColor = colorRGB([0,0,0])
         switch colorType
@@ -111,6 +122,7 @@ class Cubes
             nextColor = colorList[0]
         default: break
         }
+        
         rgbColor = thisColor
                 
         keepDir[Side.UP.rawValue]    = randDblPref("keep_up")
