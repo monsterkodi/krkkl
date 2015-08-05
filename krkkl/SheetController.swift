@@ -34,12 +34,9 @@ class SheetController : NSWindowController, NSTableViewDelegate
     {
         switch tableView
         {
-        case valuesView!:
-            return addValueView(tableView, tableColumn:tableColumn, row:row)
-        case colorLists!:
-            return addColorListsView(tableView, tableColumn:tableColumn, row:row)
-        case colors!:
-            return addColorsView(tableView, tableColumn:tableColumn, row:row)
+        case valuesView!: return addValueView     (tableView, tableColumn:tableColumn, row:row)
+        case colorLists!: return addColorListsView(tableView, tableColumn:tableColumn, row:row)
+        case colors!:     return addColorsView    (tableView, tableColumn:tableColumn, row:row)
         default: return nil;
         }
     }
@@ -64,7 +61,12 @@ class SheetController : NSWindowController, NSTableViewDelegate
         let color = defaults.colorLists[listIndex][row]
         if tableColumn?.identifier == "color"
         {
-            return ColorCell(color:color)
+            let colorCell = ColorCell(color:color)
+            colorCell.bordered = false
+            colorCell.action = Selector("colorCellChanged:")
+            colorCell.target = self
+            colorCell.index = row
+            return colorCell
         }
         else
         {
@@ -84,6 +86,12 @@ class SheetController : NSWindowController, NSTableViewDelegate
             label.alignment = .RightTextAlignment
             return clone
         }
+    }
+    
+    func colorCellChanged(sender:AnyObject)
+    {
+        let colorCell = sender as! ColorCell
+        println("colorCellChanged \(colorCell.index)")
     }
 
     func addValueView(tableView: NSTableView, tableColumn: NSTableColumn?, row: Int) -> NSView?
@@ -298,6 +306,10 @@ class SheetController : NSWindowController, NSTableViewDelegate
     @IBAction func showPage(sender: AnyObject)
     {
         pages?.selectTabViewItemAtIndex(sender.selectedSegment)
+        if sender.selectedSegment == 1
+        {
+            colorLists?.selectRowIndexes(NSIndexSet(index:0), byExtendingSelection:false)
+        }
     }
     
     @IBAction func updateDefaults(sender: AnyObject)

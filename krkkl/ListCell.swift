@@ -8,8 +8,6 @@ class ListCell : NSView
 
         NSColor.grayColor().set()
         
-        println(rect)
-        println(bounds)
         let round = NSBezierPath(roundedRect: NSRect(x:0, y:0, width:bounds.width, height:bounds.height), xRadius:5, yRadius:5)
         round.addClip()
         
