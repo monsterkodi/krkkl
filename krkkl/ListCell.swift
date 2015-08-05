@@ -23,7 +23,7 @@ class ListCell : NSView
 
             str.drawInRect(bounds, withAttributes: [NSParagraphStyleAttributeName: textStyle])
         }
-        else if colorList.count == 1 && colorList.first!.hex() == "#000"
+        else if colorList.count == 1 && colorList.first!.hex() == "#000000"
         {
             NSColor.blackColor().set()
             let r = NSBezierPath(rect:bounds)
@@ -45,7 +45,6 @@ class ListCell : NSView
                 let r = NSBezierPath(rect: NSRect(x:CGFloat(colorIndex)*bounds.width/num, y:0, width:bounds.width/num, height:bounds.height))
                 r.fill()
                 colorIndex++
-                println(colorIndex)
             }
         }
         

@@ -13,7 +13,7 @@ class Defaults
     */
     
     let defaultValues:[[String: AnyObject]] = [
-        [                        "title": "",                        "text": "values are choosen randomly between top and bottom sliders"],
+        [                        "title": "",                        "text": "values are choosen randomly between top and bottom sliderS"],
         ["key": "rows",          "title": "number of cube rows",     "values": [20,  60],   "range":  [10,   100], "step": 1   ],
         ["key": "cube_amount",   "title": "cube amount",             "values": [3,    5],   "range":  [1,     10], "step": 0.2 ],
         ["key": "cpf",           "title": "cubes per frame",         "values": [1,    1],   "range":  [1,    200], "step": 1   ],
@@ -46,53 +46,7 @@ class Defaults
        0000000   0000000   0000000   0000000   000   000  0000000 
     */
     
-    let defaultColorLists:[[NSColor]] = [[
-        colorRGB([0.1, 0.1, 0.1]),
-        colorRGB([0.2, 0.2, 0.2]),
-        colorRGB([1.0, 0.0, 0.0]),
-        colorRGB([1.0, 0.5, 0.0]),
-        colorRGB([1.0, 0.7, 0.0]),
-        colorRGB([1.0, 0.5, 0.0]),
-        colorRGB([1.0, 0.0, 0.0]),
-        colorRGB([0.2, 0.2, 0.2]),
-    ],[
-        colorRGB([0.1, 0.1, 0.1]),
-        colorRGB([0.2, 0.2, 0.2]),
-        colorRGB([0.0, 0.0, 0.5]),
-        colorRGB([0.0, 0.0, 1.0]),
-        colorRGB([0.5, 0.5, 1.0]),
-        colorRGB([0.0, 0.0, 1.0]),
-        colorRGB([0.0, 0.0, 0.5]),
-        colorRGB([0.2, 0.2, 0.2]),
-    ],[
-        colorRGB([0.1, 0.1, 0.1]),
-        colorRGB([1.0, 1.0, 1.0]),
-        colorRGB([0.5, 0.5, 0.5]),
-        colorRGB([1.0, 1.0, 1.0]),
-        colorRGB([0.5, 0.5, 0.5]),
-        colorRGB([0.2, 0.2, 0.2]),
-    ],[
-        colorRGB([0.1, 0.1, 0.1]),
-        colorRGB([1.0, 0.0, 0.0]),
-        colorRGB([0.1, 0.1, 0.1]),
-        colorRGB([1.0, 1.0, 1.0]),
-        colorRGB([0.1, 0.1, 0.1]),
-        colorRGB([1.0, 0.0, 0.0]),
-    ],[
-        colorRGB([1.0, 0.0, 0.0]),
-        colorRGB([0.0, 1.0, 0.0]),
-        colorRGB([0.0, 0.0, 1.0]),
-        colorRGB([1.0, 0.0, 0.0]),
-        colorRGB([0.0, 1.0, 0.0]),
-        colorRGB([0.0, 0.0, 1.0]),
-    ],[
-        colorRGB([0.1, 0.1, 0.1]),
-        colorRGB([1.0, 0.0, 0.0]),
-        colorRGB([0.1, 0.1, 0.1]),
-        colorRGB([0.0, 1.0, 0.0]),
-        colorRGB([0.1, 0.1, 0.1]),
-        colorRGB([0.0, 0.0, 1.0]),
-    ],[],[colorRGB([0.0, 0.0, 0.0])]]
+    let defaultColors = "#000058#4d4bff#7474f2,#ff00ff"
 
     init()
     {
@@ -103,8 +57,14 @@ class Defaults
         if getObjectForKey("version") as? String != version
         {
             values = defaultValues
-            colorLists = defaultColorLists
+            colorLists = defaultColorLists()
         }
+        
+        if colorLists.count == 0
+        {
+            colorLists = defaultColorLists()
+        }
+        
         setObjectForKey(version, key:"version")
     }
     
@@ -128,8 +88,31 @@ class Defaults
         }
         get
         {
-            return (getObjectForKey("colorLists") ?? defaultColorLists) as! [[NSColor]]
+            return (getObjectForKey("colorLists") ?? defaultColorLists()) as! [[NSColor]]
         }
+    }
+    
+    func defaultColorLists() -> [[NSColor]]
+    {
+        var colorLists:[[NSColor]] = []
+        let strList = split(defaultColors) {$0 == ","}
+        for list in strList
+        {
+            let hexList = split(list) {$0 == "#"}
+            var colorList:[NSColor] = []
+            for hexColor in hexList
+            {
+                var r:UInt32 = 0
+                var g:UInt32 = 0
+                var b:UInt32 = 0
+                NSScanner(string:hexColor.substring(0,2)).scanHexInt(&r)
+                NSScanner(string:hexColor.substring(2,2)).scanHexInt(&g)
+                NSScanner(string:hexColor.substring(4,2)).scanHexInt(&b)
+                colorList.append(colorRGB([Float(r)/255.0,Float(g)/255.0,Float(b)/255.0]))
+            }
+            colorLists.append(colorList)
+        }
+        return colorLists
     }
     
     func valueForKey(key:String) -> AnyObject?

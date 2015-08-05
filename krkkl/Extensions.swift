@@ -45,7 +45,7 @@ extension NSColor
     
     func hex() -> String
     {
-        return NSString(format: "#%x%x%x", Int(red()*255), Int(green()*255), Int(blue()*255)) as String
+        return NSString(format: "#%02x%02x%02x", Int(red()*255), Int(green()*255), Int(blue()*255)) as String
     }
 }
 
@@ -80,6 +80,14 @@ extension NSView
     {
         var data = NSKeyedArchiver.archivedDataWithRootObject(self)
         return NSKeyedUnarchiver.unarchiveObjectWithData(data) as! NSView
+    }
+}
+
+extension String
+{
+    func substring(start:Int, _ length:Int) -> String
+    {
+        return substringWithRange(Range<String.Index>(start: advance(startIndex, start), end: advance(startIndex, start+length)))
     }
 }
 

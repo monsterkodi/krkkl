@@ -96,14 +96,14 @@ class Cubes
         colorIndex = 0
 
         let colorLists = defaults().colorLists
-        let colorListIndex = randint(colorLists.count)
+        let colorListIndex = randint(colorLists.count)        
         colorList = defaults().colorLists[colorListIndex]
         
         if (colorList.count == 0)
         {
             colorType = .RANDOM
         }
-        else if (colorList.count == 1 && colorList[0].hex() == "#000")
+        else if (colorList.count == 1 && colorList[0].hex() == "#000000")
         {
             colorType = .DIRECTION
         }

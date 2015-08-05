@@ -81,24 +81,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
             colorCell.target = self
             return colorCell
         }
-        else
-        {
-            var clone = colorBox!.clone()
-            var label = clone.subviews.first!.subviews.first! as! NSTextField
-            switch tableColumn!.identifier
-            {
-            case "red":   label.stringValue = String(Int(round(color.red()*255.0)))
-            case "green": label.stringValue = String(Int(round(color.green()*255)))
-            case "blue":  label.stringValue = String(Int(round(color.blue()*255)))
-            default: break
-            }
-            
-            label.drawsBackground = false
-            label.editable = false
-            label.selectable = false
-            label.alignment = .RightTextAlignment
-            return clone
-        }
+        return nil
     }
     
     /*
@@ -150,8 +133,32 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
             defaults.colorLists.removeAtIndex(row)
             colorLists!.removeRow(row)
         }
+    } 
+
+    @IBAction func copyColorLists(sender: AnyObject)
+    {
+        let pasteBoard = NSPasteboard.generalPasteboard()
+        pasteBoard.clearContents()
+//        var colorListsStr = ""
+//        for colorList in defaults.colorLists
+//        {
+//            var colorsStr = ""
+//            for color in colorList
+//            {
+//                colorsStr += color.hex()
+//            }
+//            colorListsStr += colorsStr
+//        }
+        let colorListsStr = join(",", defaults.colorLists.map { (colorList) -> String in
+            return join("", colorList.map { (color) -> String in
+                    return color.hex()
+                })
+        })
+        println(colorListsStr)
+        let data = colorListsStr.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion:false)!
+        pasteBoard.setData(data, forType:NSPasteboardTypeString)
     }
-    
+
     @IBAction func duplicateColorList(sender: AnyObject)
     {
         var row = colorLists!.selectedRow+1
@@ -162,7 +169,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
     
     @IBAction func restoreDefaultColorLists(sender: AnyObject)
     {
-        defaults.colorLists = defaults.defaultColorLists
+        defaults.colorLists = defaults.defaultColorLists()
         colorLists!.clear()
         colors!.clear()
         colorLists!.insertRows(defaults.colorLists.count)
@@ -202,7 +209,6 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
         let row = colors!.selectedRow
         if row >= 0
         {
-            println("delColor \(row)")
             var listIndex = colorLists!.selectedRow
             colors!.selectRow(row==colors!.numberOfRows-1 ? row-1 : row+1)
             defaults.colorLists[listIndex].removeAtIndex(row)
@@ -214,7 +220,6 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
     func colorCellChanged(sender:AnyObject)
     {
         let colorCell = sender as! ColorCell
-        println("colorCellChanged \(colorCell.index())")
         var listIndex = colorLists!.selectedRow
         if  listIndex >= 0
         {
@@ -223,19 +228,23 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
         }
     }
     
-    @IBAction func duplicateColor(sender: AnyObject)
-    {
-        println("duplicateColor")
-    }
-
     @IBAction func darkenColor(sender: AnyObject)
     {
-        println("darkenColor")
+        var listIndex = colorLists!.selectedRow
+        if  listIndex >= 0
+        {
+            let row = colors?.rowViewAtRow(colors!.selectedRow, makeIfNecessary:false) as! NSTableRowView
+            let cell = row.subviews.first?.subviews[1] as! ColorCell
+            let color = defaults.colorLists[listIndex][colors!.selectedRow].darken(0.5)
+            cell.color = color
+            defaults.colorLists[listIndex][colors!.selectedRow] = color
+            updateColorList(listIndex)
+        }
     }
 
     @IBAction func lightenColor(sender: AnyObject)
     {
-        println("lightenColor")
+        
     }
 
     @IBAction func showMenu(sender: AnyObject)
@@ -422,7 +431,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
     
     @IBAction func updateDefaults(sender: AnyObject)
     {
-        println(defaults.values)
+//        println(defaults.values)
         defaults.values = defaults.values
     }
    
