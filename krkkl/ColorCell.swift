@@ -35,6 +35,8 @@ class ColorCell : NSColorWell
     
     func table() -> TableView { return superview!.superview as! TableView }
     
+    func rgb() -> NSColor { return color.colorUsingColorSpace(NSColorSpace.deviceRGBColorSpace())! }
+    
     func index() -> Int
     {
         return table().rowForView(self)

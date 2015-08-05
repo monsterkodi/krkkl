@@ -1,6 +1,6 @@
 import Cocoa
 
-class SheetController : NSWindowController, NSTableViewDelegate
+class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegate
 {
     var defaults = Defaults()
     
@@ -22,14 +22,10 @@ class SheetController : NSWindowController, NSTableViewDelegate
         valuesView!.setDelegate(self)
         colorLists!.setDelegate(self)
         colors!.setDelegate(self)
-                
-        var indexes = NSIndexSet(indexesInRange: NSRange(location:0,length:defaults.values.count))
-//        valuesView!.insertRowsAtIndexes(indexes, withAnimation: NSTableViewAnimationOptions.EffectNone)
+        window!.delegate = self
 
         valuesView!.insertRows(defaults.values.count)
-        
-        indexes = NSIndexSet(indexesInRange: NSRange(location:0,length:defaults.colorLists.count))
-        colorLists!.insertRowsAtIndexes(indexes, withAnimation: NSTableViewAnimationOptions.EffectNone)
+        colorLists!.insertRows(defaults.colorLists.count)
     }
 
     /*
@@ -155,6 +151,12 @@ class SheetController : NSWindowController, NSTableViewDelegate
             colorLists!.removeRow(row)
         }
     }
+    
+    func updateColorList(listIndex:Int)
+    {
+        let cell = (((colorLists?.rowViewAtRow(listIndex, makeIfNecessary:false) as! NSView).subviews.first as! NSView).subviews.first) as! ListCell
+        cell.needsDisplay = true
+    }
 
     /*
        0000000   0000000   000       0000000   00000000    0000000
@@ -174,6 +176,7 @@ class SheetController : NSWindowController, NSTableViewDelegate
             defaults.colorLists[listIndex].insert(color, atIndex:row)
             colors!.insertRow(row)
             colors!.selectRow(row)
+            updateColorList(listIndex)
         }
     }
 
@@ -187,6 +190,7 @@ class SheetController : NSWindowController, NSTableViewDelegate
             colors!.selectRow(row==colors!.numberOfRows-1 ? row-1 : row+1)
             defaults.colorLists[listIndex].removeAtIndex(row)
             colors!.removeRow(row)
+            updateColorList(listIndex)
         }
     }
 
@@ -197,7 +201,8 @@ class SheetController : NSWindowController, NSTableViewDelegate
         var listIndex = colorLists!.selectedRow
         if  listIndex >= 0
         {
-            defaults.colorLists[listIndex][colorCell.index()] = colorCell.color
+            defaults.colorLists[listIndex][colorCell.index()] = colorCell.rgb()
+            updateColorList(listIndex)
         }
     }
     
