@@ -13,7 +13,7 @@ class Defaults
     */
     
     let defaultValues:[[String: AnyObject]] = [
-        [                        "title": "",                        "text": "values are choosen randomly between top and bottom sliderS"],
+        [                        "title": "",                        "text": "values are choosen randomly between top and bottom sliders"],
         ["key": "rows",          "title": "number of cube rows",     "values": [20,  60],   "range":  [10,   100], "step": 1   ],
         ["key": "cube_amount",   "title": "cube amount",             "values": [3,    5],   "range":  [1,     10], "step": 0.2 ],
         ["key": "cpf",           "title": "cubes per frame",         "values": [1,    1],   "range":  [1,    200], "step": 1   ],
@@ -46,7 +46,7 @@ class Defaults
        0000000   0000000   0000000   0000000   000   000  0000000 
     */
     
-    let defaultColors = "#000058#4d4bff#7474f2,#ff00ff"
+    let defaultColors = "#6c0000#b50000#ff0000#ff9227#b50000,#003a00#005e00#009700#00cd27#005e00,#00002f#00006e#0000ff#595bff#00006e"
 
     init()
     {

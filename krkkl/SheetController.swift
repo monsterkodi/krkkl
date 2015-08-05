@@ -139,16 +139,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
     {
         let pasteBoard = NSPasteboard.generalPasteboard()
         pasteBoard.clearContents()
-//        var colorListsStr = ""
-//        for colorList in defaults.colorLists
-//        {
-//            var colorsStr = ""
-//            for color in colorList
-//            {
-//                colorsStr += color.hex()
-//            }
-//            colorListsStr += colorsStr
-//        }
+
         let colorListsStr = join(",", defaults.colorLists.map { (colorList) -> String in
             return join("", colorList.map { (color) -> String in
                     return color.hex()
