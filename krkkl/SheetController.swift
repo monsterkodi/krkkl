@@ -9,6 +9,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
     @IBOutlet var colors:     TableView?
     @IBOutlet var valuesView: TableView?
     @IBOutlet var pages:      NSTabView?
+    @IBOutlet var choiceBox:  NSBox?
     @IBOutlet var rangeBox:   NSBox?
     @IBOutlet var valueBox:   NSBox?
     @IBOutlet var labelBox:   NSBox?
@@ -293,6 +294,36 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
                 label.selectable = false
                 return clone
             }
+            else if (defaults.values[row]["choices"] != nil)
+            {
+                var clone = choiceBox!.clone()
+                var box = clone.subviews.first! as! NSView
+                box.identifier = defaults.values[row]["key"] as? String
+                var segments = box.childWithIdentifier("segments") as! NSSegmentedControl
+                var choices = defaults.values[row]["choices"] as! [AnyObject]
+                let type = defaults.values[row]["type"] as! String
+                
+                segments.target = self
+                segments.action = Selector("segmentsChanged:")
+
+                segments.segmentCount = choices.count
+                for i in 0...choices.count-1
+                {
+                    segments.setLabel((defaults.values[row]["labels"] as! [String])[i], forSegment: i)
+                    var found = false
+                    if type == "string"
+                    {
+                        found = find(defaults.values[row]["values"] as! [String], choices[i] as! String) != nil
+                    }
+                    else
+                    {
+                        found = find(defaults.values[row]["values"] as! [Int], choices[i] as! Int) != nil
+                    }
+                    segments.setSelected(found, forSegment: i)
+                }
+                
+                return clone
+            }
             else if (defaults.values[row]["values"] != nil)
             {
                 var clone = rangeBox!.clone()
@@ -403,6 +434,26 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
         updateDefaults(self)
     }
 
+    @IBAction func segmentsChanged(sender: AnyObject)
+    {
+        let segments = sender as! NSSegmentedControl
+        let box    = segments.superview!
+        let row    = rowForKey(box.identifier!)
+        let type   = defaults.values[row]["type"] as! String
+
+        var choices = defaults.values[row]["choices"] as! [AnyObject]
+        var values = defaults.values[row]["values"] as! [AnyObject]
+        values.removeAll(keepCapacity:true)
+        for i in 0...choices.count-1
+        {
+            if segments.isSelectedForSegment(i)
+            {
+                values.append(choices[i])
+            }
+        }
+        defaults.values[row]["values"] = values
+    }
+    
     /*
       00     00  000   0000000   0000000
       000   000  000  000       000     

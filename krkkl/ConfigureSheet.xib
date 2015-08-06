@@ -7,6 +7,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="SheetController" customModule="krkkl" customModuleProvider="target">
             <connections>
+                <outlet property="choiceBox" destination="Ri1-NK-QQc" id="Mjg-Od-4z8"/>
                 <outlet property="colorBox" destination="OAC-H3-tK6" id="y0V-tA-QFZ"/>
                 <outlet property="colorLists" destination="bAE-ux-hQ8" id="sdR-Ms-EGI"/>
                 <outlet property="colors" destination="pXX-fa-bJa" id="gbB-Qz-kql"/>
@@ -504,14 +505,14 @@
         </window>
         <arrayController id="e2n-pd-Vur" userLabel="Values Controller"/>
         <box autoresizesSubviews="NO" title="Value Boxes" id="YAJ-ns-WAE" userLabel="Value Boxes">
-            <rect key="frame" x="0.0" y="-5" width="636" height="237"/>
+            <rect key="frame" x="0.0" y="-1" width="636" height="303"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <view key="contentView">
-                <rect key="frame" x="2" y="2" width="632" height="220"/>
+                <rect key="frame" x="2" y="2" width="632" height="286"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <box ambiguous="YES" misplaced="YES" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="IrK-eX-xW4" userLabel="ValueBox">
-                        <rect key="frame" x="260" y="61" width="359" height="30"/>
+                        <rect key="frame" x="260" y="127" width="359" height="30"/>
                         <view key="contentView">
                             <rect key="frame" x="2" y="2" width="355" height="26"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -547,7 +548,7 @@
                         <color key="fillColor" white="1" alpha="0.20000000000000001" colorSpace="calibratedWhite"/>
                     </box>
                     <box ambiguous="YES" misplaced="YES" title="Box" boxType="secondary" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="2ho-gc-1r6" userLabel="RangeBox">
-                        <rect key="frame" x="260" y="9" width="359" height="40"/>
+                        <rect key="frame" x="260" y="75" width="359" height="40"/>
                         <view key="contentView">
                             <rect key="frame" x="2" y="2" width="355" height="36"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -612,7 +613,7 @@
                         <color key="fillColor" white="0.90243186090225569" alpha="1" colorSpace="calibratedWhite"/>
                     </box>
                     <box autoresizesSubviews="NO" verticalHuggingPriority="1000" verticalCompressionResistancePriority="20" ambiguous="YES" misplaced="YES" transparent="YES" title="Box" borderType="line" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="zoj-jw-9m3" userLabel="LabelBox">
-                        <rect key="frame" x="14" y="60" width="359" height="39"/>
+                        <rect key="frame" x="14" y="126" width="359" height="39"/>
                         <view key="contentView">
                             <rect key="frame" x="1" y="1" width="357" height="37"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -637,7 +638,7 @@
                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </box>
                     <box autoresizesSubviews="NO" verticalHuggingPriority="1000" verticalCompressionResistancePriority="20" ambiguous="YES" misplaced="YES" transparent="YES" title="Box" borderType="line" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="Ezl-Up-mC5" userLabel="TitleBox">
-                        <rect key="frame" x="14" y="97" width="359" height="39"/>
+                        <rect key="frame" x="14" y="163" width="359" height="39"/>
                         <view key="contentView">
                             <rect key="frame" x="1" y="1" width="357" height="37"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -662,7 +663,7 @@
                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </box>
                     <box autoresizesSubviews="NO" verticalHuggingPriority="1000" verticalCompressionResistancePriority="20" ambiguous="YES" misplaced="YES" transparent="YES" title="Box" borderType="line" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="OAC-H3-tK6" userLabel="ColorBox">
-                        <rect key="frame" x="14" y="9" width="359" height="39"/>
+                        <rect key="frame" x="14" y="75" width="359" height="39"/>
                         <view key="contentView">
                             <rect key="frame" x="1" y="1" width="357" height="37"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -687,7 +688,7 @@
                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </box>
                     <box autoresizesSubviews="NO" verticalHuggingPriority="1000" verticalCompressionResistancePriority="20" ambiguous="YES" misplaced="YES" transparent="YES" title="Box" borderType="line" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="9KL-Iw-Rxh" userLabel="TextBox">
-                        <rect key="frame" x="259" y="125" width="359" height="39"/>
+                        <rect key="frame" x="259" y="191" width="359" height="39"/>
                         <view key="contentView">
                             <rect key="frame" x="1" y="1" width="357" height="37"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -711,6 +712,34 @@
                         <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </box>
+                    <box ambiguous="YES" misplaced="YES" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="Ri1-NK-QQc" userLabel="ChoiceBox">
+                        <rect key="frame" x="259" y="22" width="359" height="39"/>
+                        <view key="contentView">
+                            <rect key="frame" x="2" y="2" width="355" height="35"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <segmentedControl identifier="segments" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kY2-RK-StK" userLabel="Segments">
+                                    <rect key="frame" x="7" y="8" width="15" height="18"/>
+                                    <segmentedCell key="cell" controlSize="small" borderStyle="border" alignment="left" identifier="segments" style="roundRect" trackingMode="selectAny" id="aOz-IO-I2m">
+                                        <font key="font" metaFont="smallSystem"/>
+                                        <segments>
+                                            <segment>
+                                                <nil key="label"/>
+                                            </segment>
+                                        </segments>
+                                    </segmentedCell>
+                                </segmentedControl>
+                            </subviews>
+                        </view>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="GlI-6J-8y1"/>
+                            <constraint firstItem="kY2-RK-StK" firstAttribute="top" secondItem="Ri1-NK-QQc" secondAttribute="top" constant="5" id="bZY-iE-PzC"/>
+                            <constraint firstAttribute="centerY" secondItem="kY2-RK-StK" secondAttribute="centerY" id="qjM-eN-bbm"/>
+                            <constraint firstAttribute="centerX" secondItem="kY2-RK-StK" secondAttribute="centerX" id="swb-Zn-qjM"/>
+                        </constraints>
+                        <color key="borderColor" white="1" alpha="0.20000000000000001" colorSpace="calibratedWhite"/>
+                        <color key="fillColor" white="1" alpha="0.20000000000000001" colorSpace="calibratedWhite"/>
+                    </box>
                 </subviews>
             </view>
             <constraints>
@@ -721,7 +750,7 @@
             </constraints>
             <color key="borderColor" white="1" alpha="0.20000000000000001" colorSpace="calibratedWhite"/>
             <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-            <point key="canvasLocation" x="330" y="-202.5"/>
+            <point key="canvasLocation" x="330" y="-169.5"/>
         </box>
         <menu id="OH6-YZ-Noa" userLabel="ColorListsMenu">
             <items>
@@ -748,12 +777,6 @@
         </menu>
         <menu id="4sS-gW-hkp" userLabel="ColorsMenu">
             <items>
-                <menuItem title="Duplicate Color" id="Ik0-cC-ZHN">
-                    <modifierMask key="keyEquivalentModifierMask"/>
-                    <connections>
-                        <action selector="duplicateColor:" target="-2" id="TYa-OF-32p"/>
-                    </connections>
-                </menuItem>
                 <menuItem title="Darken Color" id="1o3-U1-LbU">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>

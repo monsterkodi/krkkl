@@ -29,7 +29,7 @@ class Cubes
     var probSum:Double = 0
     var probDir:[Double] = [0,0,0]
     var keepDir:[Double] = [0,0,0]
-    var reset:String = "" // what happens when the screen border is touched: "wrap", "ping", "center" or "random"
+    var reset:String = "" // what happens when the screen border is touched: "random", "ping", "wrap" ("center")
     
     var cubeCount:Int = 0
     var maxCubes:Int = 5000
@@ -67,7 +67,7 @@ class Cubes
         color_left  = randDblPref("color_left")
         color_right = randDblPref("color_right")
         
-        dirIncr = Int(doublePref("dir_incr"))
+        dirIncr = randChoice("dir_inc") as! Int
 
         size.y = Int(randDblPref("rows")) / (view!.isPreview() ? 2 : 1)
 
@@ -81,7 +81,8 @@ class Cubes
         colorInc = Float(randDblPref("color_fade"))
         
         maxCubes = Int(Double(size.y * size.y)*randDblPref("cube_amount"))
-        reset = ["random", "ping", "wrap"][randint(3)]
+//        reset = ["random", "ping", "wrap"][randint(3)]
+        reset = randChoice("reset") as! String
         
         // _______________________ derivatives
 
@@ -411,6 +412,12 @@ class Cubes
     {
         let dbls = doublesPref(key)
         return randdblrng(dbls[0], dbls[1])
+    }
+    
+    func randChoice(key:String) -> AnyObject
+    {
+        let values = (defaults().valueForKey(key) as! [String: AnyObject])["values"] as! [AnyObject]
+        return values[randint(values.count)]
     }
 
     func doublePref(key:String) -> Double
