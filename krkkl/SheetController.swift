@@ -50,6 +50,10 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
     
     func tableView(tableView: NSTableView, rowViewForRow row: Int) -> NSTableRowView?
     {
+        if tableView == colors
+        {
+            return ColorsTableRow()
+        }
         return TableRow()
     }
     

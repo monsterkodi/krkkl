@@ -45,3 +45,11 @@ class TableRow : NSTableRowView
         }
     }
 }
+
+class ColorsTableRow : NSTableRowView
+{
+    override func drawRect(dirtyRect: NSRect)
+    {
+        (subviews.first as! ColorCell).setSelected(selected)
+    }
+}

@@ -21,7 +21,11 @@ extension NSColor
     func green() -> CGFloat { return greenComponent }
     func blue()  -> CGFloat { return blueComponent  }
     func alpha() -> CGFloat { return alphaComponent }
-    
+
+    func r()    -> Float { return Float(redComponent)   }
+    func g()    -> Float { return Float(greenComponent) }
+    func b()    -> Float { return Float(blueComponent)  }
+
     func darken(factor: Double) -> NSColor
     {
         let f = CGFloat(factor)
