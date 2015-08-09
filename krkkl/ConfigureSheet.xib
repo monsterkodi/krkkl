@@ -368,13 +368,13 @@
                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                 <subviews>
                                                                                     <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="30" viewBased="YES" id="pXX-fa-bJa" customClass="TableView" customModule="krkkl" customModuleProvider="target">
-                                                                                        <rect key="frame" x="0.0" y="0.0" width="424" height="0.0"/>
+                                                                                        <rect key="frame" x="0.0" y="0.0" width="340" height="0.0"/>
                                                                                         <autoresizingMask key="autoresizingMask"/>
                                                                                         <size key="intercellSpacing" width="0.0" height="2"/>
                                                                                         <color key="backgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
                                                                                         <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                                                                         <tableColumns>
-                                                                                            <tableColumn identifier="color" width="340" minWidth="10" maxWidth="3.4028234663852886e+38" id="Nis-ee-kSd" userLabel="color">
+                                                                                            <tableColumn identifier="color" width="424" minWidth="10" maxWidth="3.4028234663852886e+38" id="Nis-ee-kSd" userLabel="color">
                                                                                                 <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
                                                                                                     <font key="font" metaFont="smallSystem"/>
                                                                                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -453,6 +453,38 @@
                                                 </constraints>
                                             </view>
                                         </tabViewItem>
+                                        <tabViewItem label="About" identifier="2" id="KSJ-Sd-qnX">
+                                            <view key="view" id="OzJ-A0-h9u">
+                                                <rect key="frame" x="0.0" y="0.0" width="588" height="378"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                <subviews>
+                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q9E-Rf-Bm4">
+                                                        <rect key="frame" x="126" y="295" width="336" height="56"/>
+                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="krkkl" id="ai9-ka-OZ0">
+                                                            <font key="font" size="50" name="HelveticaNeue-CondensedBlack"/>
+                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HZs-KB-GX2">
+                                                        <rect key="frame" x="232" y="270" width="125" height="17"/>
+                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="version 1.0.0" id="W7s-9l-WB8">
+                                                            <font key="font" metaFont="system"/>
+                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                        </textFieldCell>
+                                                    </textField>
+                                                    <imageView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="64U-MC-iOp">
+                                                        <rect key="frame" x="99" y="62" width="166" height="166"/>
+                                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" imageFrameStyle="grayBezel" image="monsterkodi" id="d7B-au-gbQ"/>
+                                                    </imageView>
+                                                    <imageView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JuR-Pb-HdC">
+                                                        <rect key="frame" x="317" y="62" width="166" height="166"/>
+                                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" imageFrameStyle="grayBezel" image="erik" id="QCF-ol-zf5"/>
+                                                    </imageView>
+                                                </subviews>
+                                            </view>
+                                        </tabViewItem>
                                     </tabViewItems>
                                 </tabView>
                             </subviews>
@@ -477,12 +509,13 @@
                         </connections>
                     </button>
                     <segmentedControl autoresizesSubviews="NO" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nH3-dW-Wqq" userLabel="Pages Tab">
-                        <rect key="frame" x="112" y="460" width="407" height="20"/>
+                        <rect key="frame" x="41" y="460" width="548" height="20"/>
                         <segmentedCell key="cell" controlSize="small" state="on" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="Ra7-DG-J8m">
                             <font key="font" metaFont="smallSystem"/>
                             <segments>
-                                <segment label="Setup" imageScaling="proportionallyUpOrDown" width="200" selected="YES"/>
-                                <segment label="Colors" imageScaling="proportionallyUpOrDown" width="200" tag="1"/>
+                                <segment label="Setup" imageScaling="proportionallyUpOrDown" width="180" selected="YES"/>
+                                <segment label="Colors" imageScaling="proportionallyUpOrDown" width="180" tag="1"/>
+                                <segment label="About" width="180"/>
                             </segments>
                         </segmentedCell>
                         <connections>
@@ -719,7 +752,7 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <segmentedControl identifier="segments" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kY2-RK-StK" userLabel="Segments">
-                                    <rect key="frame" x="7" y="8" width="15" height="18"/>
+                                    <rect key="frame" x="7" y="8" width="15" height="22"/>
                                     <segmentedCell key="cell" controlSize="small" borderStyle="border" alignment="left" identifier="segments" style="roundRect" trackingMode="selectAny" id="aOz-IO-I2m">
                                         <font key="font" metaFont="smallSystem"/>
                                         <segments>
@@ -797,5 +830,7 @@
         <image name="NSActionTemplate" width="14" height="14"/>
         <image name="NSAddTemplate" width="11" height="11"/>
         <image name="NSRemoveTemplate" width="11" height="11"/>
+        <image name="erik" width="460" height="460"/>
+        <image name="monsterkodi" width="460" height="460"/>
     </resources>
 </document>

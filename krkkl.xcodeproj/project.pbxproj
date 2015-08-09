@@ -13,6 +13,10 @@
 		C30B0F571B6A9B4700144035 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C30B0F551B6A9B4700144035 /* Extensions.swift */; };
 		C30B0F591B6AA23000144035 /* Cubes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C30B0F581B6AA23000144035 /* Cubes.swift */; };
 		C30B0F5A1B6AA23000144035 /* Cubes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C30B0F581B6AA23000144035 /* Cubes.swift */; };
+		C31400851B775593003253B0 /* erik.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C31400831B775593003253B0 /* erik.jpg */; };
+		C31400861B775593003253B0 /* erik.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C31400831B775593003253B0 /* erik.jpg */; };
+		C31400871B775593003253B0 /* monsterkodi.png in Resources */ = {isa = PBXBuildFile; fileRef = C31400841B775593003253B0 /* monsterkodi.png */; };
+		C31400881B775593003253B0 /* monsterkodi.png in Resources */ = {isa = PBXBuildFile; fileRef = C31400841B775593003253B0 /* monsterkodi.png */; };
 		C33B3ED71B6CFA5F0025CECB /* ConfigureSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = C33B3ED41B6CFA5F0025CECB /* ConfigureSheet.xib */; };
 		C33B3ED91B6CFA5F0025CECB /* SheetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33B3ED51B6CFA5F0025CECB /* SheetController.swift */; };
 		C33B3EDA1B6CFA5F0025CECB /* SheetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C33B3ED51B6CFA5F0025CECB /* SheetController.swift */; };
@@ -37,6 +41,8 @@
 		03683AD81B6B8AD00076AC1C /* thumbnail@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "thumbnail@2x.png"; path = "krkkl/thumbnail@2x.png"; sourceTree = SOURCE_ROOT; };
 		C30B0F551B6A9B4700144035 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		C30B0F581B6AA23000144035 /* Cubes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cubes.swift; sourceTree = "<group>"; };
+		C31400831B775593003253B0 /* erik.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = erik.jpg; sourceTree = "<group>"; };
+		C31400841B775593003253B0 /* monsterkodi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = monsterkodi.png; sourceTree = "<group>"; };
 		C33B3ED41B6CFA5F0025CECB /* ConfigureSheet.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConfigureSheet.xib; sourceTree = "<group>"; };
 		C33B3ED51B6CFA5F0025CECB /* SheetController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SheetController.swift; sourceTree = "<group>"; };
 		C33B3ED61B6CFA5F0025CECB /* Defaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Defaults.swift; sourceTree = "<group>"; };
@@ -110,6 +116,8 @@
 			isa = PBXGroup;
 			children = (
 				03683AD71B6B8AD00076AC1C /* thumbnail.png */,
+				C31400831B775593003253B0 /* erik.jpg */,
+				C31400841B775593003253B0 /* monsterkodi.png */,
 				03683AD81B6B8AD00076AC1C /* thumbnail@2x.png */,
 				C365BA251B67F18D008A49B5 /* Info.plist */,
 			);
@@ -226,6 +234,8 @@
 			files = (
 				03683ADB1B6B8AFD0076AC1C /* thumbnail.png in Resources */,
 				03683ADC1B6B8B020076AC1C /* thumbnail@2x.png in Resources */,
+				C31400851B775593003253B0 /* erik.jpg in Resources */,
+				C31400871B775593003253B0 /* monsterkodi.png in Resources */,
 				C33B3ED71B6CFA5F0025CECB /* ConfigureSheet.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -236,6 +246,8 @@
 			files = (
 				C3C2047E1B67F63C00C43606 /* Images.xcassets in Resources */,
 				C3C204811B67F63C00C43606 /* MainMenu.xib in Resources */,
+				C31400861B775593003253B0 /* erik.jpg in Resources */,
+				C31400881B775593003253B0 /* monsterkodi.png in Resources */,
 				C33B3EDD1B6D00030025CECB /* ConfigureSheet.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

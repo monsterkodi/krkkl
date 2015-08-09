@@ -230,8 +230,8 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
         if  listIndex >= 0
         {
             let row = colors?.rowViewAtRow(colors!.selectedRow, makeIfNecessary:false) as! NSTableRowView
-            let cell = row.subviews.first?.subviews[1] as! ColorCell
-            let color = defaults.colorLists[listIndex][colors!.selectedRow].darken(0.5)
+            let cell = row.subviews.first as! ColorCell
+            let color = defaults.colorLists[listIndex][colors!.selectedRow].scale(0.8)
             cell.color = color
             defaults.colorLists[listIndex][colors!.selectedRow] = color
             updateColorList(listIndex)
@@ -240,7 +240,16 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
 
     @IBAction func lightenColor(sender: AnyObject)
     {
-        
+        var listIndex = colorLists!.selectedRow
+        if  listIndex >= 0
+        {
+            let row = colors?.rowViewAtRow(colors!.selectedRow, makeIfNecessary:false) as! NSTableRowView
+            let cell = row.subviews.first as! ColorCell
+            let color = defaults.colorLists[listIndex][colors!.selectedRow].scale(1.2)
+            cell.color = color
+            defaults.colorLists[listIndex][colors!.selectedRow] = color
+            updateColorList(listIndex)
+        }
     }
 
     @IBAction func showMenu(sender: AnyObject)
