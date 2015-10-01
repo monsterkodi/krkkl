@@ -69,7 +69,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
     {
         let view = NSView()
         let cell = ListCell()
-        cell.autoresizingMask = NSAutoresizingMaskOptions.ViewWidthSizable | NSAutoresizingMaskOptions.ViewHeightSizable
+        cell.autoresizingMask = [NSAutoresizingMaskOptions.ViewWidthSizable, NSAutoresizingMaskOptions.ViewHeightSizable]
         view.addSubview(cell)
         return view
     }
@@ -122,7 +122,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
 
     @IBAction func addColorList(sender: AnyObject)
     {
-        var row = colorLists!.selectedRow+1
+        let row = colorLists!.selectedRow+1
         defaults.colorLists.insert([randColor()], atIndex:row)
         colorLists!.insertRow(row)
         colorLists!.selectRow(row)
@@ -145,19 +145,19 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
         let pasteBoard = NSPasteboard.generalPasteboard()
         pasteBoard.clearContents()
 
-        let colorListsStr = join(",", defaults.colorLists.map { (colorList) -> String in
-            return join("", colorList.map { (color) -> String in
+        let colorListsStr = defaults.colorLists.map { (colorList) -> String in
+            return colorList.map { (color) -> String in
                     return color.hex()
-                })
-        })
-        println(colorListsStr)
+                }.joinWithSeparator("")
+        }.joinWithSeparator(",")
+        print(colorListsStr)
         let data = colorListsStr.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion:false)!
         pasteBoard.setData(data, forType:NSPasteboardTypeString)
     }
 
     @IBAction func duplicateColorList(sender: AnyObject)
     {
-        var row = colorLists!.selectedRow+1
+        let row = colorLists!.selectedRow+1
         defaults.colorLists.insert(defaults.colorLists[colorLists!.selectedRow], atIndex:row)
         colorLists!.insertRow(row)
         colorLists!.selectRow(row)
@@ -174,7 +174,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
     
     func updateColorList(listIndex:Int)
     {
-        let cell = (((colorLists?.rowViewAtRow(listIndex, makeIfNecessary:false) as! NSView).subviews.first as! NSView).subviews.first) as! ListCell
+        let cell = ((colorLists?.rowViewAtRow(listIndex, makeIfNecessary:false)!.subviews.first)!.subviews.first) as! ListCell
         cell.needsDisplay = true
     }
 
@@ -188,10 +188,10 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
 
     @IBAction func addColor(sender: AnyObject)
     {
-        var listIndex = colorLists!.selectedRow
+        let listIndex = colorLists!.selectedRow
         if  listIndex >= 0
         {
-            var row = colors!.selectedRow + 1
+            let row = colors!.selectedRow + 1
             let color = randColor()
             defaults.colorLists[listIndex].insert(color, atIndex:row)
             colors!.insertRow(row)
@@ -205,7 +205,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
         let row = colors!.selectedRow
         if row >= 0
         {
-            var listIndex = colorLists!.selectedRow
+            let listIndex = colorLists!.selectedRow
             colors!.selectRow(row==colors!.numberOfRows-1 ? row-1 : row+1)
             defaults.colorLists[listIndex].removeAtIndex(row)
             colors!.removeRow(row)
@@ -216,7 +216,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
     func colorCellChanged(sender:AnyObject)
     {
         let colorCell = sender as! ColorCell
-        var listIndex = colorLists!.selectedRow
+        let listIndex = colorLists!.selectedRow
         if  listIndex >= 0
         {
             defaults.colorLists[listIndex][colorCell.index()] = colorCell.rgb()
@@ -229,8 +229,8 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
         var listIndex = colorLists!.selectedRow
         if  listIndex >= 0
         {
-            let row = colors?.rowViewAtRow(colors!.selectedRow, makeIfNecessary:false) as! NSTableRowView
-            let cell = row.subviews.first as! ColorCell
+            let row = colors?.rowViewAtRow(colors!.selectedRow, makeIfNecessary:false)
+            let cell = row!.subviews.first as! ColorCell
             let color = defaults.colorLists[listIndex][colors!.selectedRow].scale(0.8)
             cell.color = color
             defaults.colorLists[listIndex][colors!.selectedRow] = color
@@ -243,8 +243,8 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
         var listIndex = colorLists!.selectedRow
         if  listIndex >= 0
         {
-            let row = colors?.rowViewAtRow(colors!.selectedRow, makeIfNecessary:false) as! NSTableRowView
-            let cell = row.subviews.first as! ColorCell
+            let row = colors?.rowViewAtRow(colors!.selectedRow, makeIfNecessary:false)
+            let cell = row!.subviews.first as! ColorCell
             let color = defaults.colorLists[listIndex][colors!.selectedRow].scale(1.2)
             cell.color = color
             defaults.colorLists[listIndex][colors!.selectedRow] = color
@@ -257,7 +257,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
         let pos = CGPoint(x:-sender.frame.size.width*2+5, y:sender.frame.size.height+3)
         let menu = sender.menu as NSMenu?
         let view = sender as! NSView
-        menu!.popUpMenuPositioningItem(menu?.itemArray.first as? NSMenuItem, atLocation:pos, inView:view)
+        menu!.popUpMenuPositioningItem(menu?.itemArray.first, atLocation:pos, inView:view)
     }
 
     /*
@@ -280,7 +280,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
                 label.drawsBackground = false
                 label.editable = false
                 label.selectable = false
-                label.alignment = .RightTextAlignment
+                label.alignment = .Right
                 return clone
             }
             else
@@ -291,7 +291,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
                 label.drawsBackground = false
                 label.editable = false
                 label.selectable = false
-                label.alignment = .RightTextAlignment
+                label.alignment = .Right
                 return clone
             }
         }
@@ -310,7 +310,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
             else if (defaults.values[row]["choices"] != nil)
             {
                 var clone = choiceBox!.clone()
-                var box = clone.subviews.first! as! NSView
+                var box = clone.subviews.first! 
                 box.identifier = defaults.values[row]["key"] as? String
                 var segments = box.childWithIdentifier("segments") as! NSSegmentedControl
                 var choices = defaults.values[row]["choices"] as! [AnyObject]
@@ -326,11 +326,11 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
                     var found = false
                     if type == "string"
                     {
-                        found = find(defaults.values[row]["values"] as! [String], choices[i] as! String) != nil
+                        found = (defaults.values[row]["values"] as! [String]).indexOf((choices[i] as! String)) != nil
                     }
                     else
                     {
-                        found = find(defaults.values[row]["values"] as! [Int], choices[i] as! Int) != nil
+                        found = (defaults.values[row]["values"] as! [Int]).indexOf(choices[i] as! Int) != nil
                     }
                     segments.setSelected(found, forSegment: i)
                 }
@@ -340,7 +340,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
             else if (defaults.values[row]["values"] != nil)
             {
                 var clone = rangeBox!.clone()
-                var box = clone.subviews.first! as! NSView
+                var box = clone.subviews.first! 
                 box.identifier = defaults.values[row]["key"] as? String
                 
                 var minSlider = box.childWithIdentifier("minSlider") as! NSSlider
@@ -371,7 +371,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
             else if (defaults.values[row]["value"] != nil)
             {
                 var clone = valueBox!.clone()
-                var box = clone.subviews.first! as! NSView
+                var box = clone.subviews.first! 
                 box.identifier = defaults.values[row]["key"] as? String
                 
                 var valueSlider = box.childWithIdentifier("valueSlider") as! NSSlider
@@ -408,7 +408,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
         let box    = slider.superview!
         let row    = rowForKey(box.identifier!)
         let step   = defaults.values[row]["step"] as! Double
-        let value  = valueStep(slider.doubleValue, step)
+        let value  = valueStep(slider.doubleValue, step: step)
 
         var textId = ""
         switch slider.identifier!
@@ -418,7 +418,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
         default:          textId = "valueText"
         }
         
-        var text = box.childWithIdentifier(textId) as! NSTextField
+        let text = box.childWithIdentifier(textId) as! NSTextField
         text.doubleValue = value
         
         if slider.identifier == "minSlider"
@@ -452,7 +452,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
         let segments = sender as! NSSegmentedControl
         let box    = segments.superview!
         let row    = rowForKey(box.identifier!)
-        let type   = defaults.values[row]["type"] as! String
+        //let type   = defaults.values[row]["type"] as! String
 
         var choices = defaults.values[row]["choices"] as! [AnyObject]
         var values = defaults.values[row]["values"] as! [AnyObject]

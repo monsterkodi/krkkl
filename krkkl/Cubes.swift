@@ -47,7 +47,7 @@ class Cubes
     func isDone() -> Bool { return cubeCount >= maxCubes }
     func nextStep()
     {
-        for c in 0...Int(cpf)
+        for _ in 0...Int(cpf)
         {
             drawNextCube()
         }
@@ -69,7 +69,7 @@ class Cubes
         
         dirIncr = randChoice("dir_inc") as! Int
 
-        size.y = Int(randDblPref("rows")) / (view!.isPreview() ? 2 : 1)
+        size.y = Int(randDblPref("rows")) / (view!.preview ? 2 : 1)
 
         cubeSize.y = view!.height()/size.y
         if (cubeSize.y % 2 == 1) { cubeSize.y -= 1 }
@@ -137,22 +137,22 @@ class Cubes
 
         cubeCount = 0
         
-        println("")
-        println("width \(view!.width())")
-        println("height \(view!.height())")
-        println("numx \(size.x)")
-        println("numy \(size.y)")
-        println("cube  \(cubeSize.x) \(cubeSize.y)")
-        println("maxCubes \(maxCubes)")
-        println("fps \(fps)")
-        println("cpf \(cpf)")
-        println("keepDir \(keepDir)")
-        println("probDir \(probDir)")
-        println("probSum \(probSum)")
-        println("colorInc \(colorInc)")
-        println("colorList \(colorListIndex)")
-        println("colorType \(colorTypeName(colorType))")
-        println("reset \(reset)")
+        print("")
+        print("width \(view!.width())")
+        print("height \(view!.height())")
+        print("numx \(size.x)")
+        print("numy \(size.y)")
+        print("cube  \(cubeSize.x) \(cubeSize.y)")
+        print("maxCubes \(maxCubes)")
+        print("fps \(fps)")
+        print("cpf \(cpf)")
+        print("keepDir \(keepDir)")
+        print("probDir \(probDir)")
+        print("probSum \(probSum)")
+        print("colorInc \(colorInc)")
+        print("colorList \(colorListIndex)")
+        print("colorType \(colorTypeName(colorType))")
+        print("reset \(reset)")
     }
 
     /*
@@ -196,12 +196,12 @@ class Cubes
             let side:Side = Side(rawValue:nextDir)!
             switch side
             {
-            case .UP:    b = clamp(b + ci, 0.0, 1.0)
-            case .LEFT:  r = clamp(r + ci, 0.0, 1.0)
-            case .RIGHT: g = clamp(g + ci, 0.0, 1.0)
-            case .DOWN:  b = clamp(b - ci, 0.0, 1.0)
-            case .BACKR: r = clamp(r - ci, 0.0, 1.0)
-            case .BACKL: g = clamp(g - ci, 0.0, 1.0)
+            case .UP:    b = clamp(b + ci, low: 0.0, high: 1.0)
+            case .LEFT:  r = clamp(r + ci, low: 0.0, high: 1.0)
+            case .RIGHT: g = clamp(g + ci, low: 0.0, high: 1.0)
+            case .DOWN:  b = clamp(b - ci, low: 0.0, high: 1.0)
+            case .BACKR: r = clamp(r - ci, low: 0.0, high: 1.0)
+            case .BACKL: g = clamp(g - ci, low: 0.0, high: 1.0)
             default: break
             }
             if r+g+b < 0.3
@@ -346,7 +346,7 @@ class Cubes
                 }
             }
             
-            if colorType == ColorType.DIRECTION && find(["center", "random"], reset) != nil {
+            if colorType == ColorType.DIRECTION && ["center", "random"].indexOf(reset) != nil {
                 rgbColor = colorRGB([0,0,0])
             }
         }
@@ -399,7 +399,7 @@ class Cubes
         if skip != .RIGHT
         {
             rgbColor.scale(color_right).set()
-            var path = NSBezierPath()
+            let path = NSBezierPath()
             path.moveToPoint(NSPoint(x: x    ,y: y))
             path.lineToPoint(NSPoint(x: x+w  ,y: y+s))
             path.lineToPoint(NSPoint(x: x+w  ,y: y-s))
@@ -411,7 +411,7 @@ class Cubes
     func randDblPref(key:String) -> Double
     {
         let dbls = doublesPref(key)
-        return randdblrng(dbls[0], dbls[1])
+        return randdblrng(dbls[0], high: dbls[1])
     }
     
     func randChoice(key:String) -> AnyObject

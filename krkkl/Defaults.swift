@@ -53,7 +53,7 @@ class Defaults
     {
         let version = defaultValues.description
         let identifier = NSBundle(forClass: Defaults.self).bundleIdentifier
-        userDefaults = ScreenSaverDefaults.defaultsForModuleWithName(identifier) as! NSUserDefaults
+        userDefaults = ScreenSaverDefaults(forModuleWithName:identifier!)!
         
         if getObjectForKey("version") as? String != version
         {
@@ -96,10 +96,10 @@ class Defaults
     func defaultColorLists() -> [[NSColor]]
     {
         var colorLists:[[NSColor]] = []
-        let strList = split(defaultColors) {$0 == ","}
+        let strList = defaultColors.characters.split {$0 == ","}.map { String($0) }
         for list in strList
         {
-            let hexList = split(list) {$0 == "#"}
+            let hexList = list.characters.split {$0 == "#"}.map { String($0) }
             var colorList:[NSColor] = []
             for hexColor in hexList
             {

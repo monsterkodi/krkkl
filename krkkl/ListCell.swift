@@ -19,7 +19,7 @@ class ListCell : NSView
 
             let str = "random"
             let textStyle = NSMutableParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
-            textStyle.alignment = NSTextAlignment.CenterTextAlignment
+            textStyle.alignment = NSTextAlignment.Center
 
             str.drawInRect(bounds, withAttributes: [NSParagraphStyleAttributeName: textStyle])
         }
@@ -31,7 +31,7 @@ class ListCell : NSView
 
             let str = "direction"
             let textStyle = NSMutableParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
-            textStyle.alignment = NSTextAlignment.CenterTextAlignment
+            textStyle.alignment = NSTextAlignment.Center
 
             str.drawInRect(bounds, withAttributes: [NSParagraphStyleAttributeName: textStyle, NSForegroundColorAttributeName: NSColor.whiteColor()])
         }

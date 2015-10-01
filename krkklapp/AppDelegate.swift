@@ -22,9 +22,9 @@ extension AppDelegate: NSApplicationDelegate
         NSUserDefaults.standardUserDefaults().setBool(false, forKey: "NSConstraintBasedLayoutVisualizeMutuallyExclusiveConstraints")
         
         view = KrkklView(frame: CGRectZero, isPreview: false)
-        view!.autoresizingMask = NSAutoresizingMaskOptions.ViewWidthSizable | NSAutoresizingMaskOptions.ViewHeightSizable
-        view!.frame = window.contentView.bounds
-        window.contentView.addSubview(view!)
+        view!.autoresizingMask = [NSAutoresizingMaskOptions.ViewWidthSizable, NSAutoresizingMaskOptions.ViewHeightSizable]
+        view!.frame = window.contentView!.bounds
+        window.contentView!.addSubview(view!)
         
         view!.startAnimation()
         NSTimer.scheduledTimerWithTimeInterval(1/view!.scene.fps, target: view!, selector: "animateOneFrame", userInfo: nil, repeats: true)

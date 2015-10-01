@@ -18,7 +18,7 @@ class KrkklView : ScreenSaverView
     override init(frame: NSRect, isPreview: Bool) 
     {
         scene = Cubes()
-        super.init(frame: frame, isPreview: isPreview)
+        super.init(frame: frame, isPreview: isPreview)!
         scene.view = self
     }
     
@@ -41,7 +41,7 @@ class KrkklView : ScreenSaverView
     {    
         scene.setup()
         super.startAnimation()
-        setAnimationTimeInterval(1.0 / scene.fps)
+        animationTimeInterval = 1.0 / scene.fps
         needsDisplay = true
     }
         
@@ -84,13 +84,13 @@ class KrkklView : ScreenSaverView
             clear()
             scene.setup()
             animState = "anim"
-            setAnimationTimeInterval(1.0 / scene.fps)
+            animationTimeInterval = 1.0 / scene.fps
         }
         else
         {
             var a = (1.0-(fade-10)/230.0)
             a = 0.002 + a * a * a * a * 0.2
-            clear(color:NSColor(red: 0, green: 0, blue: 0, alpha:CGFloat(a)))
+            clear(NSColor(red: 0, green: 0, blue: 0, alpha:CGFloat(a)))
             
             fadeCount += 1
         }
@@ -104,7 +104,7 @@ class KrkklView : ScreenSaverView
     
     override func drawRect(rect: NSRect)
     {
-        var bPath:NSBezierPath = NSBezierPath(rect: rect)
+        let bPath:NSBezierPath = NSBezierPath(rect: rect)
         bPath.fill()
     }
     override func configureSheet() -> NSWindow? { return sheetController.window }

@@ -29,9 +29,9 @@ extension NSColor
     func scale(factor: Double) -> NSColor
     {
         let f = CGFloat(factor)
-        let r = cgclamp(red()*f,0.0,1.0)
-        let g = cgclamp(green()*f, 0.0, 1.0)
-        let b = cgclamp(blue()*f,0.0,1.0)
+        let r = cgclamp(red()*f,low: 0.0,high: 1.0)
+        let g = cgclamp(green()*f, low: 0.0, high: 1.0)
+        let b = cgclamp(blue()*f,low: 0.0,high: 1.0)
         return NSColor(red: r, green: g, blue: b, alpha: alpha())
     }
     
@@ -64,7 +64,7 @@ extension NSView
     {
         var child:NSView? = subviews.filter({ (e) -> Bool in
             return e.identifier == identifier
-        }).first as? NSView
+        }).first
         if (child != nil) { return child }
         for subview in subviews
         {
@@ -79,7 +79,7 @@ extension NSView
     
     func clone() -> NSView
     {
-        var data = NSKeyedArchiver.archivedDataWithRootObject(self)
+        let data = NSKeyedArchiver.archivedDataWithRootObject(self)
         return NSKeyedUnarchiver.unarchiveObjectWithData(data) as! NSView
     }
 }
@@ -88,7 +88,7 @@ extension String
 {
     func substring(start:Int, _ length:Int) -> String
     {
-        return substringWithRange(Range<String.Index>(start: advance(startIndex, start), end: advance(startIndex, start+length)))
+        return substringWithRange(Range<String.Index>(start: startIndex.advancedBy(start), end: startIndex.advancedBy(start+length)))
     }
 }
 

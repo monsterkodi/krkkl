@@ -197,6 +197,8 @@
 		C365BA181B67F18D008A49B5 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftMigration = 0700;
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0640;
 				ORGANIZATIONNAME = kodi;
 				TargetAttributes = {
