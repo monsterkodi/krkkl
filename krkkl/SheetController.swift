@@ -226,7 +226,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
     
     @IBAction func darkenColor(sender: AnyObject)
     {
-        var listIndex = colorLists!.selectedRow
+        let listIndex = colorLists!.selectedRow
         if  listIndex >= 0
         {
             let row = colors?.rowViewAtRow(colors!.selectedRow, makeIfNecessary:false)
@@ -240,7 +240,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
 
     @IBAction func lightenColor(sender: AnyObject)
     {
-        var listIndex = colorLists!.selectedRow
+        let listIndex = colorLists!.selectedRow
         if  listIndex >= 0
         {
             let row = colors?.rowViewAtRow(colors!.selectedRow, makeIfNecessary:false)
@@ -274,8 +274,8 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
         {
             if (defaults.values[row]["title"] != nil)
             {
-                var clone = titleBox!.clone()
-                var label = clone.subviews.first!.subviews.first! as! NSTextField
+                let clone = titleBox!.clone()
+                let label = clone.subviews.first!.subviews.first! as! NSTextField
                 label.stringValue = defaults.values[row]["title"] as! String
                 label.drawsBackground = false
                 label.editable = false
@@ -285,8 +285,8 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
             }
             else
             {
-                var clone = labelBox!.clone()
-                var label = clone.subviews.first!.subviews.first! as! NSTextField
+                let clone = labelBox!.clone()
+                let label = clone.subviews.first!.subviews.first! as! NSTextField
                 label.stringValue = defaults.values[row]["label"] as! String
                 label.drawsBackground = false
                 label.editable = false
@@ -299,8 +299,8 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
         {
             if (defaults.values[row]["text"] != nil)
             {
-                var clone = textBox!.clone()
-                var label = clone.subviews.first!.subviews.first! as! NSTextField
+                let clone = textBox!.clone()
+                let label = clone.subviews.first!.subviews.first! as! NSTextField
                 label.stringValue = defaults.values[row]["text"] as! String
                 label.drawsBackground = false
                 label.editable = false
@@ -309,10 +309,10 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
             }
             else if (defaults.values[row]["choices"] != nil)
             {
-                var clone = choiceBox!.clone()
-                var box = clone.subviews.first! 
+                let clone = choiceBox!.clone()
+                let box = clone.subviews.first! 
                 box.identifier = defaults.values[row]["key"] as? String
-                var segments = box.childWithIdentifier("segments") as! NSSegmentedControl
+                let segments = box.childWithIdentifier("segments") as! NSSegmentedControl
                 var choices = defaults.values[row]["choices"] as! [AnyObject]
                 let type = defaults.values[row]["type"] as! String
                 
@@ -339,14 +339,14 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
             }
             else if (defaults.values[row]["values"] != nil)
             {
-                var clone = rangeBox!.clone()
-                var box = clone.subviews.first! 
+                let clone = rangeBox!.clone()
+                let box = clone.subviews.first! 
                 box.identifier = defaults.values[row]["key"] as? String
                 
-                var minSlider = box.childWithIdentifier("minSlider") as! NSSlider
-                var maxSlider = box.childWithIdentifier("maxSlider") as! NSSlider
-                var minText   = box.childWithIdentifier("minText") as! NSTextField
-                var maxText   = box.childWithIdentifier("maxText") as! NSTextField
+                let minSlider = box.childWithIdentifier("minSlider") as! NSSlider
+                let maxSlider = box.childWithIdentifier("maxSlider") as! NSSlider
+                let minText   = box.childWithIdentifier("minText") as! NSTextField
+                let maxText   = box.childWithIdentifier("maxText") as! NSTextField
                 
                 let minRange = (defaults.values[row]["range"]  as! [Double]).first! as Double
                 let maxRange = (defaults.values[row]["range"]  as! [Double]).last!  as Double
@@ -370,12 +370,12 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
             }
             else if (defaults.values[row]["value"] != nil)
             {
-                var clone = valueBox!.clone()
-                var box = clone.subviews.first! 
+                let clone = valueBox!.clone()
+                let box = clone.subviews.first! 
                 box.identifier = defaults.values[row]["key"] as? String
                 
-                var valueSlider = box.childWithIdentifier("valueSlider") as! NSSlider
-                var valueText   = box.childWithIdentifier("valueText") as! NSTextField
+                let valueSlider = box.childWithIdentifier("valueSlider") as! NSSlider
+                let valueText   = box.childWithIdentifier("valueText") as! NSTextField
                 
                 let minRange = (defaults.values[row]["range"] as! [Double]).first! as Double
                 let maxRange = (defaults.values[row]["range"] as! [Double]).last! as Double
