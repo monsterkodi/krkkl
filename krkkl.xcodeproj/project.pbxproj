@@ -34,6 +34,10 @@
 		C3C2047E1B67F63C00C43606 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3C2047D1B67F63C00C43606 /* Images.xcassets */; };
 		C3C204811B67F63C00C43606 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3C2047F1B67F63C00C43606 /* MainMenu.xib */; };
 		C3C204941B67F74500C43606 /* KrkklView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39F6FC71B67F2FB008519FA /* KrkklView.swift */; };
+		C3D5A5171BC2E52F00A9A3F0 /* PresetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D5A5161BC2E52F00A9A3F0 /* PresetCell.swift */; settings = {ASSET_TAGS = (); }; };
+		C3D5A5181BC2E52F00A9A3F0 /* PresetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D5A5161BC2E52F00A9A3F0 /* PresetCell.swift */; settings = {ASSET_TAGS = (); }; };
+		C3D5A51A1BC2E8ED00A9A3F0 /* CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D5A5191BC2E8ED00A9A3F0 /* CollectionView.swift */; settings = {ASSET_TAGS = (); }; };
+		C3D5A51B1BC2E8ED00A9A3F0 /* CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D5A5191BC2E8ED00A9A3F0 /* CollectionView.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,6 +61,8 @@
 		C3C2047B1B67F63B00C43606 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C3C2047D1B67F63C00C43606 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		C3C204801B67F63C00C43606 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		C3D5A5161BC2E52F00A9A3F0 /* PresetCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresetCell.swift; sourceTree = "<group>"; };
+		C3D5A5191BC2E8ED00A9A3F0 /* CollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +104,7 @@
 		C365BA231B67F18D008A49B5 /* krkkl */ = {
 			isa = PBXGroup;
 			children = (
+				C3D5A5161BC2E52F00A9A3F0 /* PresetCell.swift */,
 				C33B3ED51B6CFA5F0025CECB /* SheetController.swift */,
 				C33B3ED41B6CFA5F0025CECB /* ConfigureSheet.xib */,
 				C33B3ED61B6CFA5F0025CECB /* Defaults.swift */,
@@ -105,6 +112,7 @@
 				C33B3EDE1B6D1B040025CECB /* ListCell.swift */,
 				C33B3EE11B6D1C710025CECB /* ColorCell.swift */,
 				C33B3EE41B7162AE0025CECB /* TableView.swift */,
+				C3D5A5191BC2E8ED00A9A3F0 /* CollectionView.swift */,
 				C39F6FC71B67F2FB008519FA /* KrkklView.swift */,
 				C30B0F551B6A9B4700144035 /* Extensions.swift */,
 				C365BA241B67F18D008A49B5 /* Supporting Files */,
@@ -267,7 +275,9 @@
 				C33B3EDB1B6CFA5F0025CECB /* Defaults.swift in Sources */,
 				C33B3EDF1B6D1B040025CECB /* ListCell.swift in Sources */,
 				C33B3EE51B7162AE0025CECB /* TableView.swift in Sources */,
+				C3D5A51A1BC2E8ED00A9A3F0 /* CollectionView.swift in Sources */,
 				C30B0F591B6AA23000144035 /* Cubes.swift in Sources */,
+				C3D5A5171BC2E52F00A9A3F0 /* PresetCell.swift in Sources */,
 				C30B0F561B6A9B4700144035 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -276,6 +286,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C3D5A5181BC2E52F00A9A3F0 /* PresetCell.swift in Sources */,
 				C30B0F5A1B6AA23000144035 /* Cubes.swift in Sources */,
 				C33B3EE31B6D1C710025CECB /* ColorCell.swift in Sources */,
 				C33B3EDC1B6CFA5F0025CECB /* Defaults.swift in Sources */,
@@ -284,6 +295,7 @@
 				C33B3EE01B6D1B040025CECB /* ListCell.swift in Sources */,
 				C30B0F571B6A9B4700144035 /* Extensions.swift in Sources */,
 				C3C2047C1B67F63B00C43606 /* AppDelegate.swift in Sources */,
+				C3D5A51B1BC2E8ED00A9A3F0 /* CollectionView.swift in Sources */,
 				C33B3EDA1B6CFA5F0025CECB /* SheetController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

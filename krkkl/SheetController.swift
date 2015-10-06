@@ -4,18 +4,19 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
 {
     var defaults = Defaults()
     
-    @IBOutlet var colorsPage: NSView?
-    @IBOutlet var colorLists: TableView?
-    @IBOutlet var colors:     TableView?
-    @IBOutlet var valuesView: TableView?
-    @IBOutlet var pages:      NSTabView?
-    @IBOutlet var choiceBox:  NSBox?
-    @IBOutlet var rangeBox:   NSBox?
-    @IBOutlet var valueBox:   NSBox?
-    @IBOutlet var labelBox:   NSBox?
-    @IBOutlet var titleBox:   NSBox?
-    @IBOutlet var textBox:    NSBox?
-    @IBOutlet var colorBox:   NSBox?
+    @IBOutlet var colorsPage:  NSView?
+    @IBOutlet var colorLists:  TableView?
+    @IBOutlet var colors:      TableView?
+    @IBOutlet var valuesView:  TableView?
+    @IBOutlet var presetsView: TableView?
+    @IBOutlet var pages:       NSTabView?
+    @IBOutlet var choiceBox:   NSBox?
+    @IBOutlet var rangeBox:    NSBox?
+    @IBOutlet var valueBox:    NSBox?
+    @IBOutlet var labelBox:    NSBox?
+    @IBOutlet var titleBox:    NSBox?
+    @IBOutlet var textBox:     NSBox?
+    @IBOutlet var colorBox:    NSBox?
 
     override func awakeFromNib()
     {
@@ -41,9 +42,10 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
     {
         switch tableView
         {
-        case valuesView!: return addValueView     (tableView, tableColumn:tableColumn, row:row)
-        case colorLists!: return addColorListsView(tableView, tableColumn:tableColumn, row:row)
-        case colors!:     return addColorsView    (tableView, tableColumn:tableColumn, row:row)
+        case presetsView!: return addPresetView    (tableView, tableColumn:tableColumn, row:row)
+        case valuesView!:  return addValueView     (tableView, tableColumn:tableColumn, row:row)
+        case colorLists!:  return addColorListsView(tableView, tableColumn:tableColumn, row:row)
+        case colors!:      return addColorsView    (tableView, tableColumn:tableColumn, row:row)
         default: return nil;
         }
     }
@@ -55,6 +57,71 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
             return ColorsTableRow()
         }
         return TableRow()
+    }
+    
+    //!presets
+    
+    @IBAction func addPreset(sender: AnyObject)
+    {
+        print("addPreset")
+        let row = presetsView!.selectedRow+1
+        let defaultPreset = defaults.defaultPreset()
+        defaults.presets.insert(defaultPreset, atIndex:row)
+        presetsView!.insertRow(row)
+        presetsView!.selectRow(row)
+    }
+    
+    @IBAction func delPreset(sender: AnyObject)
+    {
+        print("delPreset")
+        let row = presetsView!.selectedRow
+        if defaults.presets.count <= 1 { return }
+        if row >= 0
+        {
+            presetsView!.selectRow(row==presetsView!.numberOfRows-1 ? row-1 : row+1)
+            defaults.presets.removeAtIndex(row)
+            presetsView!.removeRow(row)
+        }
+    }
+    
+    func addPresetView(tableView: NSTableView, tableColumn: NSTableColumn?, row: Int) -> NSView?
+    {
+        let view = NSView()
+        let cell = PresetsCell()
+        cell.autoresizingMask = [NSAutoresizingMaskOptions.ViewWidthSizable, NSAutoresizingMaskOptions.ViewHeightSizable]
+        view.addSubview(cell)
+        return view
+    }
+    
+    @IBAction func duplicatePreset(sender: AnyObject)
+    {
+        print("duplicatePreset")
+    }
+    
+    @IBAction func copyPresets(sender: AnyObject)
+    {
+        print("copyPresets")
+
+        let pasteBoard = NSPasteboard.generalPasteboard()
+        pasteBoard.clearContents()
+        let data = try? NSJSONSerialization.dataWithJSONObject(defaults.presets, options:NSJSONWritingOptions.PrettyPrinted)
+        let dataStr = NSString(data: data!, encoding: NSUTF8StringEncoding)
+        print("presets: \(dataStr)")
+        pasteBoard.setData(data, forType:NSPasteboardTypeString)
+    }
+    
+    @IBAction func restoreDefaultPresets(sender: AnyObject)
+    {
+        print("restoreDefaultPresets")
+        defaults.presets = defaults.defaultPresets
+        presetsView!.clear()
+        presetsView!.insertRows(defaults.presets.count)
+        presetsView!.selectRow(0)
+    }
+    
+    @IBAction func presetSelected(sender: AnyObject)
+    {
+        print("presetSelected \(sender)")
     }
     
     /*
@@ -452,7 +519,6 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
         let segments = sender as! NSSegmentedControl
         let box    = segments.superview!
         let row    = rowForKey(box.identifier!)
-        //let type   = defaults.values[row]["type"] as! String
 
         var choices = defaults.values[row]["choices"] as! [AnyObject]
         var values = defaults.values[row]["values"] as! [AnyObject]
@@ -478,7 +544,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
     @IBAction func showPage(sender: AnyObject)
     {
         pages?.selectTabViewItemAtIndex(sender.selectedSegment)
-        if sender.selectedSegment == 1
+        if sender.selectedSegment == 2
         {
             colorLists?.selectRow(0)
         }
