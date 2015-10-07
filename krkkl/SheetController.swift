@@ -427,7 +427,6 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
                     }
                     segments.setSelected(found, forSegment: i)
                 }
-                
                 return clone
             }
             else if (defaults.values[row]["values"] != nil)
