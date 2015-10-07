@@ -427,7 +427,8 @@ class Cubes
 
     func doublesPref(key:String) -> [Double]
     {
-        return (defaults().valueForKey(key) as! [String: AnyObject])["values"] as! [Double]
+        let doubleValue = defaults().valueForKey(key) as! [String: AnyObject]
+        return doubleValue["values"] as! [Double]
     }
     
     func colorTypeName(colorType:ColorType) -> String  
