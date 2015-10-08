@@ -34,9 +34,10 @@ class PresetsCell : NSView
             listIndex++
         }
         
+        defaults().presetIndex = index()
         let scene = Cubes(defaults_: defaults())
         scene.setup(true, width: Int(bounds.width/2), height: Int(bounds.height))
-        for _ in 0...1000
+        for _ in 0...500
         {
             scene.drawNextCube()
         }

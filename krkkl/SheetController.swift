@@ -71,7 +71,6 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
     
     @IBAction func addPreset(sender: AnyObject)
     {
-        //print("addPreset")
         let row = presetView!.selectedRow+1
         let defaultPreset = defaults.defaultPreset()
         defaults.presets.insert(defaultPreset, atIndex:row)
@@ -83,7 +82,6 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
     @IBAction func delPreset(sender: AnyObject)
     {
         let row = presetView!.selectedRow
-        //print("delPreset \(row) \(defaults.presets.count)")
         if row >= 0 && defaults.presets.count > 1
         {
             presetView!.selectRow(row==presetView!.numberOfRows-1 ? row-1 : row+1)
@@ -572,6 +570,11 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
         if sender.selectedSegment == 2
         {
             colorLists?.selectRow(0)
+        }
+        else if sender.selectedSegment == 0
+        {
+            let cell = presetView!.viewAtColumn(0, row: defaults.presetIndex, makeIfNecessary: false)?.subviews.first
+            cell?.needsDisplay = true
         }
     }
     
