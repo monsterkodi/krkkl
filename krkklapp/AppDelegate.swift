@@ -50,6 +50,9 @@ extension AppDelegate: NSWindowDelegate
     
     func windowDidResize(notification: NSNotification)
     {
-        view?.scene.setup()
+        if (view != nil)
+        {
+            view!.scene.setup(view!.preview, width: view!.width(), height: view!.height())
+        }
     }
 }

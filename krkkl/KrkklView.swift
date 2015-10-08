@@ -17,16 +17,14 @@ class KrkklView : ScreenSaverView
 
     override init(frame: NSRect, isPreview: Bool) 
     {
-        scene = Cubes()
+        scene = Cubes(defaults_: sheetController.defaults)
         super.init(frame: frame, isPreview: isPreview)!
-        scene.view = self
     }
     
     required init?(coder aDecoder: NSCoder)
     {
-        scene = Cubes()
+        scene = Cubes(defaults_:sheetController.defaults)
         super.init(coder: aDecoder)
-        scene.view = self
     }
 
     /*
@@ -39,7 +37,7 @@ class KrkklView : ScreenSaverView
             
     override func startAnimation() 
     {    
-        scene.setup()
+        scene.setup(self.preview, width: self.width(), height: self.height())
         super.startAnimation()
         animationTimeInterval = 1.0 / scene.fps
         needsDisplay = true
@@ -82,7 +80,7 @@ class KrkklView : ScreenSaverView
         if fadeCount >= Int(fade)
         {
             clear()
-            scene.setup()
+            scene.setup(self.preview, width:self.width(), height:self.height())
             animState = "anim"
             animationTimeInterval = 1.0 / scene.fps
         }

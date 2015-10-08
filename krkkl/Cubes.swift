@@ -12,7 +12,7 @@ enum ColorType: Int { case RANDOM=0, LIST, DIRECTION, NUM }
 
 class Cubes
 {
-    var view:KrkklView?
+    var defaults:Defaults
     var fps:Double = 60
     var cpf:Double = 60
     var cubeSize:(x: Int, y: Int) = (0, 0)
@@ -44,6 +44,11 @@ class Cubes
     var resetColor = colorRGB([0,0,0])
     var rgbColor   = colorRGB([0,0,0])
 
+    init(defaults_: Defaults)
+    {
+        defaults = defaults_
+    }
+
     func isDone() -> Bool { return cubeCount >= maxCubes }
     func nextStep()
     {
@@ -61,7 +66,7 @@ class Cubes
       0000000   00000000     000      0000000   000      
     */
 
-    func setup() 
+    func setup(preview: Bool, width: Int, height: Int)
     {
         color_top   = randDblPref("color_top")
         color_left  = randDblPref("color_left")
@@ -69,19 +74,18 @@ class Cubes
         
         dirIncr = randChoice("dir_inc") as! Int
 
-        size.y = Int(randDblPref("rows")) / (view!.preview ? 2 : 1)
+        size.y = Int(randDblPref("rows")) / (preview ? 2 : 1)
 
-        cubeSize.y = view!.height()/size.y
+        cubeSize.y = height/size.y
         if (cubeSize.y % 2 == 1) { cubeSize.y -= 1 }
         cubeSize.y = max(2, cubeSize.y)
-        size.y = view!.height()/cubeSize.y
+        size.y = height/cubeSize.y
         cubeSize.x = Int(sin(M_PI/3) * Double(cubeSize.y))
-        size.x = view!.width()/cubeSize.x
+        size.x = width/cubeSize.x
 
         colorInc = Float(randDblPref("color_fade"))
         
         maxCubes = Int(Double(size.y * size.y)*randDblPref("cube_amount"))
-//        reset = ["random", "ping", "wrap"][randint(3)]
         reset = randChoice("reset") as! String
         
         // _______________________ derivatives
@@ -96,9 +100,9 @@ class Cubes
         colorFade = 0
         colorIndex = 0
 
-        let colorLists = defaults().colorLists
+        let colorLists = defaults.colorLists
         let colorListIndex = randint(colorLists.count)        
-        colorList = defaults().colorLists[colorListIndex]
+        colorList = colorLists[colorListIndex]
         
         if (colorList.count == 0)
         {
@@ -138,8 +142,8 @@ class Cubes
         cubeCount = 0
         
         print("")
-        print("width \(view!.width())")
-        print("height \(view!.height())")
+        print("width \(width)")
+        print("height \(height)")
         print("numx \(size.x)")
         print("numy \(size.y)")
         print("cube  \(cubeSize.x) \(cubeSize.y)")
@@ -416,18 +420,18 @@ class Cubes
     
     func randChoice(key:String) -> AnyObject
     {
-        let values = (defaults().valueForKey(key) as! [String: AnyObject])["values"] as! [AnyObject]
+        let values = (defaults.valueForKey(key) as! [String: AnyObject])["values"] as! [AnyObject]
         return values[randint(values.count)]
     }
 
     func doublePref(key:String) -> Double
     {
-        return (defaults().valueForKey(key) as! [String: AnyObject])["value"] as! Double
+        return (defaults.valueForKey(key) as! [String: AnyObject])["value"] as! Double
     }
 
     func doublesPref(key:String) -> [Double]
     {
-        let doubleValue = defaults().valueForKey(key) as! [String: AnyObject]
+        let doubleValue = defaults.valueForKey(key) as! [String: AnyObject]
         return doubleValue["values"] as! [Double]
     }
     
@@ -441,6 +445,4 @@ class Cubes
             case .NUM:       return "???"
         }
     }
-    
-    func defaults() -> Defaults { return view!.sheetController.defaults }
 }
