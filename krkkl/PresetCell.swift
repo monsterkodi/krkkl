@@ -18,16 +18,7 @@ class PresetsCell : NSView
         dispatch_after(dispatch_time(0, 60000000), dispatch_get_main_queue(), self.animateOneFrame)
         if bitmap == nil
         {
-            bitmap = NSBitmapImageRep(bitmapDataPlanes: nil,
-                pixelsWide: Int(bounds.width),
-                pixelsHigh: Int(bounds.height),
-                bitsPerSample: 8,
-                samplesPerPixel: 4,
-                hasAlpha: true,
-                isPlanar: false,
-                colorSpaceName: NSCalibratedRGBColorSpace,
-                bytesPerRow: 0,
-                bitsPerPixel: 0)
+            bitmap = bitmapImageRepForCachingDisplayInRect(bounds)
         }
         drawScene()
         self.needsDisplay = true
@@ -40,6 +31,10 @@ class PresetsCell : NSView
     
     func drawScene()
     {
+        if window == nil
+        {
+            return
+        }
         let ctx = NSGraphicsContext(bitmapImageRep: bitmap!)
         NSGraphicsContext.setCurrentContext(ctx)
 
@@ -53,10 +48,10 @@ class PresetsCell : NSView
             NSColor.blackColor().set()
             round.fill()
 
-            let w = Int(bounds.width)
-            let h = Int(bounds.height)
+            let w = Int(bitmap!.size.width)
+            let h = Int(bitmap!.size.height)
             scene = Cubes(defaults_: defaults())
-            scene!.setup(true, width: w/2, height: h)
+            scene!.setup(true, width:Int(CGFloat(w) * 0.8), height: h)
 
             let d = defaults()
             let preset = d.presets[index()] as [String: AnyObject]
@@ -70,9 +65,9 @@ class PresetsCell : NSView
                 {
                     color.set()
                     let num = CGFloat(colorList.count)
-                    let r = NSBezierPath(rect: NSRect(x:CGFloat(w)*0.5+CGFloat(colorIndex)*CGFloat(w)*0.5/num,
+                    let r = NSBezierPath(rect: NSRect(x:CGFloat(w)*0.8+CGFloat(colorIndex)*CGFloat(w)*0.2/num,
                                                       y:CGFloat(h)-CGFloat(listIndex+1)*CGFloat(h)/numLists,
-                                                        width:CGFloat(w)*0.5/num,
+                                                        width:CGFloat(w)*0.2/num,
                                                         height:CGFloat(h)/numLists))
                     r.fill()
                     colorIndex++
@@ -88,8 +83,5 @@ class PresetsCell : NSView
     
     func table() -> TableView { return superview!.superview!.superview as! TableView }
     
-    func index() -> Int
-    {
-        return table().rowForView(self)
-    }    
+    func index() -> Int { return table().rowForView(self) }    
 }
