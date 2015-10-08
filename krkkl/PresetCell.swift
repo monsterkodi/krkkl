@@ -2,47 +2,86 @@ import Cocoa
 
 class PresetsCell : NSView
 {
-    override func drawRect(rect:NSRect)
+    var scene:Cubes? = nil
+    var bitmap:NSBitmapImageRep? = nil
+
+    override init(frame:NSRect)
     {
-        NSGraphicsContext.saveGraphicsState()
-        
+        super.init(frame: frame)
+        dispatch_after(dispatch_time(0, 60000000), dispatch_get_main_queue(), self.animateOneFrame)
+    }
+
+    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+    
+    func animateOneFrame()
+    {
+        dispatch_after(dispatch_time(0, 60000000), dispatch_get_main_queue(), self.animateOneFrame)
+        if bitmap == nil
+        {
+            bitmap = NSBitmapImageRep(bitmapDataPlanes: nil,
+                pixelsWide: Int(bounds.width),
+                pixelsHigh: Int(bounds.height),
+                bitsPerSample: 8,
+                samplesPerPixel: 4,
+                hasAlpha: true,
+                isPlanar: false,
+                colorSpaceName: NSCalibratedRGBColorSpace,
+                bytesPerRow: 0,
+                bitsPerPixel: 0)
+        }
+        drawScene()
+        self.needsDisplay = true
+    }
+    
+    override func drawRect(dirtyRect: NSRect)
+    {
+        bitmap?.drawAtPoint(NSPoint(x: 0,y: 0))
+    }
+    
+    func drawScene()
+    {
+        let ctx = NSGraphicsContext(bitmapImageRep: bitmap!)
+        NSGraphicsContext.setCurrentContext(ctx)
+
+        defaults().presetIndex = index()
+
         let round = NSBezierPath(roundedRect: NSRect(x:0, y:0, width:bounds.width, height:bounds.height), xRadius:5, yRadius:5)
         round.addClip()
-        
-        NSColor.blackColor().set()
-        round.fill()
 
-        let d = defaults()
-        let preset = d.presets[index()] as [String: AnyObject]
-        let colorLists = d.stringListToColorLists(preset["colors"] as! [String])
-        var listIndex = 0
-        let numLists = CGFloat(colorLists.count)
-        for colorList in colorLists
+        if scene == nil
         {
-            var colorIndex = 0
-            for color in colorList
+            NSColor.blackColor().set()
+            round.fill()
+
+            let w = Int(bounds.width)
+            let h = Int(bounds.height)
+            scene = Cubes(defaults_: defaults())
+            scene!.setup(true, width: w/2, height: h)
+
+            let d = defaults()
+            let preset = d.presets[index()] as [String: AnyObject]
+            let colorLists = d.stringListToColorLists(preset["colors"] as! [String])
+            var listIndex = 0
+            let numLists = CGFloat(colorLists.count)
+            for colorList in colorLists
             {
-                color.set()
-                let num = CGFloat(colorList.count)
-                let r = NSBezierPath(rect: NSRect(x:bounds.width*0.5+CGFloat(colorIndex)*bounds.width*0.5/num,
-                                                  y:bounds.height-CGFloat(listIndex+1)*bounds.height/numLists,
-                                                    width:bounds.width*0.5/num,
-                                                    height:bounds.height/numLists))
-                r.fill()
-                colorIndex++
+                var colorIndex = 0
+                for color in colorList
+                {
+                    color.set()
+                    let num = CGFloat(colorList.count)
+                    let r = NSBezierPath(rect: NSRect(x:CGFloat(w)*0.5+CGFloat(colorIndex)*CGFloat(w)*0.5/num,
+                                                      y:CGFloat(h)-CGFloat(listIndex+1)*CGFloat(h)/numLists,
+                                                        width:CGFloat(w)*0.5/num,
+                                                        height:CGFloat(h)/numLists))
+                    r.fill()
+                    colorIndex++
+                }
+                listIndex++
             }
-            listIndex++
         }
         
-        defaults().presetIndex = index()
-        let scene = Cubes(defaults_: defaults())
-        scene.setup(true, width: Int(bounds.width/2), height: Int(bounds.height))
-        for _ in 0...500
-        {
-            scene.drawNextCube()
-        }
-        
-        NSGraphicsContext.restoreGraphicsState()
+        scene?.nextStep()
     }
     
     func defaults() -> Defaults { return (window!.delegate as! SheetController).defaults }

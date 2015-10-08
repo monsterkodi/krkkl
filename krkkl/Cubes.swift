@@ -141,22 +141,25 @@ class Cubes
 
         cubeCount = 0
         
-        print("")
-        print("width \(width)")
-        print("height \(height)")
-        print("numx \(size.x)")
-        print("numy \(size.y)")
-        print("cube  \(cubeSize.x) \(cubeSize.y)")
-        print("maxCubes \(maxCubes)")
-        print("fps \(fps)")
-        print("cpf \(cpf)")
-        print("keepDir \(keepDir)")
-        print("probDir \(probDir)")
-        print("probSum \(probSum)")
-        print("colorInc \(colorInc)")
-        print("colorList \(colorListIndex)")
-        print("colorType \(colorTypeName(colorType))")
-        print("reset \(reset)")
+        if false
+        {
+            print("")
+            print("width \(width)")
+            print("height \(height)")
+            print("numx \(size.x)")
+            print("numy \(size.y)")
+            print("cube  \(cubeSize.x) \(cubeSize.y)")
+            print("maxCubes \(maxCubes)")
+            print("fps \(fps)")
+            print("cpf \(cpf)")
+            print("keepDir \(keepDir)")
+            print("probDir \(probDir)")
+            print("probSum \(probSum)")
+            print("colorInc \(colorInc)")
+            print("colorList \(colorListIndex)")
+            print("colorType \(colorTypeName(colorType))")
+            print("reset \(reset)")
+        }
     }
 
     /*

@@ -43,7 +43,7 @@ class KrkklView : ScreenSaverView
         needsDisplay = true
     }
         
-    override func animateOneFrame() 
+    override func animateOneFrame()
     {
         let context = window!.graphicsContext
         NSGraphicsContext.setCurrentContext(context)
