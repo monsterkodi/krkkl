@@ -69,6 +69,19 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
         return TableRow()
     }
     
+    func tableViewSelectionDidChange(notification: NSNotification)
+    {
+        let table = notification.object as! NSTableView
+        if table == colorLists
+        {
+            showColorList(table)
+        }
+        else if table == presetView
+        {
+            setPreset(presetView!.selectedRow)
+        }
+    }
+    
     /*
       00000000   00000000   00000000   0000000  00000000  000000000   0000000
       000   000  000   000  000       000       000          000     000     
@@ -135,11 +148,6 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
         setPreset(presetView!.selectedRow)
     }
     
-    @IBAction func presetSelected(sender: AnyObject)
-    {
-        setPreset((sender as! TableView).selectedRow)
-    }
-    
     func setPreset(index: Int)
     {
         defaults.presetIndex = index
@@ -194,15 +202,6 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
         showColorList(sender as! NSTableView)
     }
     
-    func tableViewSelectionDidChange(notification: NSNotification)
-    {
-        let table = notification.object as! NSTableView
-        if table == colorLists
-        {
-            showColorList(table)
-        }
-    }
-
     func showColorList(table:NSTableView)
     {
         let row = table.selectedRow

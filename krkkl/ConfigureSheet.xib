@@ -110,9 +110,6 @@
                                                                             </prototypeCellViews>
                                                                         </tableColumn>
                                                                     </tableColumns>
-                                                                    <connections>
-                                                                        <action selector="presetSelected:" target="-2" id="uZS-FJ-jQ1"/>
-                                                                    </connections>
                                                                 </tableView>
                                                             </subviews>
                                                             <animations/>
