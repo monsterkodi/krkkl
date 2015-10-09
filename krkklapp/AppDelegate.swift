@@ -52,7 +52,7 @@ extension AppDelegate: NSWindowDelegate
     {
         if view != nil
         {
-            view!.scene.setup(view!.preview, width: view!.width(), height: view!.height())
+            view!.restart()
         }
     }
 }

@@ -30,7 +30,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="630" height="500"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
             <value key="minSize" type="size" width="630" height="500"/>
             <value key="maxSize" type="size" width="630" height="1500"/>
             <view key="contentView" wantsLayer="YES" placeholderIntrinsicWidth="621" placeholderIntrinsicHeight="529" id="EiT-Mj-1SZ">
@@ -704,15 +704,16 @@
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
                                                     </textField>
-                                                    <imageView ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="64U-MC-iOp">
+                                                    <imageView translatesAutoresizingMaskIntoConstraints="NO" id="64U-MC-iOp">
                                                         <rect key="frame" x="99" y="62" width="166" height="166"/>
                                                         <constraints>
+                                                            <constraint firstAttribute="height" constant="160" id="MOc-9k-OOv"/>
                                                             <constraint firstAttribute="width" constant="160" id="nWl-ZG-GGw"/>
                                                         </constraints>
                                                         <animations/>
                                                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" imageFrameStyle="grayBezel" image="monsterkodi" id="d7B-au-gbQ"/>
                                                     </imageView>
-                                                    <imageView ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JuR-Pb-HdC">
+                                                    <imageView translatesAutoresizingMaskIntoConstraints="NO" id="JuR-Pb-HdC">
                                                         <rect key="frame" x="317" y="62" width="166" height="166"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="160" id="hqT-4a-8f0"/>
@@ -935,8 +936,8 @@
                 <rect key="frame" x="2" y="2" width="355" height="18"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
-                    <slider identifier="minSlider" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4rx-Eh-Hvi" userLabel="Min Slider">
-                        <rect key="frame" x="65" y="1" width="225" height="17"/>
+                    <slider identifier="minSlider" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4rx-Eh-Hvi" userLabel="Min Slider">
+                        <rect key="frame" x="65" y="1" width="225" height="16"/>
                         <animations/>
                         <sliderCell key="cell" controlSize="mini" continuous="YES" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="below" numberOfTickMarks="2" sliderType="linear" id="VVw-vW-zHc"/>
                         <connections>
@@ -969,8 +970,8 @@
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <slider identifier="maxSlider" verticalHuggingPriority="750" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="hxx-T4-cxC" userLabel="Max Slider">
-                        <rect key="frame" x="65" y="-9" width="225" height="17"/>
+                    <slider identifier="maxSlider" verticalHuggingPriority="750" misplaced="YES" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="hxx-T4-cxC" userLabel="Max Slider">
+                        <rect key="frame" x="65" y="-9" width="225" height="16"/>
                         <animations/>
                         <sliderCell key="cell" controlSize="mini" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" numberOfTickMarks="2" sliderType="linear" id="Qwc-Pw-lHd"/>
                         <connections>

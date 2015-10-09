@@ -136,7 +136,7 @@ class Cubes
 
         cubeCount = 0
         
-        if false
+        if true
         {
             print("")
             print("width \(width)")

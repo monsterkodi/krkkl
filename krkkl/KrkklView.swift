@@ -32,8 +32,15 @@ class KrkklView : ScreenSaverView
       000   000  000  0000  000  000 0 000
       000   000  000   000  000  000   000
     */
-            
-    override func startAnimation() 
+
+    func restart()
+    {
+        var presets = sheetController.defaults.presets
+        scene.preset = presets[randint(presets.count)]
+        scene.setup(preview, width: self.width(), height: self.height())
+  }
+    
+    override func startAnimation()
     {
         var presets = sheetController.defaults.presets
         scene.preset = presets[randint(presets.count)]
