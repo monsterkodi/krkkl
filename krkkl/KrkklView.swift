@@ -13,17 +13,15 @@ class KrkklView : ScreenSaverView
     
     var animState:String = "anim"
     var fadeCount:Int = 0
-    var scene:Cubes
+    var scene:Cubes = Cubes()
 
     override init(frame: NSRect, isPreview: Bool) 
     {
-        scene = Cubes(defaults_: sheetController.defaults)
         super.init(frame: frame, isPreview: isPreview)!
     }
     
     required init?(coder aDecoder: NSCoder)
     {
-        scene = Cubes(defaults_:sheetController.defaults)
         super.init(coder: aDecoder)
     }
 
@@ -36,7 +34,9 @@ class KrkklView : ScreenSaverView
     */
             
     override func startAnimation() 
-    {    
+    {
+        var presets = sheetController.defaults.presets
+        scene.preset = presets[randint(presets.count)]
         scene.setup(self.preview, width: self.width(), height: self.height())
         super.startAnimation()
         animationTimeInterval = 1.0 / scene.fps
@@ -80,6 +80,7 @@ class KrkklView : ScreenSaverView
         if fadeCount >= Int(fade)
         {
             clear()
+            scene.preset = sheetController.defaults.presets[randint(sheetController.defaults.presets.count)]
             scene.setup(self.preview, width:self.width(), height:self.height())
             animState = "anim"
             animationTimeInterval = 1.0 / scene.fps
@@ -89,7 +90,6 @@ class KrkklView : ScreenSaverView
             var a = (1.0-(fade-10)/230.0)
             a = 0.002 + a * a * a * a * 0.2
             clear(NSColor(red: 0, green: 0, blue: 0, alpha:CGFloat(a)))
-            
             fadeCount += 1
         }
     }

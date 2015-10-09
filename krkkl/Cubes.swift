@@ -12,7 +12,7 @@ enum ColorType: Int { case RANDOM=0, LIST, DIRECTION, NUM }
 
 class Cubes
 {
-    var defaults:Defaults
+    var preset:[String: AnyObject]?
     var fps:Double = 60
     var cpf:Double = 60
     var cubeSize:(x: Int, y: Int) = (0, 0)
@@ -43,11 +43,6 @@ class Cubes
     var nextColor  = colorRGB([0,0,0])
     var resetColor = colorRGB([0,0,0])
     var rgbColor   = colorRGB([0,0,0])
-
-    init(defaults_: Defaults)
-    {
-        defaults = defaults_
-    }
 
     func isDone() -> Bool { return cubeCount >= maxCubes }
     func nextStep()
@@ -100,7 +95,7 @@ class Cubes
         colorFade = 0
         colorIndex = 0
 
-        let colorLists = defaults.colorLists
+        let colorLists = Defaults.stringListToColorLists(preset!["colors"] as! [String])
         let colorListIndex = randint(colorLists.count)        
         colorList = colorLists[colorListIndex]
         
@@ -423,18 +418,18 @@ class Cubes
     
     func randChoice(key:String) -> AnyObject
     {
-        let values = (defaults.valueForKey(key) as! [String: AnyObject])["values"] as! [AnyObject]
+        let values = (Defaults.presetValueForKey(preset!, key: key) as! [String: AnyObject])["values"] as! [AnyObject]
         return values[randint(values.count)]
     }
 
     func doublePref(key:String) -> Double
     {
-        return (defaults.valueForKey(key) as! [String: AnyObject])["value"] as! Double
+        return (Defaults.presetValueForKey(preset!, key: key) as! [String: AnyObject])["value"] as! Double
     }
 
     func doublesPref(key:String) -> [Double]
     {
-        let doubleValue = defaults.valueForKey(key) as! [String: AnyObject]
+        let doubleValue = Defaults.presetValueForKey(preset!, key: key) as! [String: AnyObject]
         return doubleValue["values"] as! [Double]
     }
     

@@ -2,7 +2,7 @@ import Cocoa
 
 class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegate
 {
-    var defaults = Defaults()
+    let defaults = Defaults()
     
     @IBOutlet var colorsPage:  NSView?
     @IBOutlet var colorLists:  TableView?
@@ -110,7 +110,6 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
     
     @IBAction func duplicatePreset(sender: AnyObject)
     {
-        print("duplicatePreset")
         let row = presetView!.selectedRow
         defaults.presets.insert(defaults.presets[defaults.presetIndex], atIndex:row)
         presetView!.insertRow(row)
@@ -123,14 +122,13 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
         let pasteBoard = NSPasteboard.generalPasteboard()
         pasteBoard.clearContents()
         let data = try? NSJSONSerialization.dataWithJSONObject(defaults.presets, options:NSJSONWritingOptions.PrettyPrinted)
-//        let dataStr = NSString(data: data!, encoding: NSUTF8StringEncoding)
-//        print("presets: \(dataStr)")
-        pasteBoard.setData(data, forType:NSPasteboardTypeString)
+        let encd = data!.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
+        pasteBoard.setString(encd, forType:NSPasteboardTypeString)
     }
     
     @IBAction func restoreDefaultPresets(sender: AnyObject)
     {
-        defaults.presets = defaults.defaultPresets
+        defaults.restoreDefaults()
         presetView!.clear()
         presetView!.insertRows(defaults.presets.count)
         presetView!.selectRow(0)

@@ -2,7 +2,8 @@ import Cocoa
 
 class PresetCell : NSView
 {
-    var scene:Cubes? = nil
+    var scene:Cubes = Cubes()
+    var preset:[String: AnyObject]? = nil
     var bitmap:NSBitmapImageRep? = nil
 
     override init(frame:NSRect)
@@ -19,13 +20,19 @@ class PresetCell : NSView
         NSGraphicsContext.setCurrentContext(ctx)
         let w = Int(CGFloat(bitmap!.size.width) * 0.8)
         let h = Int(bitmap!.size.height)
+        
+        let round = NSBezierPath(roundedRect: NSRect(x:0, y:0, width:bounds.width, height:bounds.height), xRadius:5, yRadius:5)
+        round.addClip()
+        NSColor.blackColor().set()
+        round.fill()
+        
         NSColor.blackColor().set()
         NSBezierPath(rect: NSRect(x:0, y:0, width:w, height:h)).fill()
-        scene!.setup(false, width:w, height:h)
-        
         let d = defaults()
-        let preset = d.presets[index()] as [String: AnyObject]
-        let colorLists = d.stringListToColorLists(preset["colors"] as! [String])
+        preset = d.presets[index()]
+        scene.preset = preset
+        scene.setup(false, width:w, height:h)
+        let colorLists = Defaults.stringListToColorLists(preset!["colors"] as! [String])
         var listIndex = 0
         let numLists = CGFloat(colorLists.count)
         for colorList in colorLists
@@ -72,23 +79,9 @@ class PresetCell : NSView
         let ctx = NSGraphicsContext(bitmapImageRep: bitmap!)
         NSGraphicsContext.setCurrentContext(ctx)
 
-        defaults().presetIndex = index()
-
-        let round = NSBezierPath(roundedRect: NSRect(x:0, y:0, width:bounds.width, height:bounds.height), xRadius:5, yRadius:5)
-        round.addClip()
-
-        if scene == nil
-        {
-            NSColor.blackColor().set()
-            round.fill()
-            
-            scene = Cubes(defaults_: defaults())
-            restart()
-        }
+        scene.nextStep()
         
-        scene?.nextStep()
-        
-        if scene!.isDone()
+        if scene.isDone()
         {
             restart()
         }
