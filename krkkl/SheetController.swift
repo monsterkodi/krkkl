@@ -27,6 +27,14 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
         colors!.setDelegate(self)
         window!.delegate = self
 
+        presetView!.addAction = Selector("addPreset:")
+        presetView!.delAction = Selector("delPreset:")
+        colorLists!.addAction = Selector("addColorList:")
+        colorLists!.delAction = Selector("delColorList:")
+        colors!.addAction     = Selector("addColor:")
+        colors!.delAction     = Selector("delColor:")
+        colorLists!.nextKeyView = colors!
+        
         presetView!.insertRows(defaults.presets.count)
         presetView!.selectRow(defaults.presetIndex)
         setPreset(defaults.presetIndex)
@@ -94,7 +102,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
     func addPresetView(tableView: NSTableView, tableColumn: NSTableColumn?, row: Int) -> NSView?
     {
         let view = NSView()
-        let cell = PresetsCell()
+        let cell = PresetCell()
         cell.autoresizingMask = [NSAutoresizingMaskOptions.ViewWidthSizable, NSAutoresizingMaskOptions.ViewHeightSizable]
         view.addSubview(cell)
         return view
@@ -573,8 +581,8 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
         }
         else if sender.selectedSegment == 0
         {
-            let cell = presetView!.viewAtColumn(0, row: defaults.presetIndex, makeIfNecessary: false)?.subviews.first
-            cell?.needsDisplay = true
+            let cell = presetView!.viewAtColumn(0, row: presetView!.selectedRow, makeIfNecessary: false)?.subviews.first as! PresetCell
+            cell.restart()
         }
     }
     

@@ -3,6 +3,9 @@ import Cocoa
 
 class TableView : NSTableView
 {
+    var delAction:Selector?
+    var addAction:Selector?
+    
     func selectRow(row:Int)
     {
         selectRowIndexes(NSIndexSet(index:row), byExtendingSelection:false)
@@ -27,6 +30,30 @@ class TableView : NSTableView
     func clear()
     {
         removeRowsAtIndexes(NSIndexSet(indexesInRange:NSRange(location: 0,length: numberOfRows)), withAnimation: NSTableViewAnimationOptions.EffectNone)
+    }
+    
+    override func keyDown(event: NSEvent)
+    {
+        Swift.print("onKey \(event)")
+        
+        switch event.keyCode
+        {
+        case 117:
+            if delAction != nil
+            {
+                delegate()?.performSelector(delAction!, withObject:self)
+            }
+        case 45:
+            if event.modifierFlags.contains(NSEventModifierFlags.CommandKeyMask)
+            {
+                if addAction != nil
+                {
+                    delegate()?.performSelector(addAction!)
+                }
+            }
+        default:
+            super.keyDown(event)
+        }
     }
 }
 
