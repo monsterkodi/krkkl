@@ -78,7 +78,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
         }
         else if table == presetView
         {
-            setPreset(presetView!.selectedRow)
+            setPreset(max(presetView!.selectedRow, 0))
         }
     }
     
