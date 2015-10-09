@@ -9,6 +9,7 @@ import AppKit
 
 enum Side:      Int { case UP = 0, RIGHT, LEFT, DOWN, BACKL, BACKR, NONE }
 enum ColorType: Int { case RANDOM=0, LIST, DIRECTION, NUM }
+enum Reset:     Int { case Random = 0, Ping, Wrap }
 
 class Cubes
 {
@@ -29,7 +30,7 @@ class Cubes
     var probSum:Double = 0
     var probDir:[Double] = [0,0,0]
     var keepDir:[Double] = [0,0,0]
-    var reset:String = "" // what happens when the screen border is touched: "random", "ping", "wrap" ("center")
+    var reset:Int = -1 // what happens when the screen border is touched: "random", "ping", "wrap" ("center")
     
     var cubeCount:Int = 0
     var maxCubes:Int = 5000
@@ -81,7 +82,7 @@ class Cubes
         colorInc = Float(randDblPref("color_fade"))
         
         maxCubes = Int(Double(size.y * size.y)*randDblPref("cube_amount"))
-        reset = randChoice("reset") as! String
+        reset = randChoice("reset") as! Int
         
         // _______________________ derivatives
 
@@ -289,24 +290,19 @@ class Cubes
             skip = .NONE
             lastDir = randint(6)
 
-            if reset == "center" 
-            {
-                pos.x = center.x
-                pos.y = center.y
-            }
-            else if reset == "random" 
+            if reset == Reset.Random.rawValue
             {
                 pos.x = randint(size.x)
                 pos.y = randint(size.y)
             }
-            else if reset == "wrap" 
+            else if reset == Reset.Wrap.rawValue
             {
                 if      (pos.x < 1)        { pos.x = size.x-1 }   
                 else if (pos.x > size.x-1) { pos.x = 1 }
                 if      (pos.y < 2)        { pos.y = size.y-2 }
                 else if (pos.y > size.y-1) { pos.y = 2 }
             }
-            else if reset == "ping" 
+            else if reset == Reset.Ping.rawValue
             {
                 if (pos.x < 1)
                 {
@@ -348,7 +344,8 @@ class Cubes
                 }
             }
             
-            if colorType == ColorType.DIRECTION && ["center", "random"].indexOf(reset) != nil {
+            if colorType == ColorType.DIRECTION && reset == Reset.Random.rawValue
+            {
                 rgbColor = colorRGB([0,0,0])
             }
         }
@@ -418,19 +415,18 @@ class Cubes
     
     func randChoice(key:String) -> AnyObject
     {
-        let values = (Defaults.presetValueForKey(preset!, key: key) as! [String: AnyObject])["values"] as! [AnyObject]
+        let values = Defaults.presetValueForKey(preset!, key: key) as! [Int]
         return values[randint(values.count)]
     }
 
     func doublePref(key:String) -> Double
     {
-        return (Defaults.presetValueForKey(preset!, key: key) as! [String: AnyObject])["value"] as! Double
+        return Defaults.presetValueForKey(preset!, key: key) as! Double
     }
 
     func doublesPref(key:String) -> [Double]
     {
-        let doubleValue = Defaults.presetValueForKey(preset!, key: key) as! [String: AnyObject]
-        return doubleValue["values"] as! [Double]
+        return Defaults.presetValueForKey(preset!, key: key) as! [Double]
     }
     
     func colorTypeName(colorType:ColorType) -> String  

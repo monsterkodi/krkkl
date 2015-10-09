@@ -105,6 +105,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
         let row = presetView!.selectedRow
         if row >= 0 && defaults.presets.count > 1
         {
+//            presetCellAtRow(row).stop()
             presetView!.selectRow(row==presetView!.numberOfRows-1 ? row-1 : row+1)
             defaults.presets.removeAtIndex(row)
             presetView!.removeRow(row)
@@ -135,6 +136,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
         let pasteBoard = NSPasteboard.generalPasteboard()
         pasteBoard.clearContents()
         let data = try? NSJSONSerialization.dataWithJSONObject(defaults.presets, options:NSJSONWritingOptions.PrettyPrinted)
+        print(String(data:data!, encoding:NSUTF8StringEncoding))
         let encd = data!.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
         pasteBoard.setString(encd, forType:NSPasteboardTypeString)
     }
@@ -152,9 +154,14 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
     {
         defaults.presetIndex = index
         valuesView!.clear()
-        valuesView!.insertRows(defaults.values.count)
+        valuesView!.insertRows(Defaults.defaultInfo.count)
         colorLists!.clear()
         colorLists!.insertRows(defaults.colorLists.count)
+    }
+    
+    func presetCellAtRow(row: Int) -> PresetCell
+    {
+        return presetView!.viewAtColumn(0, row: row, makeIfNecessary: false)?.subviews.first as! PresetCell
     }
     
     /*
@@ -366,13 +373,14 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
 
     func addValueView(tableView: NSTableView, tableColumn: NSTableColumn?, row: Int) -> NSView?
     {
+        let valueRow = Defaults.defaultInfo[row]
         if tableColumn?.identifier == "label"
         {
-            if (defaults.values[row]["title"] != nil)
+            if (valueRow["title"] != nil)
             {
                 let clone = titleBox!.clone()
                 let label = clone.subviews.first!.subviews.first! as! NSTextField
-                label.stringValue = defaults.values[row]["title"] as! String
+                label.stringValue = valueRow["title"] as! String
                 label.drawsBackground = false
                 label.editable = false
                 label.selectable = false
@@ -383,7 +391,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
             {
                 let clone = labelBox!.clone()
                 let label = clone.subviews.first!.subviews.first! as! NSTextField
-                label.stringValue = defaults.values[row]["label"] as! String
+                label.stringValue = valueRow["label"] as! String
                 label.drawsBackground = false
                 label.editable = false
                 label.selectable = false
@@ -393,24 +401,25 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
         }
         else if tableColumn?.identifier == "value"
         {
-            if (defaults.values[row]["text"] != nil)
+            if (valueRow["text"] != nil)
             {
                 let clone = textBox!.clone()
                 let label = clone.subviews.first!.subviews.first! as! NSTextField
-                label.stringValue = defaults.values[row]["text"] as! String
+                label.stringValue = valueRow["text"] as! String
                 label.drawsBackground = false
                 label.editable = false
                 label.selectable = false
                 return clone
             }
-            else if (defaults.values[row]["choices"] != nil)
+            else if (valueRow["choices"] != nil)
             {
                 let clone = choiceBox!.clone()
-                let box = clone.subviews.first! 
-                box.identifier = defaults.values[row]["key"] as? String
+                let box = clone.subviews.first!
+                let key = valueRow["key"] as! String
+
+                box.identifier = key
                 let segments = box.childWithIdentifier("segments") as! NSSegmentedControl
-                var choices = defaults.values[row]["choices"] as! [AnyObject]
-                let type = defaults.values[row]["type"] as! String
+                var choices = valueRow["choices"] as! [AnyObject]
                 
                 segments.target = self
                 segments.action = Selector("segmentsChanged:")
@@ -418,35 +427,28 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
                 segments.segmentCount = choices.count
                 for i in 0...choices.count-1
                 {
-                    segments.setLabel((defaults.values[row]["labels"] as! [String])[i], forSegment: i)
-                    var found = false
-                    if type == "string"
-                    {
-                        found = (defaults.values[row]["values"] as! [String]).indexOf((choices[i] as! String)) != nil
-                    }
-                    else
-                    {
-                        found = (defaults.values[row]["values"] as! [Int]).indexOf(choices[i] as! Int) != nil
-                    }
+                    segments.setLabel((valueRow["labels"] as! [String])[i], forSegment: i)
+                    let found = (defaults.values[key] as! [Int]).indexOf(choices[i] as! Int) != nil
                     segments.setSelected(found, forSegment: i)
                 }
                 return clone
             }
-            else if (defaults.values[row]["values"] != nil)
+            else if (valueRow["values"] != nil)
             {
                 let clone = rangeBox!.clone()
-                let box = clone.subviews.first! 
-                box.identifier = defaults.values[row]["key"] as? String
+                let box = clone.subviews.first!
+                let key = valueRow["key"] as! String
+                box.identifier = key
                 
                 let minSlider = box.childWithIdentifier("minSlider") as! NSSlider
                 let maxSlider = box.childWithIdentifier("maxSlider") as! NSSlider
                 let minText   = box.childWithIdentifier("minText") as! NSTextField
                 let maxText   = box.childWithIdentifier("maxText") as! NSTextField
                 
-                let minRange = (defaults.values[row]["range"]  as! [Double]).first! as Double
-                let maxRange = (defaults.values[row]["range"]  as! [Double]).last!  as Double
-                let minValue = (defaults.values[row]["values"] as! [Double]).first! as Double
-                let maxValue = (defaults.values[row]["values"] as! [Double]).last!  as Double
+                let minRange = (valueRow["range"]  as! [Double]).first! as Double
+                let maxRange = (valueRow["range"]  as! [Double]).last!  as Double
+                let minValue = (defaults.values[key] as! [Double]).first! as Double
+                let maxValue = (defaults.values[key] as! [Double]).last!  as Double
                 
                 minText.doubleValue = minValue
                 minSlider.minValue = minRange
@@ -463,18 +465,19 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
                 maxSlider.action = Selector("sliderChanged:")
                 return clone
             }
-            else if (defaults.values[row]["value"] != nil)
+            else if (valueRow["value"] != nil)
             {
                 let clone = valueBox!.clone()
-                let box = clone.subviews.first! 
-                box.identifier = defaults.values[row]["key"] as? String
+                let box = clone.subviews.first!
+                let key = valueRow["key"] as! String
+                box.identifier = key
                 
                 let valueSlider = box.childWithIdentifier("valueSlider") as! NSSlider
                 let valueText   = box.childWithIdentifier("valueText") as! NSTextField
                 
-                let minRange = (defaults.values[row]["range"] as! [Double]).first! as Double
-                let maxRange = (defaults.values[row]["range"] as! [Double]).last! as Double
-                let value    =  defaults.values[row]["value"] as! Double
+                let minRange = (valueRow["range"] as! [Double]).first! as Double
+                let maxRange = (valueRow["range"] as! [Double]).last! as Double
+                let value    =  defaults.values[key] as! Double
                 
                 valueText.doubleValue = value
                 valueSlider.minValue = minRange
@@ -501,8 +504,9 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
     {
         let slider = sender as! NSSlider
         let box    = slider.superview!
-        let row    = rowForKey(box.identifier!)
-        let step   = defaults.values[row]["step"] as! Double
+        let key    = box.identifier!
+        let row    = rowForKey(key)
+        let step   = Defaults.defaultInfo[row]["step"] as! Double
         let value  = valueStep(slider.doubleValue, step: step)
 
         var textId = ""
@@ -523,7 +527,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
             otherSlider.doubleValue = max(otherSlider.doubleValue, slider.doubleValue)
             otherText.doubleValue = max(otherText.doubleValue, value)
             
-            defaults.values[row]["values"] = [value, otherText.doubleValue]
+            defaults.values[key] = [value, otherText.doubleValue]
         }
         else if slider.identifier == "maxSlider"
         {
@@ -532,11 +536,11 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
             otherSlider.doubleValue = min(otherSlider.doubleValue, slider.doubleValue)
             otherText.doubleValue = min(otherText.doubleValue, value)
             
-            defaults.values[row]["values"] = [otherText.doubleValue, value]
+            defaults.values[key] = [otherText.doubleValue, value]
         }
         else if slider.identifier == "valueSlider"
         {
-            defaults.values[row]["value"] = value
+            defaults.values[key] = value
         }
         
         updateDefaults(self)
@@ -546,10 +550,11 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
     {
         let segments = sender as! NSSegmentedControl
         let box    = segments.superview!
-        let row    = rowForKey(box.identifier!)
+        let key    = box.identifier!
+        let row    = rowForKey(key)
 
-        var choices = defaults.values[row]["choices"] as! [AnyObject]
-        var values = defaults.values[row]["values"] as! [AnyObject]
+        var choices = Defaults.defaultInfo[row]["choices"] as! [Int]
+        var values = defaults.values[key] as! [Int]
         values.removeAll(keepCapacity:true)
         for i in 0...choices.count-1
         {
@@ -558,7 +563,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
                 values.append(choices[i])
             }
         }
-        defaults.values[row]["values"] = values
+        defaults.values[key] = values
     }
     
     /*
@@ -578,8 +583,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
         }
         else if sender.selectedSegment == 0
         {
-            let cell = presetView!.viewAtColumn(0, row: presetView!.selectedRow, makeIfNecessary: false)?.subviews.first as! PresetCell
-            cell.restart()
+            presetCellAtRow(presetView!.selectedRow).restart()
         }
     }
     
@@ -595,9 +599,9 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
     
     func rowForKey(key:String) -> Int
     {
-        for index in 0...defaults.values.count
+        for index in 0...Defaults.defaultInfo.count
         {
-            if (defaults.values[index]["key"] as? String) == key
+            if (Defaults.defaultInfo[index]["key"] as? String) == key
             {
                 return index
             }

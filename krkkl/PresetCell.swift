@@ -16,6 +16,8 @@ class PresetCell : NSView
     
     func restart()
     {
+        if (index() < 0) { return }
+        
         let ctx = NSGraphicsContext(bitmapImageRep: bitmap!)
         NSGraphicsContext.setCurrentContext(ctx)
         let w = Int(CGFloat(bitmap!.size.width) * 0.8)
@@ -56,6 +58,8 @@ class PresetCell : NSView
 
     func animateOneFrame()
     {
+        if (index() < 0) { return }
+        
         dispatch_after(dispatch_time(0, 15000000), dispatch_get_main_queue(), self.animateOneFrame)
         if bitmap == nil
         {
@@ -89,7 +93,7 @@ class PresetCell : NSView
     
     func defaults() -> Defaults { return (window!.delegate as! SheetController).defaults }
     
-    func table() -> TableView { return superview!.superview!.superview as! TableView }
+    func table() -> TableView? { return superview?.superview?.superview as? TableView }
     
-    func index() -> Int { return table().rowForView(self) }    
+    func index() -> Int { if (table() != nil) { return table()!.rowForView(self) }; return -1 }
 }
