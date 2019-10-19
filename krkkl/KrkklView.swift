@@ -10,6 +10,7 @@ import ScreenSaver
 class KrkklView : ScreenSaverView
 {
     let sheetController:SheetController = SheetController()
+    var image:NSImage?
     
     var animState:String = "anim"
     var fadeCount:Int = 0
@@ -45,12 +46,22 @@ class KrkklView : ScreenSaverView
         var presets = sheetController.defaults.presets
         scene.preset = presets[randint(presets.count)]
         scene.setup(self.isPreview, width: self.width(), height: self.height())
+        image = NSImage(size: frame.size)
         super.startAnimation()
         animationTimeInterval = 1.0 / scene.fps
-        self.window?.backingType = .nonretained // an attempt to stop the double-buffering, which doesn't work
     }
         
     override public func draw(_ rect: NSRect) {
+        image!.draw(in: rect)
+    }
+
+    override public func animateOneFrame() {
+        drawOneStep()
+        needsDisplay = true
+    }
+
+    public func drawOneStep() {
+        image?.lockFocus()
         if animState == "fade"
         {
             fadeOut()
@@ -67,10 +78,7 @@ class KrkklView : ScreenSaverView
                 scene.nextStep()
             }
         }
-    }
-
-    override public func animateOneFrame() {
-        needsDisplay = true
+        image?.unlockFocus()
     }
     
     /*
@@ -105,7 +113,8 @@ class KrkklView : ScreenSaverView
     func clear(_ color:NSColor = NSColor.black)
     {
         color.set()
-        draw(bounds)
+        let bPath:NSBezierPath = NSBezierPath(rect: frame)
+        bPath.fill()
     }
     
     override var configureSheet: NSWindow? { return sheetController.window }
