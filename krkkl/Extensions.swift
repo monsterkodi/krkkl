@@ -63,7 +63,7 @@ extension NSView
     func childWithIdentifier(_ identifier:String) -> NSView?
     {
         var child:NSView? = subviews.filter({ (e) -> Bool in
-            return e.identifier == identifier
+            return convertFromOptionalNSUserInterfaceItemIdentifier(e.identifier) == identifier
         }).first
         if (child != nil) { return child }
         for subview in subviews
@@ -112,3 +112,9 @@ func cgclamp(_ v:CGFloat, low:CGFloat, high:CGFloat) -> CGFloat { return max(low
 func colorRGB(_ rgb:[Float]) -> NSColor { return NSColor(red: CGFloat(rgb[0]), green:CGFloat(rgb[1]), blue:CGFloat(rgb[2]), alpha:CGFloat(rgb.count > 3 ? rgb[3] : 1)) }
 func randColor() -> NSColor { return colorRGB([randflt(), randflt(), randflt()]) }
 func valueStep(_ value:Double, step:Double) -> Double { return floor(value/step)*step }
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromOptionalNSUserInterfaceItemIdentifier(_ input: NSUserInterfaceItemIdentifier?) -> String? {
+	guard let input = input else { return nil }
+	return input.rawValue
+}

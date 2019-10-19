@@ -19,7 +19,7 @@ class PresetCell : NSView
         if (index() < 0) { return }
         
         let ctx = NSGraphicsContext(bitmapImageRep: bitmap!)
-        NSGraphicsContext.setCurrent(ctx)
+        NSGraphicsContext.current = ctx
         let w = Int(CGFloat(bitmap!.size.width) * 0.8)
         let h = Int(bitmap!.size.height)
         
@@ -81,7 +81,7 @@ class PresetCell : NSView
             return
         }
         let ctx = NSGraphicsContext(bitmapImageRep: bitmap!)
-        NSGraphicsContext.setCurrent(ctx)
+        NSGraphicsContext.current = ctx
 
         scene.nextStep()
         

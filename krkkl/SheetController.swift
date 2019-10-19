@@ -117,7 +117,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
     {
         let view = NSView()
         let cell = PresetCell()
-        cell.autoresizingMask = [NSAutoresizingMaskOptions.viewWidthSizable, NSAutoresizingMaskOptions.viewHeightSizable]
+        cell.autoresizingMask = [NSView.AutoresizingMask.width, NSView.AutoresizingMask.height]
         view.addSubview(cell)
         return view
     }
@@ -133,12 +133,12 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
     
     @IBAction func copyPresets(_ sender: AnyObject)
     {
-        let pasteBoard = NSPasteboard.general()
+        let pasteBoard = NSPasteboard.general
         pasteBoard.clearContents()
         let data = try? JSONSerialization.data(withJSONObject: defaults.presets, options:JSONSerialization.WritingOptions.prettyPrinted)
         print(String(data:data!, encoding:String.Encoding.utf8) ?? "can't decode")
         let encd = data!.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
-        pasteBoard.setString(encd, forType:NSPasteboardTypeString)
+        pasteBoard.setString(encd, forType:NSPasteboard.PasteboardType.string)
     }
     
     @IBAction func restoreDefaultPresets(_ sender: AnyObject)
@@ -176,7 +176,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
     {
         let view = NSView()
         let cell = ListCell()
-        cell.autoresizingMask = [NSAutoresizingMaskOptions.viewWidthSizable, NSAutoresizingMaskOptions.viewHeightSizable]
+        cell.autoresizingMask = [NSView.AutoresizingMask.width, NSView.AutoresizingMask.height]
         view.addSubview(cell)
         return view
     }
@@ -185,7 +185,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
     {
         let listIndex = colorLists!.selectedRow
         let color = defaults.colorLists[listIndex][row]
-        if tableColumn?.identifier == "color"
+        if convertFromNSUserInterfaceItemIdentifier((tableColumn?.identifier)!) == "color"
         {
             let colorCell = ColorCell(color:color)
             colorCell.isBordered = false
@@ -212,12 +212,12 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
     func showColorList(_ table:NSTableView)
     {
         let row = table.selectedRow
-        var indexes = IndexSet(integersIn: NSRange(location:0,length:colors!.numberOfRows).toRange() ?? 0..<0)
-        colors!.removeRows(at: indexes, withAnimation: NSTableViewAnimationOptions())
+        var indexes = IndexSet(integersIn: 0..<colors!.numberOfRows)
+        colors!.removeRows(at: indexes, withAnimation: NSTableView.AnimationOptions())
         if row >= 0
         {
-            indexes = IndexSet(integersIn: NSRange(location:0,length:defaults.colorLists[row].count).toRange() ?? 0..<0)
-            colors!.insertRows(at: indexes, withAnimation: NSTableViewAnimationOptions())
+            indexes = IndexSet(integersIn: 0..<defaults.colorLists[row].count)
+            colors!.insertRows(at: indexes, withAnimation: NSTableView.AnimationOptions())
         }
         colors?.selectRow(0)
     }
@@ -244,7 +244,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
 
     @IBAction func copyColorLists(_ sender: AnyObject)
     {
-        let pasteBoard = NSPasteboard.general()
+        let pasteBoard = NSPasteboard.general
         pasteBoard.clearContents()
 
         let colorListsStr = defaults.colorLists.map { (colorList) -> String in
@@ -254,7 +254,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
         }.joined(separator: ",")
         print(colorListsStr)
         let data = colorListsStr.data(using: String.Encoding.utf8, allowLossyConversion:false)!
-        pasteBoard.setData(data, forType:NSPasteboardTypeString)
+        pasteBoard.setData(data, forType:NSPasteboard.PasteboardType.string)
     }
 
     @IBAction func duplicateColorList(_ sender: AnyObject)
@@ -316,7 +316,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
         }
     }
 
-    func colorCellChanged(_ sender:AnyObject)
+    @objc func colorCellChanged(_ sender:AnyObject)
     {
         let colorCell = sender as! ColorCell
         let listIndex = colorLists!.selectedRow
@@ -370,7 +370,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
     func addValueView(_ tableView: NSTableView, tableColumn: NSTableColumn?, row: Int) -> NSView?
     {
         let valueRow = Defaults.defaultInfo[row]
-        if tableColumn?.identifier == "label"
+        if convertFromNSUserInterfaceItemIdentifier((tableColumn?.identifier)!) == "label"
         {
             if (valueRow["title"] != nil)
             {
@@ -395,7 +395,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
                 return clone
             }
         }
-        else if tableColumn?.identifier == "value"
+        else if convertFromNSUserInterfaceItemIdentifier((tableColumn?.identifier)!) == "value"
         {
             if (valueRow["text"] != nil)
             {
@@ -413,7 +413,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
                 let box = clone.subviews.first!
                 let key = valueRow["key"] as! String
 
-                box.identifier = key
+                box.identifier = convertToOptionalNSUserInterfaceItemIdentifier(key)
                 let segments = box.childWithIdentifier("segments") as! NSSegmentedControl
                 var choices = valueRow["choices"] as! [AnyObject]
                 
@@ -434,7 +434,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
                 let clone = rangeBox!.clone()
                 let box = clone.subviews.first!
                 let key = valueRow["key"] as! String
-                box.identifier = key
+                box.identifier = convertToOptionalNSUserInterfaceItemIdentifier(key)
                 
                 let minSlider = box.childWithIdentifier("minSlider") as! NSSlider
                 let maxSlider = box.childWithIdentifier("maxSlider") as! NSSlider
@@ -466,7 +466,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
                 let clone = valueBox!.clone()
                 let box = clone.subviews.first!
                 let key = valueRow["key"] as! String
-                box.identifier = key
+                box.identifier = convertToOptionalNSUserInterfaceItemIdentifier(key)
                 
                 let valueSlider = box.childWithIdentifier("valueSlider") as! NSSlider
                 let valueText   = box.childWithIdentifier("valueText") as! NSTextField
@@ -500,13 +500,13 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
     {
         let slider = sender as! NSSlider
         let box    = slider.superview!
-        let key    = box.identifier!
+        let key    = convertFromOptionalNSUserInterfaceItemIdentifier(box.identifier)!
         let row    = rowForKey(key)
         let step   = Defaults.defaultInfo[row]["step"] as! Double
         let value  = valueStep(slider.doubleValue, step: step)
 
         var textId = ""
-        switch slider.identifier!
+        switch convertFromOptionalNSUserInterfaceItemIdentifier(slider.identifier)!
         {
         case "minSlider": textId = "minText"
         case "maxSlider": textId = "maxText"
@@ -516,7 +516,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
         let text = box.childWithIdentifier(textId) as! NSTextField
         text.doubleValue = value
         
-        if slider.identifier == "minSlider"
+        if convertFromOptionalNSUserInterfaceItemIdentifier(slider.identifier) == "minSlider"
         {
             let otherSlider = box.childWithIdentifier("maxSlider") as! NSSlider
             let otherText   = box.childWithIdentifier("maxText") as! NSTextField
@@ -525,7 +525,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
             
             defaults.values[key] = [value, otherText.doubleValue] as AnyObject
         }
-        else if slider.identifier == "maxSlider"
+        else if convertFromOptionalNSUserInterfaceItemIdentifier(slider.identifier) == "maxSlider"
         {
             let otherSlider = box.childWithIdentifier("minSlider") as! NSSlider
             let otherText   = box.childWithIdentifier("minText") as! NSTextField
@@ -534,7 +534,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
             
             defaults.values[key] = [otherText.doubleValue, value] as AnyObject
         }
-        else if slider.identifier == "valueSlider"
+        else if convertFromOptionalNSUserInterfaceItemIdentifier(slider.identifier) == "valueSlider"
         {
             defaults.values[key] = value as AnyObject
         }
@@ -546,7 +546,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
     {
         let segments = sender as! NSSegmentedControl
         let box    = segments.superview!
-        let key    = box.identifier!
+        let key    = convertFromOptionalNSUserInterfaceItemIdentifier(box.identifier)!
         let row    = rowForKey(key)
 
         var choices = Defaults.defaultInfo[row]["choices"] as! [Int]
@@ -609,4 +609,21 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
     {
         return "ConfigureSheet"
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromNSUserInterfaceItemIdentifier(_ input: NSUserInterfaceItemIdentifier) -> String {
+	return input.rawValue
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToOptionalNSUserInterfaceItemIdentifier(_ input: String?) -> NSUserInterfaceItemIdentifier? {
+	guard let input = input else { return nil }
+	return NSUserInterfaceItemIdentifier(rawValue: input)
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromOptionalNSUserInterfaceItemIdentifier(_ input: NSUserInterfaceItemIdentifier?) -> String? {
+	guard let input = input else { return nil }
+	return input.rawValue
 }

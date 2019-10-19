@@ -13,23 +13,23 @@ class TableView : NSTableView
     
     func insertRow(_ row:Int)
     {
-        self.insertRows(at: IndexSet(integer:row), withAnimation: NSTableViewAnimationOptions.slideLeft)
+        self.insertRows(at: IndexSet(integer:row), withAnimation: NSTableView.AnimationOptions.slideLeft)
     }
     
     func insertRows(_ num:Int)
     {
-        let indexes = IndexSet(integersIn: NSRange(location:0,length:num).toRange() ?? 0..<0)
-        self.insertRows(at: indexes, withAnimation: NSTableViewAnimationOptions())
+        let indexes = IndexSet(integersIn: 0..<num)
+        self.insertRows(at: indexes, withAnimation: NSTableView.AnimationOptions())
     }
     
     func removeRow(_ row:Int)
     {
-        removeRows(at: IndexSet(integer:row), withAnimation: NSTableViewAnimationOptions.slideRight)
+        removeRows(at: IndexSet(integer:row), withAnimation: NSTableView.AnimationOptions.slideRight)
     }
     
     func clear()
     {
-        removeRows(at: IndexSet(integersIn: NSRange(location: 0,length: numberOfRows).toRange() ?? 0..<0), withAnimation: NSTableViewAnimationOptions())
+        removeRows(at: IndexSet(integersIn: 0..<numberOfRows), withAnimation: NSTableView.AnimationOptions())
     }
     
     override func keyDown(with event: NSEvent)
@@ -44,7 +44,7 @@ class TableView : NSTableView
                 delegate?.perform(delAction!, with:self)
             }
         case 45:
-            if event.modifierFlags.contains(NSEventModifierFlags.command)
+            if event.modifierFlags.contains(NSEvent.ModifierFlags.command)
             {
                 if addAction != nil
                 {

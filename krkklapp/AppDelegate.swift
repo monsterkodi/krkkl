@@ -22,7 +22,7 @@ extension AppDelegate: NSApplicationDelegate
         UserDefaults.standard.set(false, forKey: "NSConstraintBasedLayoutVisualizeMutuallyExclusiveConstraints")
         
         view = KrkklView(frame: CGRect.zero, isPreview: false)
-        view!.autoresizingMask = [NSAutoresizingMaskOptions.viewWidthSizable, NSAutoresizingMaskOptions.viewHeightSizable]
+        view!.autoresizingMask = [NSView.AutoresizingMask.width, NSView.AutoresizingMask.height]
         view!.frame = window.contentView!.bounds
         window.contentView!.addSubview(view!)
         
@@ -32,7 +32,7 @@ extension AppDelegate: NSApplicationDelegate
     
     @IBAction func showPreferences(sender: NSObject!)
     {
-        NSApp.beginSheet(view!.configureSheet()!, modalFor: window, modalDelegate: self, didEnd: #selector(NSApplication.endSheet(_:)), contextInfo: nil)
+        NSApp.beginSheet(view!.configureSheet!, modalFor: window, modalDelegate: self, didEnd: #selector(NSApplication.endSheet(_:)), contextInfo: nil)
     }
     
     @objc private func endSheet(sheet: NSWindow)
@@ -45,7 +45,7 @@ extension AppDelegate: NSWindowDelegate
 {
     func windowWillClose()
     {
-        NSApplication.shared().terminate(window)
+        NSApplication.shared.terminate(window)
     }
     
     func windowDidResize()

@@ -53,7 +53,7 @@ class KrkklView : ScreenSaverView
     override func animateOneFrame()
     {
         let context = window!.graphicsContext
-        NSGraphicsContext.setCurrent(context)
+        NSGraphicsContext.current = context
         
         if animState == "fade"
         {
@@ -112,8 +112,8 @@ class KrkklView : ScreenSaverView
         let bPath:NSBezierPath = NSBezierPath(rect: rect)
         bPath.fill()
     }
-    override func configureSheet() -> NSWindow? { return sheetController.window }
-    override func hasConfigureSheet() -> Bool { return true }
+    override var configureSheet: NSWindow? { return sheetController.window }
+    override var hasConfigureSheet: Bool { return true }
     func width() -> Int { return Int(bounds.size.width) }
     func height() -> Int { return Int(bounds.size.height) }
 }

@@ -18,10 +18,10 @@ class ListCell : NSView
             r.fill()
 
             let str = "random"
-            let textStyle = NSMutableParagraphStyle.default().mutableCopy() as! NSMutableParagraphStyle
+            let textStyle = NSMutableParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
             textStyle.alignment = NSTextAlignment.center
 
-            str.draw(in: bounds, withAttributes: [NSParagraphStyleAttributeName: textStyle])
+            str.draw(in: bounds, withAttributes: convertToOptionalNSAttributedStringKeyDictionary([convertFromNSAttributedStringKey(NSAttributedString.Key.paragraphStyle): textStyle]))
         }
         else if colorList.count == 1 && colorList.first!.hex() == "#000000"
         {
@@ -30,10 +30,10 @@ class ListCell : NSView
             r.fill()
 
             let str = "direction"
-            let textStyle = NSMutableParagraphStyle.default().mutableCopy() as! NSMutableParagraphStyle
+            let textStyle = NSMutableParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
             textStyle.alignment = NSTextAlignment.center
 
-            str.draw(in: bounds, withAttributes: [NSParagraphStyleAttributeName: textStyle, NSForegroundColorAttributeName: NSColor.white])
+            str.draw(in: bounds, withAttributes: convertToOptionalNSAttributedStringKeyDictionary([convertFromNSAttributedStringKey(NSAttributedString.Key.paragraphStyle): textStyle, convertFromNSAttributedStringKey(NSAttributedString.Key.foregroundColor): NSColor.white]))
         }
         else
         {
@@ -59,4 +59,15 @@ class ListCell : NSView
     {
         return table().row(for: self)
     }    
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertToOptionalNSAttributedStringKeyDictionary(_ input: [String: Any]?) -> [NSAttributedString.Key: Any]? {
+	guard let input = input else { return nil }
+	return Dictionary(uniqueKeysWithValues: input.map { key, value in (NSAttributedString.Key(rawValue: key), value)})
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromNSAttributedStringKey(_ input: NSAttributedString.Key) -> String {
+	return input.rawValue
 }
