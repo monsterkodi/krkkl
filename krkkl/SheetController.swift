@@ -424,7 +424,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
                 for i in 0...choices.count-1
                 {
                     segments.setLabel((valueRow["labels"] as! [String])[i], forSegment: i)
-                    let found = (defaults.values[key] as! [Int]).index(of: choices[i] as! Int) != nil
+                    let found = (defaults.values[key] as! [Int]).firstIndex(of: choices[i] as! Int) != nil
                     segments.setSelected(found, forSegment: i)
                 }
                 return clone

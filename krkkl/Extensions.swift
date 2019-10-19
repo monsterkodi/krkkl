@@ -88,7 +88,9 @@ extension String
 {
     func substring(_ start:Int, _ length:Int) -> String
     {
-        return self.substring(with: (characters.index(startIndex, offsetBy: start) ..< characters.index(startIndex, offsetBy: start+length)))
+        let s = index(startIndex, offsetBy: start)
+        let l = index(startIndex, offsetBy: start+length)
+        return String(self[s..<l])
     }
 }
 

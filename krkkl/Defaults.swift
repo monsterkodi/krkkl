@@ -139,7 +139,7 @@ class Defaults
         var lists:[[NSColor]] = []
         for list in stringLists
         {
-            let hexList = list.characters.split {$0 == "#"}.map { String($0) }
+            let hexList = list.split {$0 == "#"}.map { String($0) }
             var colorList:[NSColor] = []
             for hexColor in hexList
             {
