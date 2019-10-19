@@ -1,30 +1,30 @@
 import ScreenSaver
 
 let defaultValues:[[String: AnyObject]] = [
-    [                        "title": "",                        "text": "values are choosen randomly between top and bottom sliders"],
-    ["key": "rows",          "title": "number of cube rows",     "values": [20,  60],   "range":  [10,   200], "step": 1   ],
-    ["key": "cube_amount",   "title": "cube amount",             "values": [3,    5],   "range":  [1,     10], "step": 0.2 ],
-    ["key": "cpf",           "title": "cubes per frame",         "values": [1,    1],   "range":  [1,    200], "step": 1   ],
-    [                        "title": "",                        "text": "how the next direction is choosen"],
-    ["key": "reset",         "title": "border behaviour",        "values": [0, 1, 2],        "choices":[0, 1, 2],       "labels":["reset position", "reflect", "torus wrap"] ],
-    ["key": "dir_inc",       "title": "direction increment",     "values": [1, 2, 3, 4, 5],  "choices":[1, 2, 3, 4, 5], "labels":["+1", "+2", "random", "-2", "-1"] ],
-    [                        "title": "direction probability",   "text": "used when direction increment is random"],
-    ["key": "prob_up",       "label": "up",                      "values": [0.0,0.99],  "range":  [0.0, 0.99], "step": 0.01],
-    ["key": "prob_left",     "label": "left",                    "values": [0.0,0.99],  "range":  [0.0, 0.99], "step": 0.01],
-    ["key": "prob_right",    "label": "right",                   "values": [0.0,0.99],  "range":  [0.0, 0.99], "step": 0.01],
-    [                        "title": "keep direction",          "text": "higher values yield longer straight lines"],
-    ["key": "keep_up",       "label": "up",                      "values": [0.0,0.99],  "range":  [0.0, 0.99], "step": 0.01],
-    ["key": "keep_left",     "label": "left",                    "values": [0.0,0.99],  "range":  [0.0, 0.99], "step": 0.01],
-    ["key": "keep_right",    "label": "right",                   "values": [0.0,0.99],  "range":  [0.0, 0.99], "step": 0.01],
-    [                        "title": "",                        "text": "lower values yield smoother color fades"],
-    ["key": "color_fade",    "title": "color change speed",      "values": [1,    20],  "range":  [1,    100], "step": 1   ],
-    [                        "title": "brightness",                        "text": "lower values yield darker colors"],
-    ["key": "color_top",     "label": "top side",                "values": [0.4, 1.0],  "range":  [0,      1], "step": 0.05],
-    ["key": "color_left",    "label": "left side",               "values": [0.0, 1.0],  "range":  [0,      1], "step": 0.05],
-    ["key": "color_right",   "label": "right side",              "values": [0.0, 1.0],  "range":  [0,      1], "step": 0.05],
-    [                        "title": "",                        "text": ""],
-    ["key": "fps",           "title": "frames per second",       "value" :  60,         "range":  [1,     60], "step": 1   ],
-    ["key": "fade",          "title": "fade duration in frames", "value" : 100,         "range":  [10,   240], "step": 1   ],
+    [                                   "title": "" as AnyObject,                        "text": "values are choosen randomly between top and bottom sliders" as AnyObject],
+    ["key": "rows" as AnyObject,        "title": "number of cube rows" as AnyObject,     "values": [20,  60] as AnyObject,   "range":  [10,   200] as AnyObject, "step": 1    as AnyObject],
+    ["key": "cube_amount" as AnyObject, "title": "cube amount" as AnyObject,             "values": [3,    5] as AnyObject,   "range":  [1,     10] as AnyObject, "step": 0.2  as AnyObject],
+    ["key": "cpf" as AnyObject,         "title": "cubes per frame" as AnyObject,         "values": [1,    1] as AnyObject,   "range":  [1,    200] as AnyObject, "step": 1    as AnyObject],
+    [                                   "title": "" as AnyObject,                        "text": "how the next direction is choosen" as AnyObject],
+    ["key": "reset" as AnyObject,       "title": "border behaviour" as AnyObject,        "values": [0, 1, 2] as AnyObject,        "choices":[0, 1, 2] as AnyObject,       "labels":["reset position", "reflect", "torus wrap"] as AnyObject ],
+    ["key": "dir_inc" as AnyObject,     "title": "direction increment" as AnyObject,     "values": [1, 2, 3, 4, 5] as AnyObject,  "choices":[1, 2, 3, 4, 5] as AnyObject, "labels":["+1", "+2", "random", "-2", "-1"]          as AnyObject ],
+    [                                   "title": "direction probability" as AnyObject,   "text": "used when direction increment is random" as AnyObject],
+    ["key": "prob_up" as AnyObject,     "label": "up" as AnyObject,                      "values": [0.0,0.99] as AnyObject,  "range":  [0.0, 0.99] as AnyObject, "step": 0.01 as AnyObject],
+    ["key": "prob_left" as AnyObject,   "label": "left" as AnyObject,                    "values": [0.0,0.99] as AnyObject,  "range":  [0.0, 0.99] as AnyObject, "step": 0.01 as AnyObject],
+    ["key": "prob_right" as AnyObject,  "label": "right" as AnyObject,                   "values": [0.0,0.99] as AnyObject,  "range":  [0.0, 0.99] as AnyObject, "step": 0.01 as AnyObject],
+    [                                   "title": "keep direction" as AnyObject,          "text": "higher values yield longer straight lines" as AnyObject],
+    ["key": "keep_up" as AnyObject,     "label": "up" as AnyObject,                      "values": [0.0,0.99] as AnyObject,  "range":  [0.0, 0.99] as AnyObject, "step": 0.01 as AnyObject],
+    ["key": "keep_left" as AnyObject,   "label": "left" as AnyObject,                    "values": [0.0,0.99] as AnyObject,  "range":  [0.0, 0.99] as AnyObject, "step": 0.01 as AnyObject],
+    ["key": "keep_right" as AnyObject,  "label": "right" as AnyObject,                   "values": [0.0,0.99] as AnyObject,  "range":  [0.0, 0.99] as AnyObject, "step": 0.01 as AnyObject],
+    [                                   "title": "" as AnyObject,                        "text": "lower values yield smoother color fades" as AnyObject],
+    ["key": "color_fade" as AnyObject,  "title": "color change speed" as AnyObject,      "values": [1,    20] as AnyObject,  "range":  [1,    100] as AnyObject, "step": 1    as AnyObject],
+    [                                   "title": "brightness" as AnyObject,              "text": "lower values yield darker colors" as AnyObject],
+    ["key": "color_top" as AnyObject,   "label": "top side" as AnyObject,                "values": [0.4, 1.0] as AnyObject,  "range":  [0,      1] as AnyObject, "step": 0.05 as AnyObject],
+    ["key": "color_left" as AnyObject,  "label": "left side" as AnyObject,               "values": [0.0, 1.0] as AnyObject,  "range":  [0,      1] as AnyObject, "step": 0.05 as AnyObject],
+    ["key": "color_right" as AnyObject, "label": "right side" as AnyObject,              "values": [0.0, 1.0] as AnyObject,  "range":  [0,      1] as AnyObject, "step": 0.05 as AnyObject],
+    [                                   "title": "" as AnyObject,                        "text": "" as AnyObject],
+    ["key": "fps" as AnyObject,         "title": "frames per second" as AnyObject,       "value" :  60 as AnyObject,         "range":  [1,     60] as AnyObject, "step": 1    as AnyObject],
+    ["key": "fade" as AnyObject,        "title": "fade duration in frames" as AnyObject, "value" : 100 as AnyObject,         "range":  [10,   240] as AnyObject, "step": 1    as AnyObject],
 ]
 
 let defaultColors:[String] = [
@@ -40,8 +40,8 @@ let defaultColors:[String] = [
 ]
 
 var defaultPresets:[[String: AnyObject]] = [[
-    "values": Defaults.infoValues(),
-    "colors": defaultColors
+    "values": Defaults.infoValues() as AnyObject,
+    "colors": defaultColors as AnyObject
     ]]
 
 let defaultPresetsData = "WwogIHsKICAgICJjb2xvcnMiIDogWwogICAgICAiIzZjMDAwMCNiNTAwMDAjZmYwMDAwI2ZmOTIyNyNiNTAwMDAiLAogICAgICAiIzAwM2EwMCMwMDVlMDAjMDA5NzAwIzAwY2QyNyMwMDVlMDAiLAogICAgICAiIzAwMDAyZiMwMDAwNmUjMDAwMGZmIzU5NWJmZiMwMDAwNmUiLAogICAgICAiIzMyMzIzMiM2NDY0NjQjYjNiM2IzI2ZmZmZmZiM1MTUxNTEiCiAgICBdLAogICAgInZhbHVlcyIgOiB7CiAgICAgICJmcHMiIDogNjAsCiAgICAgICJjb2xvcl9yaWdodCIgOiBbCiAgICAgICAgMC43MDAwMDAwMDAwMDAwMDAxLAogICAgICAgIDEKICAgICAgXSwKICAgICAgImRpcl9pbmMiIDogWwogICAgICAgIDEsCiAgICAgICAgMywKICAgICAgICA1CiAgICAgIF0sCiAgICAgICJrZWVwX3JpZ2h0IiA6IFsKICAgICAgICAwLjMsCiAgICAgICAgMC42NAogICAgICBdLAogICAgICAiY3BmIiA6IFsKICAgICAgICAxLAogICAgICAgIDEKICAgICAgXSwKICAgICAgInByb2JfbGVmdCIgOiBbCiAgICAgICAgMCwKICAgICAgICAwLjEzCiAgICAgIF0sCiAgICAgICJjb2xvcl9mYWRlIiA6IFsKICAgICAgICAxMCwKICAgICAgICA0MAogICAgICBdLAogICAgICAiY3ViZV9hbW91bnQiIDogWwogICAgICAgIDMsCiAgICAgICAgNQogICAgICBdLAogICAgICAicHJvYl91cCIgOiBbCiAgICAgICAgMCwKICAgICAgICAwLjEKICAgICAgXSwKICAgICAgImtlZXBfdXAiIDogWwogICAgICAgIDAuNCwKICAgICAgICAwLjQ4CiAgICAgIF0sCiAgICAgICJjb2xvcl9sZWZ0IiA6IFsKICAgICAgICAwLjc1LAogICAgICAgIDEKICAgICAgXSwKICAgICAgInJvd3MiIDogWwogICAgICAgIDE4LAogICAgICAgIDgwCiAgICAgIF0sCiAgICAgICJjb2xvcl90b3AiIDogWwogICAgICAgIDAuODUwMDAwMDAwMDAwMDAwMSwKICAgICAgICAxCiAgICAgIF0sCiAgICAgICJwcm9iX3JpZ2h0IiA6IFsKICAgICAgICAwLAogICAgICAgIDAuMTgKICAgICAgXSwKICAgICAgImtlZXBfbGVmdCIgOiBbCiAgICAgICAgMC4zNSwKICAgICAgICAwLjU3MDAwMDAwMDAwMDAwMDEKICAgICAgXSwKICAgICAgImZhZGUiIDogMTAwLAogICAgICAicmVzZXQiIDogWwogICAgICAgIDAsCiAgICAgICAgMSwKICAgICAgICAyCiAgICAgIF0KICAgIH0KICB9LAogIHsKICAgICJjb2xvcnMiIDogWwogICAgICAiIzZmYTFjZSMwNjBmM2QjMmI0Mzc2IzZhOWFjMCNiYWUyZjYjZWVlNWZhIiwKICAgICAgIiMzYjNkM2IjYzQ4NjU1I2U4ZDE5MyNjNDg2NTUjM2IzZDNiIzhmODQ5NCNjOGM5ZDEjOGY4NDk0IzNiM2QzYiIKICAgIF0sCiAgICAidmFsdWVzIiA6IHsKICAgICAgImZwcyIgOiA2MCwKICAgICAgImNvbG9yX3JpZ2h0IiA6IFsKICAgICAgICAwLjgsCiAgICAgICAgMQogICAgICBdLAogICAgICAiZGlyX2luYyIgOiBbCiAgICAgICAgMSwKICAgICAgICAyLAogICAgICAgIDMsCiAgICAgICAgNCwKICAgICAgICA1CiAgICAgIF0sCiAgICAgICJrZWVwX3JpZ2h0IiA6IFsKICAgICAgICAwLjksCiAgICAgICAgMC45OQogICAgICBdLAogICAgICAiY3BmIiA6IFsKICAgICAgICAxLAogICAgICAgIDIwCiAgICAgIF0sCiAgICAgICJwcm9iX2xlZnQiIDogWwogICAgICAgIDAsCiAgICAgICAgMC4yNQogICAgICBdLAogICAgICAiY29sb3JfZmFkZSIgOiBbCiAgICAgICAgMSwKICAgICAgICAxMAogICAgICBdLAogICAgICAiY3ViZV9hbW91bnQiIDogWwogICAgICAgIDQsCiAgICAgICAgNgogICAgICBdLAogICAgICAicHJvYl91cCIgOiBbCiAgICAgICAgMC45MiwKICAgICAgICAwLjk5CiAgICAgIF0sCiAgICAgICJrZWVwX3VwIiA6IFsKICAgICAgICAwLjksCiAgICAgICAgMC45OQogICAgICBdLAogICAgICAiY29sb3JfbGVmdCIgOiBbCiAgICAgICAgMC41NSwKICAgICAgICAxCiAgICAgIF0sCiAgICAgICJyb3dzIiA6IFsKICAgICAgICA1MCwKICAgICAgICAxNjAKICAgICAgXSwKICAgICAgImNvbG9yX3RvcCIgOiBbCiAgICAgICAgMC4yNSwKICAgICAgICAwLjYwMDAwMDAwMDAwMDAwMDEKICAgICAgXSwKICAgICAgInByb2JfcmlnaHQiIDogWwogICAgICAgIDAsCiAgICAgICAgMC41MwogICAgICBdLAogICAgICAia2VlcF9sZWZ0IiA6IFsKICAgICAgICAwLjksCiAgICAgICAgMC45OQogICAgICBdLAogICAgICAiZmFkZSIgOiAxMDAsCiAgICAgICJyZXNldCIgOiBbCiAgICAgICAgMQogICAgICBdCiAgICB9CiAgfSwKICB7CiAgICAiY29sb3JzIiA6IFsKICAgICAgIiMyNTdiNGIjMzFhMzY0IzJmOTE1YSMxYzY1M2MjMTk1MjMyI2FjOGIzMiNlNmJhNDMjY2NhNjQwIzhkNzEyNyM3MjVjMjIjNmIyNDcyIzhlMzA5OCM3ZDJjODYjNmIyNDcyIzQ2MTc0YiIsCiAgICAgICIjZmZlODY4I2Y3ZGEzNSNiYjlkMDAjOTM3YTAwIzc4NWRjMSM1ODNhYWMjMmMxNTgzIzFlMGU2NyIsCiAgICAgICIjYjUxNzAwI2ZlMjUwMCNmZjkyMjUjZmZmZjAwIzAwY2MyNyMwMDk3MDAjMDA1ZTAwIzAwMGY2ZSMwNDMyZmYjNTg1YWZmIgogICAgXSwKICAgICJ2YWx1ZXMiIDogewogICAgICAiZnBzIiA6IDYwLAogICAgICAiY29sb3JfcmlnaHQiIDogWwogICAgICAgIDAuODUwMDAwMDAwMDAwMDAwMSwKICAgICAgICAxCiAgICAgIF0sCiAgICAgICJkaXJfaW5jIiA6IFsKICAgICAgICAxLAogICAgICAgIDIsCiAgICAgICAgMywKICAgICAgICA0LAogICAgICAgIDUKICAgICAgXSwKICAgICAgImtlZXBfcmlnaHQiIDogWwogICAgICAgIDAsCiAgICAgICAgMC45OQogICAgICBdLAogICAgICAiY3BmIiA6IFsKICAgICAgICAxLAogICAgICAgIDEKICAgICAgXSwKICAgICAgInByb2JfbGVmdCIgOiBbCiAgICAgICAgMCwKICAgICAgICAwLjk5CiAgICAgIF0sCiAgICAgICJjb2xvcl9mYWRlIiA6IFsKICAgICAgICAxLAogICAgICAgIDIwCiAgICAgIF0sCiAgICAgICJjdWJlX2Ftb3VudCIgOiBbCiAgICAgICAgMywKICAgICAgICA1CiAgICAgIF0sCiAgICAgICJwcm9iX3VwIiA6IFsKICAgICAgICAwLAogICAgICAgIDAuOTkKICAgICAgXSwKICAgICAgImtlZXBfdXAiIDogWwogICAgICAgIDAsCiAgICAgICAgMC45OQogICAgICBdLAogICAgICAiY29sb3JfbGVmdCIgOiBbCiAgICAgICAgMC4zNSwKICAgICAgICAwLjgKICAgICAgXSwKICAgICAgInJvd3MiIDogWwogICAgICAgIDIwLAogICAgICAgIDEwMAogICAgICBdLAogICAgICAiY29sb3JfdG9wIiA6IFsKICAgICAgICAwLjI1LAogICAgICAgIDAuNjUKICAgICAgXSwKICAgICAgInByb2JfcmlnaHQiIDogWwogICAgICAgIDAsCiAgICAgICAgMC45OQogICAgICBdLAogICAgICAia2VlcF9sZWZ0IiA6IFsKICAgICAgICAwLAogICAgICAgIDAuOTkKICAgICAgXSwKICAgICAgImZhZGUiIDogMTAwLAogICAgICAicmVzZXQiIDogWwogICAgICAgIDAsCiAgICAgICAgMgogICAgICBdCiAgICB9CiAgfQpd"
@@ -49,12 +49,12 @@ let defaultPresetsData = "WwogIHsKICAgICJjb2xvcnMiIDogWwogICAgICAiIzZjMDAwMCNiNT
 class Defaults
 {
     static let defaultInfo = defaultValues
-    var userDefaults: NSUserDefaults
+    var userDefaults: UserDefaults
     var presetIndex = 0
     
     init()
     {
-        let identifier = NSBundle(forClass: Defaults.self).bundleIdentifier
+        let identifier = Bundle(for: Defaults.self).bundleIdentifier
         userDefaults = ScreenSaverDefaults(forModuleWithName:identifier!)!
 
         if getObjectForKey("presets") != nil
@@ -67,13 +67,13 @@ class Defaults
         }
         
         let version = defaultValues.description
-        setObjectForKey(version, key:"version")
+        setObjectForKey(version as AnyObject, key:"version")
     }
     
     func restoreDefaults()
     {
-        let data = NSData(base64EncodedString:defaultPresetsData, options:NSDataBase64DecodingOptions(rawValue: 0))
-        presets = (try? NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! [[String: AnyObject]]
+        let data = Data(base64Encoded:defaultPresetsData, options:NSData.Base64DecodingOptions(rawValue: 0))
+        presets = (try? JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments)) as! [[String: AnyObject]]
 //        presetIndex = 0
 //        presets = defaultPresets
     }
@@ -82,7 +82,7 @@ class Defaults
     {
         set(newValues)
         {
-            setObjectForKey(newValues, key:"presets")
+            setObjectForKey(newValues as AnyObject, key:"presets")
         }
         get
         {
@@ -99,7 +99,7 @@ class Defaults
     {
         set(newValues)
         {
-            presets[presetIndex]["values"] = newValues
+            presets[presetIndex]["values"] = newValues as AnyObject
         }
         get
         {
@@ -111,7 +111,7 @@ class Defaults
     {
         set(newColorLists)
         {
-            presets[presetIndex]["colors"] = Defaults.colorListsToStringList(newColorLists)
+            presets[presetIndex]["colors"] = Defaults.colorListsToStringList(newColorLists) as AnyObject
         }
         get
         {
@@ -119,7 +119,7 @@ class Defaults
         }
     }
     
-    static func colorListsToStringList(colorLists: [[NSColor]]) -> [String]
+    static func colorListsToStringList(_ colorLists: [[NSColor]]) -> [String]
     {
         var stringList:[String] = []
         for colors in colorLists
@@ -134,7 +134,7 @@ class Defaults
         return stringList
     }
 
-    static func stringListToColorLists(stringLists: [String]) -> [[NSColor]]
+    static func stringListToColorLists(_ stringLists: [String]) -> [[NSColor]]
     {
         var lists:[[NSColor]] = []
         for list in stringLists
@@ -146,9 +146,9 @@ class Defaults
                 var r:UInt32 = 0
                 var g:UInt32 = 0
                 var b:UInt32 = 0
-                NSScanner(string:hexColor.substring(0,2)).scanHexInt(&r)
-                NSScanner(string:hexColor.substring(2,2)).scanHexInt(&g)
-                NSScanner(string:hexColor.substring(4,2)).scanHexInt(&b)
+                Scanner(string:hexColor.substring(0,2)).scanHexInt32(&r)
+                Scanner(string:hexColor.substring(2,2)).scanHexInt32(&g)
+                Scanner(string:hexColor.substring(4,2)).scanHexInt32(&b)
                 colorList.append(colorRGB([Float(r)/255.0,Float(g)/255.0,Float(b)/255.0]))
             }
             lists.append(colorList)
@@ -169,28 +169,28 @@ class Defaults
         return values
     }
     
-    static func presetValueForKey(preset:[String: AnyObject], key:String) -> AnyObject?
+    static func presetValueForKey(_ preset:[String: AnyObject], key:String) -> AnyObject?
     {
-        let vals = preset["values"]!
+        let vals: [String: AnyObject] = preset["values"] as! Dictionary
         return vals[key]
     }
     
-    func valueForKey(key:String) -> AnyObject?
+    func valueForKey(_ key:String) -> AnyObject?
     {
         return self.values[key]
     }
         
-    func setObjectForKey(object: AnyObject, key: String)
+    func setObjectForKey(_ object: AnyObject, key: String)
     {
-        userDefaults.setObject(NSKeyedArchiver.archivedDataWithRootObject(object), forKey: key)
+        userDefaults.set(NSKeyedArchiver.archivedData(withRootObject: object), forKey: key)
         userDefaults.synchronize()
     }
 
-    func getObjectForKey(key: String) -> AnyObject?
+    func getObjectForKey(_ key: String) -> AnyObject?
     {
-        if let dictData = userDefaults.objectForKey(key) as? NSData
+        if let dictData = userDefaults.object(forKey: key) as? Data
         {
-            return NSKeyedUnarchiver.unarchiveObjectWithData(dictData)
+            return NSKeyedUnarchiver.unarchiveObject(with: dictData) as AnyObject
         }
         return nil;
     }    

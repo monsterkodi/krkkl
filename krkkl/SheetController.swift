@@ -21,18 +21,18 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
     override func awakeFromNib()
     {
         super.awakeFromNib()
-        presetView!.setDelegate(self)
-        valuesView!.setDelegate(self)
-        colorLists!.setDelegate(self)
-        colors!.setDelegate(self)
+        presetView!.delegate = self
+        valuesView!.delegate = self
+        colorLists!.delegate = self
+        colors!.delegate = self
         window!.delegate = self
 
-        presetView!.addAction = Selector("addPreset:")
-        presetView!.delAction = Selector("delPreset:")
-        colorLists!.addAction = Selector("addColorList:")
-        colorLists!.delAction = Selector("delColorList:")
-        colors!.addAction     = Selector("addColor:")
-        colors!.delAction     = Selector("delColor:")
+        presetView!.addAction = #selector(SheetController.addPreset(_:))
+        presetView!.delAction = #selector(SheetController.delPreset(_:))
+        colorLists!.addAction = #selector(SheetController.addColorList(_:))
+        colorLists!.delAction = #selector(SheetController.delColorList(_:))
+        colors!.addAction     = #selector(SheetController.addColor(_:))
+        colors!.delAction     = #selector(SheetController.delColor(_:))
         colorLists!.nextKeyView = colors!
         
         presetView!.insertRows(defaults.presets.count)
@@ -48,7 +48,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
          000     000   000  0000000    0000000  00000000  0000000 
     */
 
-    func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView?
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView?
     {
         switch tableView
         {
@@ -60,7 +60,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
         }
     }
     
-    func tableView(tableView: NSTableView, rowViewForRow row: Int) -> NSTableRowView?
+    func tableView(_ tableView: NSTableView, rowViewForRow row: Int) -> NSTableRowView?
     {
         if tableView == colors
         {
@@ -69,7 +69,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
         return TableRow()
     }
     
-    func tableViewSelectionDidChange(notification: NSNotification)
+    func tableViewSelectionDidChange(_ notification: Notification)
     {
         let table = notification.object as! NSTableView
         if table == colorLists
@@ -90,58 +90,58 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
       000        000   000  00000000  0000000   00000000     000     0000000 
     */
     
-    @IBAction func addPreset(sender: AnyObject)
+    @IBAction func addPreset(_ sender: AnyObject)
     {
         let row = presetView!.selectedRow+1
         let defaultPreset = defaults.defaultPreset()
-        defaults.presets.insert(defaultPreset, atIndex:row)
+        defaults.presets.insert(defaultPreset, at:row)
         presetView!.insertRow(row)
         presetView!.selectRow(row)
         setPreset(presetView!.selectedRow)
     }
     
-    @IBAction func delPreset(sender: AnyObject)
+    @IBAction func delPreset(_ sender: AnyObject)
     {
         let row = presetView!.selectedRow
         if row >= 0 && defaults.presets.count > 1
         {
 //            presetCellAtRow(row).stop()
             presetView!.selectRow(row==presetView!.numberOfRows-1 ? row-1 : row+1)
-            defaults.presets.removeAtIndex(row)
+            defaults.presets.remove(at: row)
             presetView!.removeRow(row)
             setPreset(presetView!.selectedRow)
         }
     }
     
-    func addPresetView(tableView: NSTableView, tableColumn: NSTableColumn?, row: Int) -> NSView?
+    func addPresetView(_ tableView: NSTableView, tableColumn: NSTableColumn?, row: Int) -> NSView?
     {
         let view = NSView()
         let cell = PresetCell()
-        cell.autoresizingMask = [NSAutoresizingMaskOptions.ViewWidthSizable, NSAutoresizingMaskOptions.ViewHeightSizable]
+        cell.autoresizingMask = [NSAutoresizingMaskOptions.viewWidthSizable, NSAutoresizingMaskOptions.viewHeightSizable]
         view.addSubview(cell)
         return view
     }
     
-    @IBAction func duplicatePreset(sender: AnyObject)
+    @IBAction func duplicatePreset(_ sender: AnyObject)
     {
         let row = presetView!.selectedRow
-        defaults.presets.insert(defaults.presets[defaults.presetIndex], atIndex:row)
+        defaults.presets.insert(defaults.presets[defaults.presetIndex], at:row)
         presetView!.insertRow(row)
         presetView!.selectRow(row)
         setPreset(presetView!.selectedRow)
     }
     
-    @IBAction func copyPresets(sender: AnyObject)
+    @IBAction func copyPresets(_ sender: AnyObject)
     {
-        let pasteBoard = NSPasteboard.generalPasteboard()
+        let pasteBoard = NSPasteboard.general()
         pasteBoard.clearContents()
-        let data = try? NSJSONSerialization.dataWithJSONObject(defaults.presets, options:NSJSONWritingOptions.PrettyPrinted)
-        print(String(data:data!, encoding:NSUTF8StringEncoding))
-        let encd = data!.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
+        let data = try? JSONSerialization.data(withJSONObject: defaults.presets, options:JSONSerialization.WritingOptions.prettyPrinted)
+        print(String(data:data!, encoding:String.Encoding.utf8) ?? "can't decode")
+        let encd = data!.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
         pasteBoard.setString(encd, forType:NSPasteboardTypeString)
     }
     
-    @IBAction func restoreDefaultPresets(sender: AnyObject)
+    @IBAction func restoreDefaultPresets(_ sender: AnyObject)
     {
         defaults.restoreDefaults()
         presetView!.clear()
@@ -150,7 +150,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
         setPreset(presetView!.selectedRow)
     }
     
-    func setPreset(index: Int)
+    func setPreset(_ index: Int)
     {
         defaults.presetIndex = index
         valuesView!.clear()
@@ -159,9 +159,9 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
         colorLists!.insertRows(defaults.colorLists.count)
     }
     
-    func presetCellAtRow(row: Int) -> PresetCell
+    func presetCellAtRow(_ row: Int) -> PresetCell
     {
-        return presetView!.viewAtColumn(0, row: row, makeIfNecessary: false)?.subviews.first as! PresetCell
+        return presetView!.view(atColumn: 0, row: row, makeIfNecessary: false)?.subviews.first as! PresetCell
     }
     
     /*
@@ -172,24 +172,24 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
        0000000   0000000   0000000   0000000   000   000      0      000  00000000  00     00  0000000 
     */
     
-    func addColorListsView(tableView: NSTableView, tableColumn: NSTableColumn?, row: Int) -> NSView?
+    func addColorListsView(_ tableView: NSTableView, tableColumn: NSTableColumn?, row: Int) -> NSView?
     {
         let view = NSView()
         let cell = ListCell()
-        cell.autoresizingMask = [NSAutoresizingMaskOptions.ViewWidthSizable, NSAutoresizingMaskOptions.ViewHeightSizable]
+        cell.autoresizingMask = [NSAutoresizingMaskOptions.viewWidthSizable, NSAutoresizingMaskOptions.viewHeightSizable]
         view.addSubview(cell)
         return view
     }
 
-    func addColorsView(tableView: NSTableView, tableColumn: NSTableColumn?, row: Int) -> NSView?
+    func addColorsView(_ tableView: NSTableView, tableColumn: NSTableColumn?, row: Int) -> NSView?
     {
         let listIndex = colorLists!.selectedRow
         let color = defaults.colorLists[listIndex][row]
         if tableColumn?.identifier == "color"
         {
             let colorCell = ColorCell(color:color)
-            colorCell.bordered = false
-            colorCell.action = Selector("colorCellChanged:")
+            colorCell.isBordered = false
+            colorCell.action = #selector(SheetController.colorCellChanged(_:))
             colorCell.target = self
             return colorCell
         }
@@ -204,68 +204,68 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
        0000000   0000000   0000000   0000000   000   000  0000000  000  0000000      000     0000000 
     */
 
-    @IBAction func colorListSelected(sender: AnyObject)
+    @IBAction func colorListSelected(_ sender: AnyObject)
     {
         showColorList(sender as! NSTableView)
     }
     
-    func showColorList(table:NSTableView)
+    func showColorList(_ table:NSTableView)
     {
         let row = table.selectedRow
-        var indexes = NSIndexSet(indexesInRange: NSRange(location:0,length:colors!.numberOfRows))
-        colors!.removeRowsAtIndexes(indexes, withAnimation: NSTableViewAnimationOptions.EffectNone)
+        var indexes = IndexSet(integersIn: NSRange(location:0,length:colors!.numberOfRows).toRange() ?? 0..<0)
+        colors!.removeRows(at: indexes, withAnimation: NSTableViewAnimationOptions())
         if row >= 0
         {
-            indexes = NSIndexSet(indexesInRange: NSRange(location:0,length:defaults.colorLists[row].count))
-            colors!.insertRowsAtIndexes(indexes, withAnimation: NSTableViewAnimationOptions.EffectNone)
+            indexes = IndexSet(integersIn: NSRange(location:0,length:defaults.colorLists[row].count).toRange() ?? 0..<0)
+            colors!.insertRows(at: indexes, withAnimation: NSTableViewAnimationOptions())
         }
         colors?.selectRow(0)
     }
 
-    @IBAction func addColorList(sender: AnyObject)
+    @IBAction func addColorList(_ sender: AnyObject)
     {
         let row = colorLists!.selectedRow+1
-        defaults.colorLists.insert([randColor()], atIndex:row)
+        defaults.colorLists.insert([randColor()], at:row)
         colorLists!.insertRow(row)
         colorLists!.selectRow(row)
     }
 
-    @IBAction func delColorList(sender: AnyObject)
+    @IBAction func delColorList(_ sender: AnyObject)
     {
         let row = colorLists!.selectedRow
         if defaults.colorLists.count <= 1 { return }
         if row >= 0
         {
             colorLists!.selectRow(row==colorLists!.numberOfRows-1 ? row-1 : row+1)
-            defaults.colorLists.removeAtIndex(row)
+            defaults.colorLists.remove(at: row)
             colorLists!.removeRow(row)
         }
     } 
 
-    @IBAction func copyColorLists(sender: AnyObject)
+    @IBAction func copyColorLists(_ sender: AnyObject)
     {
-        let pasteBoard = NSPasteboard.generalPasteboard()
+        let pasteBoard = NSPasteboard.general()
         pasteBoard.clearContents()
 
         let colorListsStr = defaults.colorLists.map { (colorList) -> String in
             return colorList.map { (color) -> String in
                     return color.hex()
-                }.joinWithSeparator("")
-        }.joinWithSeparator(",")
+                }.joined(separator: "")
+        }.joined(separator: ",")
         print(colorListsStr)
-        let data = colorListsStr.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion:false)!
+        let data = colorListsStr.data(using: String.Encoding.utf8, allowLossyConversion:false)!
         pasteBoard.setData(data, forType:NSPasteboardTypeString)
     }
 
-    @IBAction func duplicateColorList(sender: AnyObject)
+    @IBAction func duplicateColorList(_ sender: AnyObject)
     {
         let row = colorLists!.selectedRow+1
-        defaults.colorLists.insert(defaults.colorLists[colorLists!.selectedRow], atIndex:row)
+        defaults.colorLists.insert(defaults.colorLists[colorLists!.selectedRow], at:row)
         colorLists!.insertRow(row)
         colorLists!.selectRow(row)
     }
     
-    @IBAction func restoreDefaultColorLists(sender: AnyObject)
+    @IBAction func restoreDefaultColorLists(_ sender: AnyObject)
     {
         defaults.presets[defaults.presetIndex]["colors"] = defaults.defaultPreset()["colors"]
         
@@ -275,9 +275,9 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
         colorLists!.selectRow(0)
     }
     
-    func updateColorList(listIndex:Int)
+    func updateColorList(_ listIndex:Int)
     {
-        let cell = ((colorLists?.rowViewAtRow(listIndex, makeIfNecessary:false)!.subviews.first)!.subviews.first) as! ListCell
+        let cell = ((colorLists?.rowView(atRow: listIndex, makeIfNecessary:false)!.subviews.first)!.subviews.first) as! ListCell
         cell.needsDisplay = true
     }
 
@@ -289,34 +289,34 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
        0000000   0000000   0000000   0000000   000   000  0000000 
     */
 
-    @IBAction func addColor(sender: AnyObject)
+    @IBAction func addColor(_ sender: AnyObject)
     {
         let listIndex = colorLists!.selectedRow
         if  listIndex >= 0
         {
             let row = colors!.selectedRow + 1
             let color = randColor()
-            defaults.colorLists[listIndex].insert(color, atIndex:row)
+            defaults.colorLists[listIndex].insert(color, at:row)
             colors!.insertRow(row)
             colors!.selectRow(row)
             updateColorList(listIndex)
         }
     }
 
-    @IBAction func delColor(sender: AnyObject)
+    @IBAction func delColor(_ sender: AnyObject)
     {
         let row = colors!.selectedRow
         if row >= 0
         {
             let listIndex = colorLists!.selectedRow
             colors!.selectRow(row==colors!.numberOfRows-1 ? row-1 : row+1)
-            defaults.colorLists[listIndex].removeAtIndex(row)
+            defaults.colorLists[listIndex].remove(at: row)
             colors!.removeRow(row)
             updateColorList(listIndex)
         }
     }
 
-    func colorCellChanged(sender:AnyObject)
+    func colorCellChanged(_ sender:AnyObject)
     {
         let colorCell = sender as! ColorCell
         let listIndex = colorLists!.selectedRow
@@ -327,12 +327,12 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
         }
     }
     
-    @IBAction func darkenColor(sender: AnyObject)
+    @IBAction func darkenColor(_ sender: AnyObject)
     {
         let listIndex = colorLists!.selectedRow
         if  listIndex >= 0
         {
-            let row = colors?.rowViewAtRow(colors!.selectedRow, makeIfNecessary:false)
+            let row = colors?.rowView(atRow: colors!.selectedRow, makeIfNecessary:false)
             let cell = row!.subviews.first as! ColorCell
             let color = defaults.colorLists[listIndex][colors!.selectedRow].scale(0.8)
             cell.color = color
@@ -341,12 +341,12 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
         }
     }
 
-    @IBAction func lightenColor(sender: AnyObject)
+    @IBAction func lightenColor(_ sender: AnyObject)
     {
         let listIndex = colorLists!.selectedRow
         if  listIndex >= 0
         {
-            let row = colors?.rowViewAtRow(colors!.selectedRow, makeIfNecessary:false)
+            let row = colors?.rowView(atRow: colors!.selectedRow, makeIfNecessary:false)
             let cell = row!.subviews.first as! ColorCell
             let color = defaults.colorLists[listIndex][colors!.selectedRow].scale(1.2)
             cell.color = color
@@ -355,12 +355,8 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
         }
     }
 
-    @IBAction func showMenu(sender: AnyObject)
+    @IBAction func showMenu(_ sender: AnyObject)
     {
-        let pos = CGPoint(x:-sender.frame.size.width*2+5, y:sender.frame.size.height+3)
-        let menu = sender.menu as NSMenu?
-        let view = sender as! NSView
-        menu!.popUpMenuPositioningItem(menu?.itemArray.first, atLocation:pos, inView:view)
     }
 
     /*
@@ -371,7 +367,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
           0      000   000  0000000   0000000   00000000  0000000 
     */
 
-    func addValueView(tableView: NSTableView, tableColumn: NSTableColumn?, row: Int) -> NSView?
+    func addValueView(_ tableView: NSTableView, tableColumn: NSTableColumn?, row: Int) -> NSView?
     {
         let valueRow = Defaults.defaultInfo[row]
         if tableColumn?.identifier == "label"
@@ -382,9 +378,9 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
                 let label = clone.subviews.first!.subviews.first! as! NSTextField
                 label.stringValue = valueRow["title"] as! String
                 label.drawsBackground = false
-                label.editable = false
-                label.selectable = false
-                label.alignment = .Right
+                label.isEditable = false
+                label.isSelectable = false
+                label.alignment = .right
                 return clone
             }
             else
@@ -393,9 +389,9 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
                 let label = clone.subviews.first!.subviews.first! as! NSTextField
                 label.stringValue = valueRow["label"] as! String
                 label.drawsBackground = false
-                label.editable = false
-                label.selectable = false
-                label.alignment = .Right
+                label.isEditable = false
+                label.isSelectable = false
+                label.alignment = .right
                 return clone
             }
         }
@@ -407,8 +403,8 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
                 let label = clone.subviews.first!.subviews.first! as! NSTextField
                 label.stringValue = valueRow["text"] as! String
                 label.drawsBackground = false
-                label.editable = false
-                label.selectable = false
+                label.isEditable = false
+                label.isSelectable = false
                 return clone
             }
             else if (valueRow["choices"] != nil)
@@ -422,13 +418,13 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
                 var choices = valueRow["choices"] as! [AnyObject]
                 
                 segments.target = self
-                segments.action = Selector("segmentsChanged:")
+                segments.action = #selector(SheetController.segmentsChanged(_:))
 
                 segments.segmentCount = choices.count
                 for i in 0...choices.count-1
                 {
                     segments.setLabel((valueRow["labels"] as! [String])[i], forSegment: i)
-                    let found = (defaults.values[key] as! [Int]).indexOf(choices[i] as! Int) != nil
+                    let found = (defaults.values[key] as! [Int]).index(of: choices[i] as! Int) != nil
                     segments.setSelected(found, forSegment: i)
                 }
                 return clone
@@ -455,14 +451,14 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
                 minSlider.maxValue = maxRange
                 minSlider.doubleValue = minValue
                 minSlider.target = self
-                minSlider.action = Selector("sliderChanged:")
+                minSlider.action = #selector(SheetController.sliderChanged(_:))
                 
                 maxText.doubleValue = maxValue
                 maxSlider.minValue = minRange
                 maxSlider.maxValue = maxRange
                 maxSlider.doubleValue = maxValue
                 maxSlider.target = self
-                maxSlider.action = Selector("sliderChanged:")
+                maxSlider.action = #selector(SheetController.sliderChanged(_:))
                 return clone
             }
             else if (valueRow["value"] != nil)
@@ -484,7 +480,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
                 valueSlider.maxValue = maxRange
                 valueSlider.doubleValue = value
                 valueSlider.target = self
-                valueSlider.action = Selector("sliderChanged:")
+                valueSlider.action = #selector(SheetController.sliderChanged(_:))
                 
                 return clone
             }
@@ -500,7 +496,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
       0000000   0000000  000  0000000    00000000  000   000
     */
 
-    @IBAction func sliderChanged(sender: AnyObject)
+    @IBAction func sliderChanged(_ sender: AnyObject)
     {
         let slider = sender as! NSSlider
         let box    = slider.superview!
@@ -527,7 +523,7 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
             otherSlider.doubleValue = max(otherSlider.doubleValue, slider.doubleValue)
             otherText.doubleValue = max(otherText.doubleValue, value)
             
-            defaults.values[key] = [value, otherText.doubleValue]
+            defaults.values[key] = [value, otherText.doubleValue] as AnyObject
         }
         else if slider.identifier == "maxSlider"
         {
@@ -536,17 +532,17 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
             otherSlider.doubleValue = min(otherSlider.doubleValue, slider.doubleValue)
             otherText.doubleValue = min(otherText.doubleValue, value)
             
-            defaults.values[key] = [otherText.doubleValue, value]
+            defaults.values[key] = [otherText.doubleValue, value] as AnyObject
         }
         else if slider.identifier == "valueSlider"
         {
-            defaults.values[key] = value
+            defaults.values[key] = value as AnyObject
         }
         
         updateDefaults(self)
     }
 
-    @IBAction func segmentsChanged(sender: AnyObject)
+    @IBAction func segmentsChanged(_ sender: AnyObject)
     {
         let segments = sender as! NSSegmentedControl
         let box    = segments.superview!
@@ -555,15 +551,15 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
 
         var choices = Defaults.defaultInfo[row]["choices"] as! [Int]
         var values = defaults.values[key] as! [Int]
-        values.removeAll(keepCapacity:true)
+        values.removeAll(keepingCapacity:true)
         for i in 0...choices.count-1
         {
-            if segments.isSelectedForSegment(i)
+            if segments.isSelected(forSegment: i)
             {
                 values.append(choices[i])
             }
         }
-        defaults.values[key] = values
+        defaults.values[key] = values as AnyObject
     }
     
     /*
@@ -574,9 +570,9 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
       000   000  000  0000000    0000000
     */
 
-    @IBAction func showPage(sender: AnyObject)
+    @IBAction func showPage(_ sender: AnyObject)
     {
-        pages?.selectTabViewItemAtIndex(sender.selectedSegment)
+        pages?.selectTabViewItem(at: sender.selectedSegment)
         if sender.selectedSegment == 2
         {
             colorLists?.selectRow(0)
@@ -587,17 +583,17 @@ class SheetController : NSWindowController, NSTableViewDelegate, NSWindowDelegat
         }
     }
     
-    @IBAction func updateDefaults(sender: AnyObject)
+    @IBAction func updateDefaults(_ sender: AnyObject)
     {
         defaults.presets = defaults.presets
     }
    
-    @IBAction func closeConfigureSheet(sender: AnyObject)
+    @IBAction func closeConfigureSheet(_ sender: AnyObject)
     {
         NSApp.endSheet(window!)
     }
     
-    func rowForKey(key:String) -> Int
+    func rowForKey(_ key:String) -> Int
     {
         for index in 0...Defaults.defaultInfo.count
         {

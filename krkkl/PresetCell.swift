@@ -9,7 +9,7 @@ class PresetCell : NSView
     override init(frame:NSRect)
     {
         super.init(frame: frame)
-        dispatch_after(dispatch_time(0, 300), dispatch_get_main_queue(), self.animateOneFrame)
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime(uptimeNanoseconds: 300), execute: self.animateOneFrame)
     }
 
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
@@ -19,16 +19,16 @@ class PresetCell : NSView
         if (index() < 0) { return }
         
         let ctx = NSGraphicsContext(bitmapImageRep: bitmap!)
-        NSGraphicsContext.setCurrentContext(ctx)
+        NSGraphicsContext.setCurrent(ctx)
         let w = Int(CGFloat(bitmap!.size.width) * 0.8)
         let h = Int(bitmap!.size.height)
         
         let round = NSBezierPath(roundedRect: NSRect(x:0, y:0, width:bounds.width, height:bounds.height), xRadius:5, yRadius:5)
         round.addClip()
-        NSColor.blackColor().set()
+        NSColor.black.set()
         round.fill()
         
-        NSColor.blackColor().set()
+        NSColor.black.set()
         NSBezierPath(rect: NSRect(x:0, y:0, width:w, height:h)).fill()
         let d = defaults()
         preset = d.presets[index()]
@@ -50,9 +50,9 @@ class PresetCell : NSView
                     width:cw/num,
                     height:CGFloat(h)/numLists))
                 r.fill()
-                colorIndex++
+                colorIndex+=1
             }
-            listIndex++
+            listIndex+=1
         }
     }
 
@@ -60,18 +60,18 @@ class PresetCell : NSView
     {
         if (index() < 0) { return }
         
-        dispatch_after(dispatch_time(0, 15000000), dispatch_get_main_queue(), self.animateOneFrame)
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime(uptimeNanoseconds: 15000000), execute: self.animateOneFrame)
         if bitmap == nil
         {
-            bitmap = bitmapImageRepForCachingDisplayInRect(bounds)
+            bitmap = bitmapImageRepForCachingDisplay(in: bounds)
         }
         drawScene()
         self.needsDisplay = true
     }
     
-    override func drawRect(dirtyRect: NSRect)
+    override func draw(_ dirtyRect: NSRect)
     {
-        bitmap?.drawAtPoint(NSPoint(x: 0,y: 0))
+        bitmap?.draw(at: NSPoint(x: 0,y: 0))
     }
     
     func drawScene()
@@ -81,7 +81,7 @@ class PresetCell : NSView
             return
         }
         let ctx = NSGraphicsContext(bitmapImageRep: bitmap!)
-        NSGraphicsContext.setCurrentContext(ctx)
+        NSGraphicsContext.setCurrent(ctx)
 
         scene.nextStep()
         
@@ -95,5 +95,5 @@ class PresetCell : NSView
     
     func table() -> TableView? { return superview?.superview?.superview as? TableView }
     
-    func index() -> Int { if (table() != nil) { return table()!.rowForView(self) }; return -1 }
+    func index() -> Int { if (table() != nil) { return table()!.row(for: self) }; return -1 }
 }

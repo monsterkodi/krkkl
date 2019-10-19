@@ -7,9 +7,9 @@
 */
 import AppKit
 
-enum Side:      Int { case UP = 0, RIGHT, LEFT, DOWN, BACKL, BACKR, NONE }
-enum ColorType: Int { case RANDOM=0, LIST, DIRECTION, NUM }
-enum Reset:     Int { case Random = 0, Ping, Wrap }
+enum Side:      Int { case up = 0, right, left, down, backl, backr, none }
+enum ColorType: Int { case random=0, list, direction, num }
+enum Reset:     Int { case random = 0, ping, wrap }
 
 class Cubes
 {
@@ -35,7 +35,7 @@ class Cubes
     var cubeCount:Int = 0
     var maxCubes:Int = 5000
 
-    var colorType = ColorType.LIST
+    var colorType = ColorType.list
     var colorFade:Float = 0
     var colorInc:Float = 0
     var colorIndex:Int = 0
@@ -62,7 +62,7 @@ class Cubes
       0000000   00000000     000      0000000   000      
     */
 
-    func setup(preview: Bool, width: Int, height: Int)
+    func setup(_ preview: Bool, width: Int, height: Int)
     {
         color_top   = randDblPref("color_top")
         color_left  = randDblPref("color_left")
@@ -76,7 +76,7 @@ class Cubes
         if (cubeSize.y % 2 == 1) { cubeSize.y -= 1 }
         cubeSize.y = max(2, cubeSize.y)
         size.y = height/cubeSize.y
-        cubeSize.x = Int(sin(M_PI/3) * Double(cubeSize.y))
+        cubeSize.x = Int(sin(Double.pi/3) * Double(cubeSize.y))
         size.x = width/cubeSize.x
 
         colorInc = Float(randDblPref("color_fade"))
@@ -102,23 +102,23 @@ class Cubes
         
         if (colorList.count == 0)
         {
-            colorType = .RANDOM
+            colorType = .random
         }
         else if (colorList.count == 1 && colorList[0].hex() == "#000000")
         {
-            colorType = .DIRECTION
+            colorType = .direction
         }
         else
         {
-            colorType = .LIST
+            colorType = .list
         }
 
         thisColor = colorRGB([0,0,0])
         switch colorType
         {
-        case .RANDOM:
+        case .random:
             nextColor = randColor()
-        case .LIST:
+        case .list:
             thisColor = colorList[0]
             nextColor = colorList[0]
         default: break
@@ -126,14 +126,14 @@ class Cubes
         
         rgbColor = thisColor
                 
-        keepDir[Side.UP.rawValue]    = randDblPref("keep_up")
-        keepDir[Side.LEFT.rawValue]  = randDblPref("keep_left")
-        keepDir[Side.RIGHT.rawValue] = randDblPref("keep_right")
+        keepDir[Side.up.rawValue]    = randDblPref("keep_up")
+        keepDir[Side.left.rawValue]  = randDblPref("keep_left")
+        keepDir[Side.right.rawValue] = randDblPref("keep_right")
         
-        probDir[Side.UP.rawValue]    = randDblPref("prob_up")
-        probDir[Side.LEFT.rawValue]  = randDblPref("prob_left")
-        probDir[Side.RIGHT.rawValue] = randDblPref("prob_right")
-        probSum = probDir.reduce(0.0, combine: { $0 + $1 })
+        probDir[Side.up.rawValue]    = randDblPref("prob_up")
+        probDir[Side.left.rawValue]  = randDblPref("prob_left")
+        probDir[Side.right.rawValue] = randDblPref("prob_right")
+        probSum = probDir.reduce(0.0, { $0 + $1 })
 
         cubeCount = 0
         
@@ -170,7 +170,7 @@ class Cubes
     {
         switch colorType
         {
-        case .RANDOM:
+        case .random:
             colorFade += colorInc
             if colorFade >= 100
             {
@@ -180,7 +180,7 @@ class Cubes
             }
             rgbColor = thisColor.fadeTo(nextColor, fade:colorFade/100.0)
 
-        case .LIST:
+        case .list:
             colorFade += colorInc
             if colorFade >= 100
             {
@@ -191,7 +191,7 @@ class Cubes
             }
             rgbColor = thisColor.fadeTo(nextColor, fade:colorFade/100.0)
             
-        case .DIRECTION:
+        case .direction:
             let ci = 0.02 + 0.05 * colorInc/100.0
             var r = Float(rgbColor.red())
             var g = Float(rgbColor.green())
@@ -199,12 +199,12 @@ class Cubes
             let side:Side = Side(rawValue:nextDir)!
             switch side
             {
-            case .UP:    b = clamp(b + ci, low: 0.0, high: 1.0)
-            case .LEFT:  r = clamp(r + ci, low: 0.0, high: 1.0)
-            case .RIGHT: g = clamp(g + ci, low: 0.0, high: 1.0)
-            case .DOWN:  b = clamp(b - ci, low: 0.0, high: 1.0)
-            case .BACKR: r = clamp(r - ci, low: 0.0, high: 1.0)
-            case .BACKL: g = clamp(g - ci, low: 0.0, high: 1.0)
+            case .up:    b = clamp(b + ci, low: 0.0, high: 1.0)
+            case .left:  r = clamp(r + ci, low: 0.0, high: 1.0)
+            case .right: g = clamp(g + ci, low: 0.0, high: 1.0)
+            case .down:  b = clamp(b - ci, low: 0.0, high: 1.0)
+            case .backr: r = clamp(r - ci, low: 0.0, high: 1.0)
+            case .backl: g = clamp(g - ci, low: 0.0, high: 1.0)
             default: break
             }
             if r+g+b < 0.3
@@ -227,7 +227,7 @@ class Cubes
         
     func drawNextCube()
     {
-        var skip = Side.NONE
+        var skip = Side.none
         
         nextDir = lastDir
         
@@ -237,12 +237,12 @@ class Cubes
             {
                 switch randdbl()
                 {
-                case let (prob) where prob <= probDir[Side.UP.rawValue]/probSum:
-                    nextDir = randint(2) == 0 ? Side.UP.rawValue : Side.DOWN.rawValue
-                case let (prob) where (probDir[Side.UP.rawValue]/probSum <= prob) && (prob <= probDir[Side.UP.rawValue + Side.LEFT.rawValue]/probSum):
-                    nextDir = randint(2) == 0 ? Side.LEFT.rawValue : Side.BACKR.rawValue
+                case let (prob) where prob <= probDir[Side.up.rawValue]/probSum:
+                    nextDir = randint(2) == 0 ? Side.up.rawValue : Side.down.rawValue
+                case let (prob) where (probDir[Side.up.rawValue]/probSum <= prob) && (prob <= probDir[Side.up.rawValue + Side.left.rawValue]/probSum):
+                    nextDir = randint(2) == 0 ? Side.left.rawValue : Side.backr.rawValue
                 default:
-                    nextDir = randint(2) == 0 ? Side.RIGHT.rawValue : Side.BACKL.rawValue
+                    nextDir = randint(2) == 0 ? Side.right.rawValue : Side.backl.rawValue
                 }
             }
             else
@@ -256,30 +256,30 @@ class Cubes
         let side:Side = Side(rawValue:nextDir)!
         switch side
         {
-        case .UP:
+        case .up:
                 pos.y += 1
             
-        case .RIGHT:
+        case .right:
                 if (pos.x%2)==1 { pos.y -= 1 }
                 pos.x += 1
 
-        case .LEFT:
+        case .left:
                 if (pos.x%2)==1 { pos.y -= 1 }
                 pos.x -= 1
 
-        case .DOWN:
+        case .down:
                 pos.y -= 1
-                if cubeCount > 0 { skip = .UP }
+                if cubeCount > 0 { skip = .up }
 
-        case .BACKL:
+        case .backl:
                 if (pos.x%2)==0 { pos.y += 1 }
                 pos.x -= 1
-                if cubeCount > 0 { skip = .RIGHT }
+                if cubeCount > 0 { skip = .right }
 
-        case .BACKR:
+        case .backr:
                 if (pos.x%2)==0 { pos.y += 1 }
                 pos.x += 1
-                if cubeCount > 0 { skip = .LEFT }
+                if cubeCount > 0 { skip = .left }
             
         default:
                 break
@@ -287,29 +287,29 @@ class Cubes
 
         if (pos.x < 1 || pos.y < 2 || pos.x > size.x-1 || pos.y > size.y-1)  // if screen border is touched
         {
-            skip = .NONE
+            skip = .none
             lastDir = randint(6)
 
-            if reset == Reset.Random.rawValue
+            if reset == Reset.random.rawValue
             {
                 pos.x = randint(size.x)
                 pos.y = randint(size.y)
             }
-            else if reset == Reset.Wrap.rawValue
+            else if reset == Reset.wrap.rawValue
             {
                 if      (pos.x < 1)        { pos.x = size.x-1 }   
                 else if (pos.x > size.x-1) { pos.x = 1 }
                 if      (pos.y < 2)        { pos.y = size.y-2 }
                 else if (pos.y > size.y-1) { pos.y = 2 }
             }
-            else if reset == Reset.Ping.rawValue
+            else if reset == Reset.ping.rawValue
             {
                 if (pos.x < 1)
                 {
                     switch side
                     {
-                    case .LEFT: lastDir = Side.BACKR.rawValue
-                    default:    lastDir = Side.RIGHT.rawValue
+                    case .left: lastDir = Side.backr.rawValue
+                    default:    lastDir = Side.right.rawValue
                     }
                     pos.x = 1
                 }
@@ -317,8 +317,8 @@ class Cubes
                 {
                     switch side
                     {
-                    case .BACKR: lastDir = Side.LEFT.rawValue
-                    default:     lastDir = Side.BACKL.rawValue
+                    case .backr: lastDir = Side.left.rawValue
+                    default:     lastDir = Side.backl.rawValue
                     }
                     pos.x = size.x-1
                 }
@@ -326,9 +326,9 @@ class Cubes
                 { 
                     switch side 
                     {
-                    case .LEFT:  lastDir = Side.BACKR.rawValue
-                    case .RIGHT: lastDir = Side.BACKL.rawValue
-                    default:     lastDir = randflt()>0.5 ? Side.BACKL.rawValue : Side.BACKR.rawValue
+                    case .left:  lastDir = Side.backr.rawValue
+                    case .right: lastDir = Side.backl.rawValue
+                    default:     lastDir = randflt()>0.5 ? Side.backl.rawValue : Side.backr.rawValue
                     }
                     pos.y = 2
                 }
@@ -336,15 +336,15 @@ class Cubes
                 { 
                     switch side 
                     {
-                    case .BACKR: lastDir = Side.LEFT.rawValue
-                    case .BACKL: lastDir = Side.RIGHT.rawValue
-                    default:     lastDir = randflt()>0.5 ? Side.LEFT.rawValue : Side.RIGHT.rawValue
+                    case .backr: lastDir = Side.left.rawValue
+                    case .backl: lastDir = Side.right.rawValue
+                    default:     lastDir = randflt()>0.5 ? Side.left.rawValue : Side.right.rawValue
                     }
                     pos.y = size.y-1
                 }
             }
             
-            if colorType == ColorType.DIRECTION && reset == Reset.Random.rawValue
+            if colorType == ColorType.direction && reset == Reset.random.rawValue
             {
                 rgbColor = colorRGB([0,0,0])
             }
@@ -364,7 +364,7 @@ class Cubes
       0000000    000   000  000   000  00     00
     */
     
-    func drawCube(skip: Side)
+    func drawCube(_ skip: Side)
     {
         let w = cubeSize.x
         let h = cubeSize.y
@@ -373,70 +373,70 @@ class Cubes
         let x = pos.x*w
         let y = (pos.x%2 == 0) ? (pos.y*h) : (pos.y*h - s)
         
-        if skip != .UP
+        if skip != .up
         {
             rgbColor.scale(color_top).set()
             let path = NSBezierPath()
-            path.moveToPoint(NSPoint(x: x   ,y: y))
-            path.lineToPoint(NSPoint(x: x+w ,y: y+s))
-            path.lineToPoint(NSPoint(x: x   ,y: y+h))
-            path.lineToPoint(NSPoint(x: x-w ,y: y+s))
+            path.move(to: NSPoint(x: x   ,y: y))
+            path.line(to: NSPoint(x: x+w ,y: y+s))
+            path.line(to: NSPoint(x: x   ,y: y+h))
+            path.line(to: NSPoint(x: x-w ,y: y+s))
             path.fill()
         }
         
-        if skip != .LEFT
+        if skip != .left
         {
             rgbColor.scale(color_left).set()
             let path = NSBezierPath()
-            path.moveToPoint(NSPoint(x: x    ,y: y))
-            path.lineToPoint(NSPoint(x: x-w  ,y: y+s))
-            path.lineToPoint(NSPoint(x: x-w  ,y: y-s))
-            path.lineToPoint(NSPoint(x: x    ,y: y-h))
+            path.move(to: NSPoint(x: x    ,y: y))
+            path.line(to: NSPoint(x: x-w  ,y: y+s))
+            path.line(to: NSPoint(x: x-w  ,y: y-s))
+            path.line(to: NSPoint(x: x    ,y: y-h))
             path.fill()
         }
         
-        if skip != .RIGHT
+        if skip != .right
         {
             rgbColor.scale(color_right).set()
             let path = NSBezierPath()
-            path.moveToPoint(NSPoint(x: x    ,y: y))
-            path.lineToPoint(NSPoint(x: x+w  ,y: y+s))
-            path.lineToPoint(NSPoint(x: x+w  ,y: y-s))
-            path.lineToPoint(NSPoint(x: x    ,y: y-h))
+            path.move(to: NSPoint(x: x    ,y: y))
+            path.line(to: NSPoint(x: x+w  ,y: y+s))
+            path.line(to: NSPoint(x: x+w  ,y: y-s))
+            path.line(to: NSPoint(x: x    ,y: y-h))
             path.fill()
         }
     }
 
-    func randDblPref(key:String) -> Double
+    func randDblPref(_ key:String) -> Double
     {
         let dbls = doublesPref(key)
         return randdblrng(dbls[0], high: dbls[1])
     }
     
-    func randChoice(key:String) -> AnyObject
+    func randChoice(_ key:String) -> AnyObject
     {
         let values = Defaults.presetValueForKey(preset!, key: key) as! [Int]
-        return values[randint(values.count)]
+        return values[randint(values.count)] as AnyObject
     }
 
-    func doublePref(key:String) -> Double
+    func doublePref(_ key:String) -> Double
     {
         return Defaults.presetValueForKey(preset!, key: key) as! Double
     }
 
-    func doublesPref(key:String) -> [Double]
+    func doublesPref(_ key:String) -> [Double]
     {
         return Defaults.presetValueForKey(preset!, key: key) as! [Double]
     }
     
-    func colorTypeName(colorType:ColorType) -> String  
+    func colorTypeName(_ colorType:ColorType) -> String  
     {
         switch colorType
         {
-            case .RANDOM:    return "Random" 
-            case .LIST:      return "List"
-            case .DIRECTION: return "Direction"
-            case .NUM:       return "???"
+            case .random:    return "Random" 
+            case .list:      return "List"
+            case .direction: return "Direction"
+            case .num:       return "???"
         }
     }
 }

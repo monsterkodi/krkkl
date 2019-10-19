@@ -11,28 +11,28 @@ class AppDelegate: NSObject
     
     deinit
     {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
 }
 
 extension AppDelegate: NSApplicationDelegate
 {
-    func applicationDidFinishLaunching(notification: NSNotification)
+    func applicationDidFinishLaunching()
     {
-        NSUserDefaults.standardUserDefaults().setBool(false, forKey: "NSConstraintBasedLayoutVisualizeMutuallyExclusiveConstraints")
+        UserDefaults.standard.set(false, forKey: "NSConstraintBasedLayoutVisualizeMutuallyExclusiveConstraints")
         
-        view = KrkklView(frame: CGRectZero, isPreview: false)
-        view!.autoresizingMask = [NSAutoresizingMaskOptions.ViewWidthSizable, NSAutoresizingMaskOptions.ViewHeightSizable]
+        view = KrkklView(frame: CGRect.zero, isPreview: false)
+        view!.autoresizingMask = [NSAutoresizingMaskOptions.viewWidthSizable, NSAutoresizingMaskOptions.viewHeightSizable]
         view!.frame = window.contentView!.bounds
         window.contentView!.addSubview(view!)
         
         view!.startAnimation()
-        NSTimer.scheduledTimerWithTimeInterval(1/view!.scene.fps, target: view!, selector: "animateOneFrame", userInfo: nil, repeats: true)
+        Timer.scheduledTimer(timeInterval: 1/view!.scene.fps, target: view!, selector: #selector(ScreenSaverView.animateOneFrame), userInfo: nil, repeats: true)
     }
     
     @IBAction func showPreferences(sender: NSObject!)
     {
-        NSApp.beginSheet(view!.configureSheet()!, modalForWindow: window, modalDelegate: self, didEndSelector: "endSheet:", contextInfo: nil)
+        NSApp.beginSheet(view!.configureSheet()!, modalFor: window, modalDelegate: self, didEnd: #selector(NSApplication.endSheet(_:)), contextInfo: nil)
     }
     
     @objc private func endSheet(sheet: NSWindow)
@@ -43,12 +43,12 @@ extension AppDelegate: NSApplicationDelegate
 
 extension AppDelegate: NSWindowDelegate
 {
-    func windowWillClose(notification: NSNotification)
+    func windowWillClose()
     {
-        NSApplication.sharedApplication().terminate(window)
+        NSApplication.shared().terminate(window)
     }
     
-    func windowDidResize(notification: NSNotification)
+    func windowDidResize()
     {
         if view != nil
         {

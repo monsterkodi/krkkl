@@ -6,33 +6,33 @@ class TableView : NSTableView
     var delAction:Selector?
     var addAction:Selector?
     
-    func selectRow(row:Int)
+    func selectRow(_ row:Int)
     {
-        selectRowIndexes(NSIndexSet(index:row), byExtendingSelection:false)
+        selectRowIndexes(IndexSet(integer:row), byExtendingSelection:false)
     }
     
-    func insertRow(row:Int)
+    func insertRow(_ row:Int)
     {
-        insertRowsAtIndexes(NSIndexSet(index:row), withAnimation: NSTableViewAnimationOptions.SlideLeft)
+        self.insertRows(at: IndexSet(integer:row), withAnimation: NSTableViewAnimationOptions.slideLeft)
     }
     
-    func insertRows(num:Int)
+    func insertRows(_ num:Int)
     {
-        let indexes = NSIndexSet(indexesInRange: NSRange(location:0,length:num))
-        insertRowsAtIndexes(indexes, withAnimation: NSTableViewAnimationOptions.EffectNone)
+        let indexes = IndexSet(integersIn: NSRange(location:0,length:num).toRange() ?? 0..<0)
+        self.insertRows(at: indexes, withAnimation: NSTableViewAnimationOptions())
     }
     
-    func removeRow(row:Int)
+    func removeRow(_ row:Int)
     {
-        removeRowsAtIndexes(NSIndexSet(index:row), withAnimation: NSTableViewAnimationOptions.SlideRight)
+        removeRows(at: IndexSet(integer:row), withAnimation: NSTableViewAnimationOptions.slideRight)
     }
     
     func clear()
     {
-        removeRowsAtIndexes(NSIndexSet(indexesInRange:NSRange(location: 0,length: numberOfRows)), withAnimation: NSTableViewAnimationOptions.EffectNone)
+        removeRows(at: IndexSet(integersIn: NSRange(location: 0,length: numberOfRows).toRange() ?? 0..<0), withAnimation: NSTableViewAnimationOptions())
     }
     
-    override func keyDown(event: NSEvent)
+    override func keyDown(with event: NSEvent)
     {
         Swift.print("onKey \(event)")
         
@@ -41,31 +41,31 @@ class TableView : NSTableView
         case 117:
             if delAction != nil
             {
-                delegate()?.performSelector(delAction!, withObject:self)
+                delegate?.perform(delAction!, with:self)
             }
         case 45:
-            if event.modifierFlags.contains(NSEventModifierFlags.CommandKeyMask)
+            if event.modifierFlags.contains(NSEventModifierFlags.command)
             {
                 if addAction != nil
                 {
-                    delegate()?.performSelector(addAction!)
+                    delegate?.perform(addAction!)
                 }
             }
         default:
-            super.keyDown(event)
+            super.keyDown(with: event)
         }
     }
 }
 
 class TableRow : NSTableRowView
 {
-    override func drawRect(dirtyRect: NSRect)
+    override func draw(_ dirtyRect: NSRect)
     {
-        if selected
+        if isSelected
         {
             NSGraphicsContext.saveGraphicsState()
             
-            NSColor.blackColor().set()
+            NSColor.black.set()
             NSBezierPath(roundedRect: NSRect(x:1, y:0, width:bounds.width-3, height:bounds.height-1), xRadius:8, yRadius:8).fill()
 
             NSGraphicsContext.restoreGraphicsState()
@@ -75,8 +75,8 @@ class TableRow : NSTableRowView
 
 class ColorsTableRow : NSTableRowView
 {
-    override func drawRect(dirtyRect: NSRect)
+    override func draw(_ dirtyRect: NSRect)
     {
-        (subviews.first as! ColorCell).setSelected(selected)
+        (subviews.first as! ColorCell).setSelected(isSelected)
     }
 }

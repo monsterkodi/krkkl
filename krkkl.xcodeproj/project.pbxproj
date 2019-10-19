@@ -34,8 +34,8 @@
 		C3C2047E1B67F63C00C43606 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3C2047D1B67F63C00C43606 /* Images.xcassets */; };
 		C3C204811B67F63C00C43606 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3C2047F1B67F63C00C43606 /* MainMenu.xib */; };
 		C3C204941B67F74500C43606 /* KrkklView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39F6FC71B67F2FB008519FA /* KrkklView.swift */; };
-		C3D5A5171BC2E52F00A9A3F0 /* PresetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D5A5161BC2E52F00A9A3F0 /* PresetCell.swift */; settings = {ASSET_TAGS = (); }; };
-		C3D5A5181BC2E52F00A9A3F0 /* PresetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D5A5161BC2E52F00A9A3F0 /* PresetCell.swift */; settings = {ASSET_TAGS = (); }; };
+		C3D5A5171BC2E52F00A9A3F0 /* PresetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D5A5161BC2E52F00A9A3F0 /* PresetCell.swift */; };
+		C3D5A5181BC2E52F00A9A3F0 /* PresetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3D5A5161BC2E52F00A9A3F0 /* PresetCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -208,6 +208,7 @@
 				TargetAttributes = {
 					C365BA201B67F18D008A49B5 = {
 						CreatedOnToolsVersion = 6.4;
+						LastSwiftMigration = 0830;
 					};
 					C3C204761B67F63B00C43606 = {
 						CreatedOnToolsVersion = 6.4;
@@ -349,6 +350,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -386,6 +388,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -396,6 +399,7 @@
 				INFOPLIST_FILE = krkkl/Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Screen Savers";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				WRAPPER_EXTENSION = saver;
 			};
 			name = Debug;
@@ -407,6 +411,7 @@
 				INFOPLIST_FILE = krkkl/Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Screen Savers";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				WRAPPER_EXTENSION = saver;
 			};
 			name = Release;

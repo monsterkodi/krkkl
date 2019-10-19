@@ -2,7 +2,7 @@ import Cocoa
 
 class ListCell : NSView
 {
-    override func drawRect(rect:NSRect)
+    override func draw(_ rect:NSRect)
     {
         NSGraphicsContext.saveGraphicsState()
 
@@ -13,27 +13,27 @@ class ListCell : NSView
         
         if colorList.count == 0
         {
-            NSColor.grayColor().set()
+            NSColor.gray.set()
             let r = NSBezierPath(rect:bounds)
             r.fill()
 
             let str = "random"
-            let textStyle = NSMutableParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
-            textStyle.alignment = NSTextAlignment.Center
+            let textStyle = NSMutableParagraphStyle.default().mutableCopy() as! NSMutableParagraphStyle
+            textStyle.alignment = NSTextAlignment.center
 
-            str.drawInRect(bounds, withAttributes: [NSParagraphStyleAttributeName: textStyle])
+            str.draw(in: bounds, withAttributes: [NSParagraphStyleAttributeName: textStyle])
         }
         else if colorList.count == 1 && colorList.first!.hex() == "#000000"
         {
-            NSColor.blackColor().set()
+            NSColor.black.set()
             let r = NSBezierPath(rect:bounds)
             r.fill()
 
             let str = "direction"
-            let textStyle = NSMutableParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
-            textStyle.alignment = NSTextAlignment.Center
+            let textStyle = NSMutableParagraphStyle.default().mutableCopy() as! NSMutableParagraphStyle
+            textStyle.alignment = NSTextAlignment.center
 
-            str.drawInRect(bounds, withAttributes: [NSParagraphStyleAttributeName: textStyle, NSForegroundColorAttributeName: NSColor.whiteColor()])
+            str.draw(in: bounds, withAttributes: [NSParagraphStyleAttributeName: textStyle, NSForegroundColorAttributeName: NSColor.white])
         }
         else
         {
@@ -44,7 +44,7 @@ class ListCell : NSView
                 let num = CGFloat(colorList.count)
                 let r = NSBezierPath(rect: NSRect(x:CGFloat(colorIndex)*bounds.width/num, y:0, width:bounds.width/num, height:bounds.height))
                 r.fill()
-                colorIndex++
+                colorIndex += 1
             }
         }
         
@@ -57,6 +57,6 @@ class ListCell : NSView
     
     func index() -> Int
     {
-        return table().rowForView(self)
+        return table().row(for: self)
     }    
 }

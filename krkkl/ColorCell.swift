@@ -17,7 +17,7 @@ class ColorCell : NSColorWell
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setSelected(selected:Bool)
+    func setSelected(_ selected:Bool)
     {
         isSelected = selected
         needsDisplay = true
@@ -27,7 +27,7 @@ class ColorCell : NSColorWell
         }
     }
     
-    override func drawRect(dirtyRect: NSRect)
+    override func draw(_ dirtyRect: NSRect)
     {
         NSGraphicsContext.saveGraphicsState()
         
@@ -41,7 +41,7 @@ class ColorCell : NSColorWell
         if isSelected
         {
             colorRGB([1-color.r(), 1-color.g(), 1-color.b()]).set()
-            let rect = NSBezierPath(ovalInRect: NSRect(x:8,y:8,width:bounds.height-16, height:bounds.height-16))
+            let rect = NSBezierPath(ovalIn: NSRect(x:8,y:8,width:bounds.height-16, height:bounds.height-16))
             rect.fill()
         }
 
@@ -50,26 +50,26 @@ class ColorCell : NSColorWell
     
     func table() -> TableView { return superview!.superview as! TableView }
     
-    func rgb() -> NSColor { return color.colorUsingColorSpace(NSColorSpace.deviceRGBColorSpace())! }
+    func rgb() -> NSColor { return color.usingColorSpace(NSColorSpace.deviceRGB)! }
     
     func index() -> Int
     {
-        return table().rowForView(self)
+        return table().row(for: self)
     }
     
-    override func mouseDown(theEvent: NSEvent)
+    override func mouseDown(with theEvent: NSEvent)
     {
         doActivate = true
     }
 
-    override func mouseDragged(theEvent: NSEvent)
+    override func mouseDragged(with theEvent: NSEvent)
     {
-        super.mouseDown(theEvent)
-        super.mouseDragged(theEvent)
+        super.mouseDown(with: theEvent)
+        super.mouseDragged(with: theEvent)
         doActivate = false
     }
 
-    override func mouseUp(theEvent: NSEvent)
+    override func mouseUp(with theEvent: NSEvent)
     {
         if doActivate
         {

@@ -26,7 +26,7 @@ extension NSColor
     func g()    -> Float { return Float(greenComponent) }
     func b()    -> Float { return Float(blueComponent)  }
 
-    func scale(factor: Double) -> NSColor
+    func scale(_ factor: Double) -> NSColor
     {
         let f = CGFloat(factor)
         let r = cgclamp(red()*f,low: 0.0,high: 1.0)
@@ -35,7 +35,7 @@ extension NSColor
         return NSColor(red: r, green: g, blue: b, alpha: alpha())
     }
     
-    func fadeTo(color:NSColor, fade:Float) -> NSColor
+    func fadeTo(_ color:NSColor, fade:Float) -> NSColor
     {
         let r = CGFloat(red()   * CGFloat(1.0-fade) + CGFloat(fade) * color.red())
         let g = CGFloat(green() * CGFloat(1.0-fade) + CGFloat(fade) * color.green())
@@ -60,7 +60,7 @@ extension NSColor
 
 extension NSView
 {
-    func childWithIdentifier(identifier:String) -> NSView?
+    func childWithIdentifier(_ identifier:String) -> NSView?
     {
         var child:NSView? = subviews.filter({ (e) -> Bool in
             return e.identifier == identifier
@@ -79,16 +79,16 @@ extension NSView
     
     func clone() -> NSView
     {
-        let data = NSKeyedArchiver.archivedDataWithRootObject(self)
-        return NSKeyedUnarchiver.unarchiveObjectWithData(data) as! NSView
+        let data = NSKeyedArchiver.archivedData(withRootObject: self)
+        return NSKeyedUnarchiver.unarchiveObject(with: data) as! NSView
     }
 }
 
 extension String
 {
-    func substring(start:Int, _ length:Int) -> String
+    func substring(_ start:Int, _ length:Int) -> String
     {
-        return substringWithRange(Range<String.Index>(start: startIndex.advancedBy(start), end: startIndex.advancedBy(start+length)))
+        return self.substring(with: (characters.index(startIndex, offsetBy: start) ..< characters.index(startIndex, offsetBy: start+length)))
     }
 }
 
@@ -100,15 +100,15 @@ extension String
   000   000  000  0000000    0000000
 */
 
-func randint(n: Int) -> Int { return Int(arc4random_uniform(UInt32(n))) }
+func randint(_ n: Int) -> Int { return Int(arc4random_uniform(UInt32(n))) }
 func randflt() -> Float { return Float(arc4random()) / Float(UINT32_MAX) }
 func randdbl() -> Double { return Double(arc4random()) / Double(UINT32_MAX) }
-func randdblrng(low:Double,high:Double) -> Double { return min(high, low) + abs(high-low) * randdbl() }
-func randfltrng(low:Float,high:Float) -> Float { return min(high, low) + abs(high-low) * randflt() }
-func randintrng(low:Int,high:Int) -> Int { return min(high, low) + randint(high-low) }
-func rest(v:Float) -> Float { return v-floor(v) }
-func clamp(v:Float, low:Float, high:Float) -> Float { return max(low, min(v, high)) }
-func cgclamp(v:CGFloat, low:CGFloat, high:CGFloat) -> CGFloat { return max(low, min(v, high)) }
-func colorRGB(rgb:[Float]) -> NSColor { return NSColor(red: CGFloat(rgb[0]), green:CGFloat(rgb[1]), blue:CGFloat(rgb[2]), alpha:CGFloat(rgb.count > 3 ? rgb[3] : 1)) }
+func randdblrng(_ low:Double,high:Double) -> Double { return min(high, low) + abs(high-low) * randdbl() }
+func randfltrng(_ low:Float,high:Float) -> Float { return min(high, low) + abs(high-low) * randflt() }
+func randintrng(_ low:Int,high:Int) -> Int { return min(high, low) + randint(high-low) }
+func rest(_ v:Float) -> Float { return v-floor(v) }
+func clamp(_ v:Float, low:Float, high:Float) -> Float { return max(low, min(v, high)) }
+func cgclamp(_ v:CGFloat, low:CGFloat, high:CGFloat) -> CGFloat { return max(low, min(v, high)) }
+func colorRGB(_ rgb:[Float]) -> NSColor { return NSColor(red: CGFloat(rgb[0]), green:CGFloat(rgb[1]), blue:CGFloat(rgb[2]), alpha:CGFloat(rgb.count > 3 ? rgb[3] : 1)) }
 func randColor() -> NSColor { return colorRGB([randflt(), randflt(), randflt()]) }
-func valueStep(value:Double, step:Double) -> Double { return floor(value/step)*step }
+func valueStep(_ value:Double, step:Double) -> Double { return floor(value/step)*step }

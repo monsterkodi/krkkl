@@ -37,14 +37,14 @@ class KrkklView : ScreenSaverView
     {
         var presets = sheetController.defaults.presets
         scene.preset = presets[randint(presets.count)]
-        scene.setup(preview, width: self.width(), height: self.height())
+        scene.setup(isPreview, width: self.width(), height: self.height())
   }
     
     override func startAnimation()
     {
         var presets = sheetController.defaults.presets
         scene.preset = presets[randint(presets.count)]
-        scene.setup(self.preview, width: self.width(), height: self.height())
+        scene.setup(self.isPreview, width: self.width(), height: self.height())
         super.startAnimation()
         animationTimeInterval = 1.0 / scene.fps
         needsDisplay = true
@@ -53,7 +53,7 @@ class KrkklView : ScreenSaverView
     override func animateOneFrame()
     {
         let context = window!.graphicsContext
-        NSGraphicsContext.setCurrentContext(context)
+        NSGraphicsContext.setCurrent(context)
         
         if animState == "fade"
         {
@@ -88,7 +88,7 @@ class KrkklView : ScreenSaverView
         {
             clear()
             scene.preset = sheetController.defaults.presets[randint(sheetController.defaults.presets.count)]
-            scene.setup(self.preview, width:self.width(), height:self.height())
+            scene.setup(self.isPreview, width:self.width(), height:self.height())
             animState = "anim"
             animationTimeInterval = 1.0 / scene.fps
         }
@@ -101,13 +101,13 @@ class KrkklView : ScreenSaverView
         }
     }
 
-    func clear(color:NSColor = NSColor.blackColor())
+    func clear(_ color:NSColor = NSColor.black)
     {
         color.set()
-        drawRect(bounds)
+        draw(bounds)
     }
     
-    override func drawRect(rect: NSRect)
+    override func draw(_ rect: NSRect)
     {
         let bPath:NSBezierPath = NSBezierPath(rect: rect)
         bPath.fill()
