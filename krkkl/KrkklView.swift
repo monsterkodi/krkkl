@@ -47,14 +47,10 @@ class KrkklView : ScreenSaverView
         scene.setup(self.isPreview, width: self.width(), height: self.height())
         super.startAnimation()
         animationTimeInterval = 1.0 / scene.fps
-        needsDisplay = true
+        self.window?.backingType = .nonretained // an attempt to stop the double-buffering, which doesn't work
     }
         
-    override func animateOneFrame()
-    {
-        let context = window!.graphicsContext
-        NSGraphicsContext.current = context
-        
+    override public func draw(_ rect: NSRect) {
         if animState == "fade"
         {
             fadeOut()
@@ -66,10 +62,15 @@ class KrkklView : ScreenSaverView
                 animState = "fade"
                 fadeCount = 0
             }
-            scene.nextStep()
+            else
+            {
+                scene.nextStep()
+            }
         }
-        
-        context?.flushGraphics()
+    }
+
+    override public func animateOneFrame() {
+        needsDisplay = true
     }
     
     /*
@@ -107,13 +108,9 @@ class KrkklView : ScreenSaverView
         draw(bounds)
     }
     
-    override func draw(_ rect: NSRect)
-    {
-        let bPath:NSBezierPath = NSBezierPath(rect: rect)
-        bPath.fill()
-    }
     override var configureSheet: NSWindow? { return sheetController.window }
     override var hasConfigureSheet: Bool { return true }
+    override var isOpaque: Bool { return true } // stop the window from drawing its background all the time
     func width() -> Int { return Int(bounds.size.width) }
     func height() -> Int { return Int(bounds.size.height) }
 }
