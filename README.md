@@ -1,4 +1,4 @@
 # krkkl
-Screensaver for OS X
+Screensaver for macOS
 
-![settins](https://github.com/monsterkodi/krkkl/blob/master/img/settings.png)
+![settings](https://github.com/monsterkodi/krkkl/blob/master/img/settings.png)
